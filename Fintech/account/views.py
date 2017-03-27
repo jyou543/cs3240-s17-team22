@@ -12,12 +12,16 @@ def signupform(request):
 		#checking the form is valid or not
 		if form.is_valid():
 			username= request.POST.get('username','')
+			email=request.POST.get('email','')
 			password=request.POST.get('password','')
-			user_obj = User(username=username, password=password)
+			user_obj = User(username=username, email=email, password=password)
 			user_obj.save()
-			return render(request, 'result.html', {
-					'username': form.cleaned_data['username'],
-				})
+			return render(request, 'result.html',
+						  {'user_obj': user_obj, 'is_registered': True})  # Redirect after POST
+
+			# return render(request, 'result.html', {
+			# 		'username': form.cleaned_data['username'],
+			# 	})
 
 	else:
 		#creating a new form
@@ -25,3 +29,6 @@ def signupform(request):
 
 	#returning form
 	return render(request, 'signupform.html', {'form':form});
+
+def showdata(request):
+	return render(request, 'showdata.html')

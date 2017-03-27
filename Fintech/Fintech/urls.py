@@ -10,5 +10,6 @@ urlpatterns = [
 
     url(r'^admin/', include(admin.site.urls)),
     url(r'^signup/', account_views.signupform),
+    url(r'^showdata/', account_views.showdata)
 
 ]
