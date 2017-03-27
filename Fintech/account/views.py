@@ -31,4 +31,5 @@ def signupform(request):
 	return render(request, 'signupform.html', {'form':form});
 
 def showdata(request):
-	return render(request, 'showdata.html')
+    all_users = User.objects.all()
+    return render(request, 'showdata.html', {'all_users': all_users, })
