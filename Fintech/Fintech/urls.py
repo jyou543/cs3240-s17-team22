@@ -1,7 +1,7 @@
 from django.conf.urls import include, url
 from django.contrib import admin
 from account import views as account_views
-
+from reports import views as report_views
 
 urlpatterns = [
     # Examples:
@@ -10,6 +10,6 @@ urlpatterns = [
 
     url(r'^admin/', include(admin.site.urls)),
     url(r'^signup/', account_views.signupform, name='signup'),
-    url(r'^showdata/', account_views.showdata)
-
+    url(r'^showdata/', account_views.showdata),
+    url(r'^report/', report_views.submit_report)
 ]
