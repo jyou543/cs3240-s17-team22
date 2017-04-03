@@ -1,35 +1,81 @@
 from django.shortcuts import render
+from django.shortcuts import render_to_response
+from django.http import HttpResponseRedirect
+from django.contrib.auth import authenticate,login
+from django.core.context_processors import csrf
 from .forms import SignupForm
-from .models import User
+from .models import CustomUser
+from django.contrib.auth.models import User
 # Create your views here.
 
+
 def signupform(request):
-	#if form is submitted
-	if request.method == 'POST':
-		#will handle the request later
-		form = SignupForm(request.POST)
+    #if form is submitted
+    if request.method == 'POST':
+        #will handle the request later
+        form = SignupForm(request.POST)
 
-		#checking the form is valid or not
-		if form.is_valid():
-			username= request.POST.get('username','')
-			email=request.POST.get('email','')
-			password=request.POST.get('password','')
-			user_obj = User(username=username, email=email, password=password)
-			user_obj.save()
-			return render(request, 'result.html',
-						  {'user_obj': user_obj, 'is_registered': True})  # Redirect after POST
+        #checking the form is valid or not
+        if form.is_valid():
+            cd = form.cleaned_data
+            username = request.POST["username"]
+            email = request.POST["email"]
+            password = request.POST["password"]
+            user_type = request.POST["user_type"]
+            user = User.objects.create_user(username, email=email, password=password)
+            user.save()
+            uinfo = CustomUser()
+            uinfo.user = user
+            uinfo.user_type = user_type
+            uinfo.save()
+            return render(request, 'result.html')  # Redirect after POST
 
-			# return render(request, 'result.html', {
-			# 		'username': form.cleaned_data['username'],
-			# 	})
+            # return render(request, 'result.html', {
+            # 		'username': form.cleaned_data['username'],
+            # 	})
 
-	else:
-		#creating a new form
-		form = SignupForm()
+    else:
+        #creating a new form
+        form = SignupForm()
 
-	#returning form
-	return render(request, 'signupform.html', {'form':form});
+    #returning form
+    return render(request, 'signupform.html', {'form':form})
+
 
 def showdata(request):
     all_users = User.objects.all()
     return render(request, 'showdata.html', {'all_users': all_users, })
+
+
+def log(request):
+    c = {}
+    c.update(csrf(request))
+    return render_to_response('login.html', c)
+
+
+def auth(request):
+    username = request.POST['username']
+    password = request.POST['password']
+    # usera = User.objects.get(username=username)
+    # usera.set_password("new_pass")
+    user = authenticate(username=username, password=password)
+    if user is not None:
+        login(request, user)
+        return HttpResponseRedirect('/loggedin')
+    else:
+        return HttpResponseRedirect('/invalid')
+
+
+def loggedin(request):
+    c = {}
+    c.update(csrf(request))
+    return render_to_response('loggedin.html', {'full_name': request.user.username})
+
+
+def invalid(request):
+    return render_to_response('invalid.html')
+
+
+def logout(request):
+    logout(request)
+    return render_to_response('logout.html')

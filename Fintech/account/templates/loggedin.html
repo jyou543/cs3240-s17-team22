@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title> Logged In</title>
+</head>
+<body>
+
+<h1> YOU ARE LOGGED IN SUCCESSFULLY</h1>
+<h2>Session Active</h2>
+
+<form action="/logout/" method = "POST"> {% csrf_token %}
+{#    <input type='hidden' name='csrfmiddlewaretoken' value='{{csrf_token}}'> #}
+    <input type = submit value = Logout> </input>
+
+</form>
+
+</body>
+</html>
