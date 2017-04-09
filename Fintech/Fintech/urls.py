@@ -1,7 +1,7 @@
 from django.conf.urls import include, url
 from django.contrib import admin
 from account import views as account_views
-from reports import views as report_view
+from reports import views as reports_views
 
 
 urlpatterns = [
@@ -14,8 +14,8 @@ urlpatterns = [
     url(r'^login/', account_views.log),
     url(r'^auth/', account_views.auth),
     url(r'^showdata/', account_views.showdata),
-    url(r'^logout/', account_views.logout),
+    url(r'^logout/', account_views.loggedout),
     url(r'^loggedin/', account_views.loggedin),
     url(r'^invalid/', account_views.invalid),
-    url(r'^report/', report_views.submit_report)
+    url(r'^report/', reports_views.submit_report)
 ]

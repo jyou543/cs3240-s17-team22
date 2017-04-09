@@ -1,11 +1,12 @@
 from django.shortcuts import render
 from django.shortcuts import render_to_response
 from django.http import HttpResponseRedirect
-from django.contrib.auth import authenticate,login
+from django.contrib.auth import authenticate,login,logout
 from django.core.context_processors import csrf
 from .forms import SignupForm
 from .models import CustomUser
 from django.contrib.auth.models import User
+from django.contrib.auth.decorators import login_required
 # Create your views here.
 
 
@@ -28,7 +29,7 @@ def signupform(request):
             uinfo.user = user
             uinfo.user_type = user_type
             uinfo.save()
-            return render(request, 'result.html')  # Redirect after POST
+            return render(request, 'login.html')  # Redirect after POST
 
             # return render(request, 'result.html', {
             # 		'username': form.cleaned_data['username'],
@@ -41,7 +42,7 @@ def signupform(request):
     #returning form
     return render(request, 'signupform.html', {'form':form})
 
-
+@login_required
 def showdata(request):
     all_users = User.objects.all()
     return render(request, 'showdata.html', {'all_users': all_users, })
@@ -50,14 +51,11 @@ def showdata(request):
 def log(request):
     c = {}
     c.update(csrf(request))
-    return render_to_response('login.html', c)
-
+    return render(request, 'login.html', c)
 
 def auth(request):
     username = request.POST['username']
     password = request.POST['password']
-    # usera = User.objects.get(username=username)
-    # usera.set_password("new_pass")
     user = authenticate(username=username, password=password)
     if user is not None:
         login(request, user)
@@ -65,17 +63,17 @@ def auth(request):
     else:
         return HttpResponseRedirect('/invalid')
 
-
+@login_required
 def loggedin(request):
     c = {}
     c.update(csrf(request))
-    return render_to_response('loggedin.html', {'full_name': request.user.username})
+    return render(request, 'loggedin.html', c )
 
 
 def invalid(request):
-    return render_to_response('invalid.html')
+    return render(request, 'invalid.html')
 
-
-def logout(request):
+@login_required
+def loggedout(request):
     logout(request)
-    return render_to_response('logout.html')
+    return render(request, 'logout.html')
