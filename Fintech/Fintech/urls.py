@@ -2,6 +2,7 @@ from django.conf.urls import include, url
 from django.contrib import admin
 from account import views as account_views
 from reports import views as reports_views
+from groups import views as group_views
 
 
 urlpatterns = [
@@ -17,5 +18,6 @@ urlpatterns = [
     url(r'^logout/', account_views.loggedout),
     url(r'^loggedin/', account_views.loggedin),
     url(r'^invalid/', account_views.invalid),
-    url(r'^reports/', include('reports.urls', namespace='reports')),
+    url(r'^reports/', include('reports.urls', namespace='reports'),
+    url(r'^group/', group_views.submit_group))
 ]
