@@ -17,5 +17,5 @@ urlpatterns = [
     url(r'^logout/', account_views.loggedout),
     url(r'^loggedin/', account_views.loggedin),
     url(r'^invalid/', account_views.invalid),
-    url(r'^report/', reports_views.submit_report)
+    url(r'^reports/', include('reports.urls', namespace='reports')),
 ]

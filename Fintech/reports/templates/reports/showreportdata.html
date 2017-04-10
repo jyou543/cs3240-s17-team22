@@ -1,0 +1,14 @@
+<!DOCTYPE html>
+{% if all_reports %}
+
+    <h1>Here is the list of reports</h1>
+<ul>
+    {% for report in all_reports %}
+
+    <li>Company Name:{{ report.company_name }} Company Phone:{{ report.company_phone }} Time Created:{{ report.created_at }}</li>
+    {% endfor %}
+</ul>
+{# In the case when no reports exist. #}
+{% else %}
+<h3>No reports found</h3>
+{% endif %}
