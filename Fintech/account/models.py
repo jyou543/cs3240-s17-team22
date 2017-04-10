@@ -13,7 +13,7 @@ class CustomUser(models.Model):
         ("C", "Company User"),
         ('I', "Investor User"),
     )
-    user_type = models.CharField(max_length = 1, choices=type_choice, default = 'C')
+    user_type = models.CharField(max_length=1, choices=type_choice, default='C')
     # if user_type == 'C':
     #     class Meta:
     #         permissions = (
@@ -28,4 +28,4 @@ class CustomUser(models.Model):
 
 #this returns the name of the user when the object of user is printed
     def __str__(self):
-        return self.user
+        return self.user.get_username() + ": " + (self.user.customuser.get_user_type_display())
