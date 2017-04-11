@@ -1,9 +1,9 @@
 from django.db import models
-from account.models import User
+from account.models import CustomUser
 from django.contrib.auth.models import Group
 
 
 class Group(models.Model):
     name=models.CharField(max_length=300)
-    members = models.ManyToManyField(User)
+    members = models.ManyToManyField(CustomUser)
     #group=models.OneToOneField(Group)

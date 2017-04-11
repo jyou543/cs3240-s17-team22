@@ -18,6 +18,6 @@ urlpatterns = [
     url(r'^logout/', account_views.loggedout),
     url(r'^loggedin/', account_views.loggedin),
     url(r'^invalid/', account_views.invalid),
-    url(r'^reports/', include('reports.urls', namespace='reports'),
-    url(r'^group/', group_views.submit_group))
+    url(r'^reports/', include('reports.urls', namespace='reports')),
+    url(r'^group/', group_views.submit_group)
 ]
