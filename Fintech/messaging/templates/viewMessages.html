@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>VIEW MESSAGES!</title>
+</head>
+<body>
+
+
+
+    <form action = "/deleteMessage/" method = "post">
+        {% csrf_token %}
+        {% for message in allMessages %}
+            <tr>
+                <h1>Sender: {{ message.sender.user.username }}</h1>
+                <h2>Title: {{ message.title }}</h2>
+                <h3>Message: {{ message.body }}</h3>
+
+                Delete <input type="checkbox" name="checks" value={{ message.body }} ><br>
+
+
+            </tr>
+        {% endfor %}
+
+        <br>
+        <br>
+        <input type="submit" value="DELETE">
+    </form>
+
+</body>
+</html>

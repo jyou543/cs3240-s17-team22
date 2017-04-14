@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>VIEW GROUPS!</title>
+</head>
+<body>
+
+
+    <form action = "/leaveGroups/" method = "post">
+        {% csrf_token %}
+        {% for group in allGroups %}
+            <tr>
+                <h1>Group Name: {{ group.name }}</h1>
+                <h4>{{ user.get_username }}</h4>
+{#                <h4>Group Members: {{ group.members.user.get_username }}</h4>#}
+
+                Delete <input type="checkbox" name="checks" value={{ group.name }} ><br>
+
+
+            </tr>
+        {% endfor %}
+
+        <br>
+        <br>
+        <input type="submit" value="Leave">
+    </form>
+
+</body>
+</html>

@@ -3,6 +3,7 @@ from django.contrib import admin
 from account import views as account_views
 from reports import views as reports_views
 from groups import views as group_views
+from messaging.views import *
 
 urlpatterns = [
     # Examples:
@@ -19,6 +20,13 @@ urlpatterns = [
     url(r'^logout/', account_views.loggedout, name = 'logout'),
     url(r'^loggedin/', account_views.loggedin, name='loggedin'),
     url(r'^invalid/', account_views.invalid),
-    url(r'^reports/', include('reports.urls', namespace='reports'),
-    url(r'^group/', group_views.submit_group))
+    url(r'^reports/', include('reports.urls', namespace='reports')),
+    url(r'^makeGroups/', group_views.submit_groups),
+    url(r'^viewGroups/', group_views.view_groups),
+    url(r'^leaveGroups/', group_views.leave_groups),
+    url(r'messageHome/$', messageHome),
+    url(r'makeMessages/$', new_messages),
+    url(r'viewMessages/$', view_messages),
+    url(r'deleteMessages/$', delete_messages)
+
 ]
