@@ -10,3 +10,6 @@ class Group(models.Model):
 
     def _str_(self):
         return self.members
+
+    def __iter__(self):
+        return self.members

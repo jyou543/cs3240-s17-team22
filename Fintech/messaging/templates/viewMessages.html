@@ -8,7 +8,7 @@
 
 
 
-    <form action = "/deleteMessage/" method = "post">
+    <form action = "/deleteMessages/" method = "post">
         {% csrf_token %}
         {% for message in allMessages %}
             <tr>
@@ -16,7 +16,7 @@
                 <h2>Title: {{ message.title }}</h2>
                 <h3>Message: {{ message.body }}</h3>
 
-                Delete <input type="checkbox" name="checks" value={{ message.body }} ><br>
+                Delete <input type="checkbox" name="checks" value="{{ message.sender.user.username }},{{ message.title }},{{ message.body }}" ><br>
 
 
             </tr>

@@ -2,6 +2,8 @@ from django.http import HttpResponse
 from django.shortcuts import render, render_to_response
 from django.template import RequestContext
 from account.models import CustomUser
+from django.contrib.auth.models import User
+
 
 from .models import private_message
 from .forms import NewMessageForm
@@ -53,18 +55,23 @@ def delete_messages(request):
     allMessages = private_message.objects.all().filter(recipient=my_user(request))
     if request.method == 'POST':
         checks = request.POST.getlist('checks')
-        for messageBody in checks:
-            #return HttpResponse("<h1>Success</h1>")
-            allMessages.filter(body=messageBody).delete()
+        for message in checks:
+            # message=message.replace('[',"")
+            # message=message.replace(']',"")
+            message=message.split(',')
+            #return HttpResponse(message[1])
+            user = User.objects.get(username=message[0])
+            sender=CustomUser.objects.all().filter(user=user)
+            allMessages.filter(recipient=my_user(request), sender=sender,  title=message[1], body=message[2]).delete()
     return render(request, 'viewMessages.html', {'allMessages': allMessages});
 
 
 def my_user(request):
-    username = None
+    user = None
     if request.user.is_authenticated():
-        username = request.user
+        user = request.user
     #return username
-    return CustomUser.objects.all().filter(user=username)[0]
+    return CustomUser.objects.all().filter(user=user)[0]
 
 def check_valid_user(user):
     allUsers=CustomUser.objects.all()

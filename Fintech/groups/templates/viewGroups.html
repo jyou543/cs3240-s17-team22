@@ -12,9 +12,12 @@
         {% for group in allGroups %}
             <tr>
                 <h1>Group Name: {{ group.name }}</h1>
-                <h4>{{ user.get_username }}</h4>
-{#                <h4>Group Members: {{ group.members.user.get_username }}</h4>#}
+                <h4>Group Members: </h4>
+                {% for member in group.members.all %}
+                    {{ member.user.get_username }}<br>
+                {% endfor %}
 
+                <br>
                 Delete <input type="checkbox" name="checks" value={{ group.name }} ><br>
 
 
