@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Select Members to Add to Group</title>
+</head>
+<body>
+    <h1>Select Members to Add to Group</h1>
+      <form action = "/addMembers/" method = "post">
+        {% csrf_token %}
+            <tr>
+                <h2>Group Name: {{ groupName }}</h2>
+                <h4>Add New Members: </h4>
+                {% for person in notMembers %}
+                    {{ person }}<br>
+                    Add <input type="checkbox" name="checks" value={{ person.user.get_username }} ><br>
+                    <br>
+                {% endfor %}
+
+                <br>
+
+
+            </tr>
+
+        <br>
+        <br>
+        <input type="hidden" name="groupName" value={{ groupName }} >
+        <input type="submit" value="Submit">
+    </form>
+</body>
+</html>

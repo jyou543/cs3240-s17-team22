@@ -21,12 +21,20 @@ urlpatterns = [
     url(r'^loggedin/', account_views.loggedin, name='loggedin'),
     url(r'^invalid/', account_views.invalid),
     url(r'^reports/', include('reports.urls', namespace='reports')),
-    url(r'^makeGroups/', group_views.submit_groups),
-    url(r'^viewGroups/', group_views.view_groups),
-    url(r'^leaveGroups/', group_views.leave_groups),
+    url(r'groupHome/$', group_views.groupHome),
+    url(r'makeGroups/$', group_views.submit_groups),
+    url(r'viewGroups/$', group_views.view_groups),
+    url(r'leaveGroups/$', group_views.leave_groups),
+    url(r'selectGroupToChange/$', group_views.view_groups_for_adding),
+    url(r'selectMembersToAdd/$', group_views.select_members_to_add),
+    url(r'addMembers/$', group_views.add_members),
+    url(r'invalidSubmitGroup/$', group_views.invalid_submit_group),
+    url(r'groupSuccessPage/$', group_views.success),
     url(r'messageHome/$', messageHome),
     url(r'makeMessages/$', new_messages),
     url(r'viewMessages/$', view_messages),
-    url(r'deleteMessages/$', delete_messages)
+    url(r'deleteMessages/$', delete_messages),
+    url(r'invalidSubmitMessage/$', invalid_submit_message),
+    url(r'messageSuccessPage/$', success)
 
 ]

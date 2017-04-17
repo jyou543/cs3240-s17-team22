@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Select Group</title>
+</head>
+<body>
+        <h1> Select group to change</h1>
+
+       <form action = "/selectMembersToAdd/" method = "post">
+        {% csrf_token %}
+        <select name="groupName">
+            {% for group in allGroups %}
+
+                <option value="{{ group.name }}">{{ group.name }}</option>
+
+            {% endfor %}
+        </select>
+
+        <br>
+        <br>
+        <input type="submit" value="Submit">
+    </form>
+</body>
+</html>

@@ -4,6 +4,10 @@ from .forms import MakeGroup
 from django.http import HttpResponse
 from django.db.models import Q
 from account.models import CustomUser
+from django.contrib.auth.models import User
+
+def groupHome(request):
+    return render(request, 'groupHome.html')
 
 def submit_groups(request):
     if request.method=='POST':
@@ -12,6 +16,11 @@ def submit_groups(request):
         form = MakeGroup(request.POST)
         if form.is_valid():
             group_name = request.POST.get('name','')
+            allGroups=Group.objects.all()
+            if(allGroups.filter(name=group_name)):
+                #return HttpResponse(allGroups)
+                return render(request, 'invalidSubmitGroup.html')
+
             group_members= request.POST.getlist('members')
             group_obj = Group(name=group_name)
             group_obj.save()
@@ -19,17 +28,24 @@ def submit_groups(request):
             for member in group_members:
                 group_obj.members.add(member)
             #return HttpResponse(group_obj.members.all())
-            return HttpResponse("<h1>Success</h1>")
-            #return render(request, 'resultForMakeGroups.html')
+            #return HttpResponse("<h1>Success</h1>")
+            return render(request, 'successPage.html')
     else:
         current_user=my_user(request).user
         form= MakeGroup(current_user=current_user)
 
     return render(request, 'makeGroups.html', {'form': form});
 
+def invalid_submit_group(request):
+    return render(request, 'invalidSubmitGroup.html')
+
+def success(request):
+    return render(request, 'successPage.html')
+
 def view_groups(request):
-    allGroups= Group.objects.all().filter()
-    #allGroups=Group.objects.all().filter(members=my_user(request))
+    #allGroups= Group.objects.all().filter()
+    #members=my_user(request)
+    allGroups=Group.objects.all().filter(members=my_user(request))
     return render(request, 'viewGroups.html', {'allGroups': allGroups});
 
 
@@ -42,8 +58,33 @@ def leave_groups(request):
             allGroups.filter(name=name).delete()
     return render(request, 'viewGroups.html', {'allGroups': allGroups});
 
-def add_member(group_obj, member):
-    group_obj.entry_set.add(member)
+def view_groups_for_adding(request):
+    allGroups=Group.objects.all().filter(members=my_user(request))
+    return render(request, 'selectGroupToChange.html', {'allGroups': allGroups})
+
+def select_members_to_add(request):
+    notMembers = CustomUser.objects.all()
+    groupName=None
+    if request.method == 'POST':
+        groupName=request.POST.get('groupName')
+        group = Group.objects.all().filter(name=groupName)[0]
+        #return HttpResponse(group)
+        for member in group.members.all():
+            notMembers=notMembers.exclude(user=member.user)
+        #return HttpResponse(notMembers)
+    return render(request, 'selectMembersToAdd.html',  {'groupName': groupName , 'notMembers': notMembers })
+
+def add_members(request):
+    if request.method=='POST':
+        groupName=request.POST.get('groupName')
+        newMembers=request.POST.getlist('checks')
+        group=Group.objects.all().filter(name=groupName)[0]
+        for username in newMembers:
+            user = User.objects.get(username=username)
+            custom_user=CustomUser.objects.all().filter(user=user)[0]
+            group.members.add(custom_user)
+        return render(request, 'successPage.html')
+
 
 def my_user(request):
     user = None
