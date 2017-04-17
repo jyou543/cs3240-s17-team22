@@ -34,7 +34,7 @@ def new_messages(request):
            #return render_to_response(request, 'makeMessages.html')
            #return render(request, 'makeMessages.html')
            message_obj.save()
-           return render(request, 'successPage.html')
+           return render(request, 'messageSuccessPage.html')
 
 
 
@@ -50,7 +50,7 @@ def invalid_submit_message(request):
     return render(request, 'invalidSubmitMessage.html')
 
 def success(request):
-    return render(request, 'successPage.html')
+    return render(request, 'messageSuccessPage.html')
 
 def view_messages(request):
     allMessages= private_message.objects.all().filter(recipient=my_user(request))

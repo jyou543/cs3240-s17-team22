@@ -29,7 +29,7 @@ def submit_groups(request):
                 group_obj.members.add(member)
             #return HttpResponse(group_obj.members.all())
             #return HttpResponse("<h1>Success</h1>")
-            return render(request, 'successPage.html')
+            return render(request, 'groupSuccessPage.html')
     else:
         current_user=my_user(request).user
         form= MakeGroup(current_user=current_user)
@@ -40,7 +40,7 @@ def invalid_submit_group(request):
     return render(request, 'invalidSubmitGroup.html')
 
 def success(request):
-    return render(request, 'successPage.html')
+    return render(request, 'groupSuccessPage.html')
 
 def view_groups(request):
     #allGroups= Group.objects.all().filter()
@@ -83,7 +83,7 @@ def add_members(request):
             user = User.objects.get(username=username)
             custom_user=CustomUser.objects.all().filter(user=user)[0]
             group.members.add(custom_user)
-        return render(request, 'successPage.html')
+        return render(request, 'groupSuccessPage.html')
 
 
 def my_user(request):
