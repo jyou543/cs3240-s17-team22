@@ -88,8 +88,11 @@ def auth(request):
     password = request.POST['password']
     user = authenticate(username=username, password=password)
     if user is not None:
-        login(request, user)
-        return HttpResponseRedirect('/loggedin')
+        if user.is_active:
+            login(request, user)
+            return HttpResponseRedirect('/loggedin')
+        else:
+            return HttpResponseRedirect('/invalid')
     else:
         return HttpResponseRedirect('/invalid')
 
@@ -138,10 +141,14 @@ def sus_user(request):
     username = request.POST["username"]
     if User.objects.filter(username=username).exists():
         user = User.objects.get(username=username)
-        user.set_unusable_password()
-        user.is_active = False
-        user.save()
-        messages.info(request, "User suspended Successfully")
+        if user.is_active:
+            user.is_active = False
+            user.save()
+            messages.info(request, "User suspended Successfully")
+        else:
+            user.is_active = True
+            user.save()
+            messages.info(request, "The User is no longer suspended")
     else:
         messages.info(request, "User does not exist")
     return HttpResponseRedirect('/loggedin')
