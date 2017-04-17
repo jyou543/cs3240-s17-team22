@@ -6,6 +6,7 @@
 </head>
 <body>
 
+    {% if allGroups %}
 
     <form action = "/leaveGroups/" method = "post">
         {% csrf_token %}
@@ -18,7 +19,7 @@
                 {% endfor %}
 
                 <br>
-                Delete <input type="checkbox" name="checks" value={{ group.name }} ><br>
+                Leave <input type="checkbox" name="checks" value={{ group.name }} ><br>
 
 
             </tr>
@@ -26,8 +27,13 @@
 
         <br>
         <br>
-        <input type="submit" value="Leave">
+        <input type="submit" value="Submit">
     </form>
+
+    {% else %}
+        <h1>You're not in any group</h1>
+        <a href="groupHome"> Go to homepage</a>
+    {% endif %}
 
 </body>
 </html>

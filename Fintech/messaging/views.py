@@ -27,14 +27,14 @@ def new_messages(request):
                if worker.user.username==request.POST.get('recipient'):
                    recipient=worker
            if(recipient)==None :
-               return HttpResponse("<h1>Failed</h1>")
+               return render(request, 'invalidSubmitMessage.html')
            title=request.POST.get('title')
            body = request.POST.get('body')
            message_obj=private_message(sender=sender, recipient=recipient, title=title, body=body)
            #return render_to_response(request, 'makeMessages.html')
            #return render(request, 'makeMessages.html')
            message_obj.save()
-           return HttpResponse("<h1>Success</h1>")
+           return render(request, 'successPage.html')
 
 
 
@@ -45,6 +45,12 @@ def new_messages(request):
    return render(request, 'makeMessages.html', {'form':form})
    #return render_to_response( 'makeMessages.html', variables)
 
+
+def invalid_submit_message(request):
+    return render(request, 'invalidSubmitMessage.html')
+
+def success(request):
+    return render(request, 'successPage.html')
 
 def view_messages(request):
     allMessages= private_message.objects.all().filter(recipient=my_user(request))
