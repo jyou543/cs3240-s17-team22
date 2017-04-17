@@ -1,4 +1,5 @@
 from django.conf.urls import url
+# from .views import IndexView, DetailView, ReportUpdate, ReportCreate, ReportDelete
 from . import views
 
 app_name = 'reports'
@@ -6,16 +7,18 @@ app_name = 'reports'
 urlpatterns = [
 
     # /modelforms/
-    url(r'^$', views.IndexView.as_view(), name='index'),
+    # url(r'^$', IndexView.as_view(), name='index'),
+
+    url(r'^(?P<report_id>[0-9]+)/$', views.detail, name='detail'),
 
     # modelforms/product/entry
-    url(r'^report/entry/$', views.ReportEntry.as_view(), name='report-entry'),
+    url(r'^create_report/$', views.create_report, name='create_report'),
 
-    # modelforms/product/2
-    url(r'^report/(?P<pk>[0-9]+)/$', views.ReportUpdate.as_view(), name='report-update'),
-
-    # modelforms/product/(?P<pk>[0-9]+)/delete
-    url(r'^report/(?P<pk>[0-9]+)/delete$', views.ReportDelete.as_view(), name='report-delete'),
+    # # modelforms/product/2
+    # url(r'^report/(?P<pk>[0-9]+)/$/$', ReportUpdate.as_view(), name='report-update'),
+    #
+    # # modelforms/product/(?P<pk>[0-9]+)/delete
+    # url(r'^report/(?P<pk>[0-9]+)/delete$', ReportDelete.as_view(), name='report-delete'),
 
     # # /users/signup:url to take the input from the user
     # url(r'^newreport/$', views.newreport, name='newreport'),

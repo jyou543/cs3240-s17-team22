@@ -1,92 +1,121 @@
-from django.shortcuts import render
+from django.contrib.auth.decorators import login_required
+from django.shortcuts import render, get_object_or_404
 from django.http import HttpResponse
 from .models import Report
 from django.core.context_processors import csrf
+from django.contrib.auth import authenticate, login
+from django.contrib.auth import logout
 from .forms import ReportForm
-from django.views.generic.edit import CreateView, UpdateView, DeleteView
+from account.models import CustomUser
+# from django.views.generic.edit import CreateView, UpdateView, DeleteView
 # from django.views.generic.list import ListView
 from django.core.urlresolvers import reverse_lazy
 from django.views import generic
-
-# view for the index page
-class IndexView(generic.ListView):
-    # name of the object to be used in the index.html
-    context_object_name = 'report_list'
-    template_name = 'reports/index.html'
-
-    def get_queryset(self):
-        return Report.objects.all()
+from .models import CustomUser
+from django.contrib.auth.models import User
 
 
-# view for the new report entry page
-class ReportEntry(CreateView):
-    model = Report
-    # the fields become the entry rows in the generated form
-    fields = ['company_name', 'company_phone', 'company_email',
-              'company_location', 'company_country', 'sector', 'industry',
-              'current_projects', 'private_report', 'files_attached']
+
+@login_required
+def create_report(request):
+    if not request.user.is_authenticated():
+        return render(request, 'html5up/login.html')
+    elif request=='POST':
+
+        form = ReportForm(request.POST)
 
 
-class ReportUpdate(UpdateView):
-    model = Report
-    # the fields become the entry rows in the update form
+        if form.is_valid():
+            # report = form.save(commit=False)
+            created_by = request.CustomUser.user
+            company_name = request.POST['company_name']
+            company_phone =request.POST['company_phone']
+            company_email =request.POST['company_email']
+            company_location = request.POST['company_location']
+            company_country = request.POST['company_country']
+            sector = request.POST['sector']
+            industry = request.POST['industry']
+            current_projects = request.POST['current_projects']
+            private_report = request.POST['private_report']
+            files_attached = request.FILES['files_attached']
 
-    fields = ['company_name', 'company_phone', 'company_email',
-              'company_location', 'company_country', 'sector', 'industry',
-              'current_projects', 'private_report', 'files_attached']
+            report = Report.objects.create(created_by=created_by, company_name=company_name, company_phone=company_phone,
+                                           company_email=company_email, company_location=company_location, company_country=company_country,
+                                           sector=sector, industry=industry, current_projects=current_projects, private_report=private_report,
+                                           files_attached=files_attached)
+            report.save()
+            return render(request, 'reports:detail', {'report': report})
+
+    else:
+        form = ReportForm()
+
+    return render(request, 'reports/report_form.html', {'form': form})
 
 
-class ReportDelete(DeleteView):
-    model = Report
-    success_url = reverse_lazy('reports:index')
+
+def detail(request, report_id):
+    report = get_object_or_404(Report, pk=report_id)
+    return render(request, 'reports/detail.html', {'report': report})
 
 
-# def newreport(request):
-#     if request.method=='POST':
 #
-#         # if the report form has been filled out
-#         form = ReportForm(request.POST)
+# # view for the index page
+# class IndexView(generic.ListView):
+#     # name of the object to be used in the index.html
+#     context_object_name = 'report_list'
+#     template_name = 'reports/index.html'
 #
-#         #if all data is valid
+#
+#     def get_queryset(self):
+#         return Report.objects.all()
+#
+#
+# class DetailView(generic.DetailView):
+#     model = Report
+#     template_name = 'reports/detail.html'
+
+
+
+# # view for the new report entry page
+# class ReportCreate(CreateView):
+#     model = Report
+#     form_class = ReportForm
+#     # the fields become the entry rows in the generated form
+#     # fields = ['company_name', 'company_phone', 'company_email',
+#     #           'company_location', 'company_country', 'sector', 'industry',
+#     #           'current_projects', 'private_report', 'files_attached']
+#     #
+#     # def get_context_data(self, **kwargs):
+#     #     context = super(ReportCreate, self).get_context_data(**kwargs)
+#     #     context['form'] = ReportForm
+#     #     return context
+#     #
+#     #
+#     # def post(self, request, *args, **kwargs):
+#     #     # report = Report.objects.get(pk=self.id, default=1)
+#     #     form = ReportForm(request.POST)
+#     #     return form
+#     #
+#
+#     @login_required
+#     def form_valid(self, form):
+#         form = ReportForm(request.POST or None, request.FILES or None)
 #         if form.is_valid():
-#             # created_at = request.POST.get["created_at"]
-#             company_name = request.POST.get["company_name"]
-#             company_phone = request.POST.get["company_phone"]
-#             company_email = request.POST.get["company_email"]
-#             company_location = request.POST.get["company_location"]
-#             company_country = request.POST.get["company_country"]
-#             sector = request.POST.get["sector"]
-#             industry = request.POST.get["industry"]
-#             current_projects = request.POST.get["current_projects"]
-#             private_report = request.POST.get["private_report"]
-#             files_attached = request.POST.get["files_attached"]
-#             report = Report.objects.create(company_name=company_name, company_phone=company_phone,
-#                               company_email=company_email, company_location=company_location, company_country=company_country,
-#                               sector=sector, industry=industry, current_projects=current_projects, private_report=private_report,
-#                               files_attached=files_attached)
+#             report = form.save(commit=False)
+#             report.created_by = request.user
+#             report.files_attached = request.FILES['files_attached']
 #             report.save()
-#             reportinfo = ReportForm()
-#             reportinfo.save()
-#
-#             # context = {
-#             #     'report_obj': report,
-#             #     'is_rendered': True
-#             # }
-#             return render(request, 'reports/showreportdata.html', )
 #
 #
-#             # redirect after POST
+# class ReportUpdate(UpdateView):
+#     model = Report
+#     # the fields become the entry rows in the update form
 #
-#     else:
-#             # unbound form
-#         form = ReportForm()
-#
-#     return render(request, 'reports/newreport.html', {'form': form})
-#     # else:
-#     #     return render(request, 'reports/newreport.html', {'form': form})
+#     fields = ['company_name', 'company_phone', 'company_email',
+#               'company_location', 'company_country', 'sector', 'industry',
+#               'current_projects', 'private_report', 'files_attached']
 #
 #
-# # functions executes with the showdatareport url to display list of all reports
-# def showreportdata(request):
-#     all_reports = Report.objects.all()
-#     return render(request, 'reports/showreportdata.html', {'all_reports': all_reports})
+# class ReportDelete(DeleteView):
+#     model = Report
+#     success_url = reverse_lazy('reports:index')

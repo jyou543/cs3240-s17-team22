@@ -2,6 +2,9 @@ from django import forms
 from .models import Report
 
 class ReportForm(forms.ModelForm):
+
+    files_attached = forms.FileField()
+
     class Meta:
         model = Report
         fields = ['company_name', 'company_phone', 'company_email',
