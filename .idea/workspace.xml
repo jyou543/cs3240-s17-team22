@@ -2,14 +2,10 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="b9b60e2c-fbea-463f-82e6-9c94ec32e6e1" name="Default" comment="">
-      <change type="MOVED" beforePath="$PROJECT_DIR$/Fintech/groups/templates/resultForMakeGroups.html" afterPath="$PROJECT_DIR$/Fintech/groups/templates/successPage.html" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Fintech/db.sqlite3" afterPath="$PROJECT_DIR$/Fintech/db.sqlite3" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Fintech/Fintech/urls.py" afterPath="$PROJECT_DIR$/Fintech/Fintech/urls.py" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Fintech/groups/templates/selectGroupToChange.html" afterPath="$PROJECT_DIR$/Fintech/groups/templates/selectGroupToChange.html" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Fintech/groups/templates/viewGroups.html" afterPath="$PROJECT_DIR$/Fintech/groups/templates/viewGroups.html" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Fintech/groups/views.py" afterPath="$PROJECT_DIR$/Fintech/groups/views.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Fintech/messaging/templates/messageHome.html" afterPath="$PROJECT_DIR$/Fintech/messaging/templates/messageHome.html" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Fintech/messaging/views.py" afterPath="$PROJECT_DIR$/Fintech/messaging/views.py" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Fintech/messaging/templates/viewMessages.html" afterPath="$PROJECT_DIR$/Fintech/messaging/templates/viewMessages.html" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="TRACKING_ENABLED" value="true" />
@@ -33,65 +29,31 @@
   <component name="ExecutionTargetManager" SELECTED_TARGET="default_target" />
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="375">
-      <file leaf-file-name="urls.py" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/Fintech/Fintech/urls.py">
+      <file leaf-file-name="viewGroups.html" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/Fintech/groups/templates/viewGroups.html">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="704">
-              <caret line="37" column="40" lean-forward="false" selection-start-line="37" selection-start-column="40" selection-end-line="37" selection-end-column="40" />
+            <state relative-caret-position="770">
+              <caret line="35" column="15" lean-forward="true" selection-start-line="32" selection-start-column="3" selection-end-line="35" selection-end-column="15" />
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="views.py" pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/Fintech/groups/views.py">
+      <file leaf-file-name="selectGroupToChange.html" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/Fintech/groups/templates/selectGroupToChange.html">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="137">
-              <caret line="41" column="4" lean-forward="false" selection-start-line="41" selection-start-column="4" selection-end-line="41" selection-end-column="4" />
-              <folding>
-                <element signature="e#0#35#0" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="successPage.html" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/Fintech/messaging/templates/successPage.html">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="176">
-              <caret line="8" column="24" lean-forward="false" selection-start-line="8" selection-start-column="24" selection-end-line="8" selection-end-column="24" />
+            <state relative-caret-position="572">
+              <caret line="26" column="20" lean-forward="false" selection-start-line="26" selection-start-column="20" selection-end-line="26" selection-end-column="20" />
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="views.py" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/Fintech/messaging/views.py">
+      <file leaf-file-name="viewMessages.html" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/Fintech/messaging/templates/viewMessages.html">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="-564">
-              <caret line="29" column="64" lean-forward="false" selection-start-line="29" selection-start-column="64" selection-end-line="29" selection-end-column="64" />
-              <folding>
-                <element signature="e#0#36#0" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="invalidSubmitMessage.html" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/Fintech/messaging/templates/invalidSubmitMessage.html">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="176">
-              <caret line="8" column="28" lean-forward="true" selection-start-line="8" selection-start-column="28" selection-end-line="8" selection-end-column="28" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="invalidSubmitGroup.html" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/Fintech/groups/templates/invalidSubmitGroup.html">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="198">
-              <caret line="9" column="42" lean-forward="true" selection-start-line="7" selection-start-column="3" selection-end-line="9" selection-end-column="42" />
+            <state relative-caret-position="682">
+              <caret line="31" column="36" lean-forward="false" selection-start-line="31" selection-start-column="36" selection-end-line="31" selection-end-column="36" />
               <folding />
             </state>
           </provider>
@@ -151,11 +113,8 @@
         <option value="$PROJECT_DIR$/Fintech/messaging/templates/makeMessages.html" />
         <option value="$PROJECT_DIR$/Fintech/groups/templates/makeGroups.html" />
         <option value="$PROJECT_DIR$/Fintech/groups/models.py" />
-        <option value="$PROJECT_DIR$/Fintech/messaging/templates/viewMessages.html" />
         <option value="$PROJECT_DIR$/Fintech/groups/forms.py" />
         <option value="$PROJECT_DIR$/Fintech/groups/templates/addGroupMembers.html" />
-        <option value="$PROJECT_DIR$/Fintech/groups/templates/viewGroups.html" />
-        <option value="$PROJECT_DIR$/Fintech/groups/templates/selectGroupToChange.html" />
         <option value="$PROJECT_DIR$/Fintech/groups/templates/selectMembersToAdd.html" />
         <option value="$PROJECT_DIR$/Fintech/groups/templates/invalidSubmitGroup.html" />
         <option value="$PROJECT_DIR$/Fintech/groups/templates/groupHome.html" />
@@ -166,6 +125,9 @@
         <option value="$PROJECT_DIR$/Fintech/messaging/views.py" />
         <option value="$PROJECT_DIR$/Fintech/Fintech/urls.py" />
         <option value="$PROJECT_DIR$/Fintech/messaging/templates/messageHome.html" />
+        <option value="$PROJECT_DIR$/Fintech/groups/templates/viewGroups.html" />
+        <option value="$PROJECT_DIR$/Fintech/groups/templates/selectGroupToChange.html" />
+        <option value="$PROJECT_DIR$/Fintech/messaging/templates/viewMessages.html" />
       </list>
     </option>
   </component>
@@ -962,14 +924,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/Fintech/messaging/templates/makeMessages.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="66">
-          <caret line="3" column="39" lean-forward="false" selection-start-line="3" selection-start-column="39" selection-end-line="3" selection-end-column="39" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/Fintech/groups/admin.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="66">
@@ -1034,30 +988,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/Fintech/messaging/templates/viewMessages.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="396">
-          <caret line="18" column="140" lean-forward="false" selection-start-line="18" selection-start-column="140" selection-end-line="18" selection-end-column="140" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/Fintech/groups/templates/viewGroups.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="352">
-          <caret line="16" column="47" lean-forward="true" selection-start-line="16" selection-start-column="29" selection-end-line="16" selection-end-column="47" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/Fintech/groups/templates/selectGroupToChange.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="308">
-          <caret line="14" column="31" lean-forward="true" selection-start-line="14" selection-start-column="31" selection-end-line="14" selection-end-column="31" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/Fintech/account/views.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="-590">
@@ -1070,22 +1000,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="330">
           <caret line="15" column="83" lean-forward="true" selection-start-line="15" selection-start-column="83" selection-end-line="15" selection-end-column="83" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/Fintech/groups/templates/groupHome.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="242">
-          <caret line="11" column="7" lean-forward="true" selection-start-line="11" selection-start-column="7" selection-end-line="11" selection-end-column="7" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/Fintech/groups/templates/successPage.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="176">
-          <caret line="8" column="42" lean-forward="true" selection-start-line="7" selection-start-column="3" selection-end-line="8" selection-end-column="42" />
           <folding />
         </state>
       </provider>
@@ -1142,11 +1056,59 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/Fintech/groups/views.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="137">
+        <state relative-caret-position="822">
           <caret line="41" column="4" lean-forward="false" selection-start-line="41" selection-start-column="4" selection-end-line="41" selection-end-column="4" />
           <folding>
             <element signature="e#0#35#0" expanded="true" />
           </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Fintech/groups/templates/groupHome.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="176">
+          <caret line="8" column="20" lean-forward="false" selection-start-line="8" selection-start-column="0" selection-end-line="9" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Fintech/groups/templates/successPage.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="176">
+          <caret line="8" column="42" lean-forward="true" selection-start-line="7" selection-start-column="3" selection-end-line="8" selection-end-column="42" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Fintech/messaging/templates/makeMessages.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="66">
+          <caret line="3" column="39" lean-forward="false" selection-start-line="3" selection-start-column="39" selection-end-line="3" selection-end-column="39" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Fintech/groups/templates/selectGroupToChange.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="572">
+          <caret line="26" column="20" lean-forward="false" selection-start-line="26" selection-start-column="20" selection-end-line="26" selection-end-column="20" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Fintech/groups/templates/viewGroups.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="770">
+          <caret line="35" column="15" lean-forward="true" selection-start-line="32" selection-start-column="3" selection-end-line="35" selection-end-column="15" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Fintech/messaging/templates/viewMessages.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="682">
+          <caret line="31" column="36" lean-forward="false" selection-start-line="31" selection-start-column="36" selection-end-line="31" selection-end-column="36" />
+          <folding />
         </state>
       </provider>
     </entry>

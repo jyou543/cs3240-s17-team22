@@ -5,21 +5,27 @@
     <title>Select Group</title>
 </head>
 <body>
+    {% if allGroups %}
         <h1> Select group to change</h1>
 
        <form action = "/selectMembersToAdd/" method = "post">
-        {% csrf_token %}
-        <select name="groupName">
-            {% for group in allGroups %}
+            {% csrf_token %}
+            <select name="groupName">
+                {% for group in allGroups %}
 
-                <option value="{{ group.name }}">{{ group.name }}</option>
+                    <option value="{{ group.name }}">{{ group.name }}</option>
 
-            {% endfor %}
-        </select>
+                {% endfor %}
+            </select>
 
-        <br>
-        <br>
-        <input type="submit" value="Submit">
-    </form>
+            <br>
+            <br>
+            <input type="submit" value="Submit">
+        </form>
+
+    {% else %}
+        <h1>You're not in any group</h1>
+        <a href="groupHome"> Go to homepage</a>
+    {% endif %}
 </body>
 </html>

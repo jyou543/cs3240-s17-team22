@@ -6,7 +6,7 @@
 </head>
 <body>
 
-
+    {% if allMessages %}
 
     <form action = "/deleteMessages/" method = "post">
         {% csrf_token %}
@@ -26,6 +26,11 @@
         <br>
         <input type="submit" value="DELETE">
     </form>
+
+    {% else %}
+        <h1>You don't have any messages</h1>
+        <a href="messageHome"> Go to homepage</a>
+    {% endif %}
 
 </body>
 </html>

@@ -6,6 +6,7 @@
 </head>
 <body>
 
+    {% if allGroups %}
 
     <form action = "/leaveGroups/" method = "post">
         {% csrf_token %}
@@ -28,6 +29,11 @@
         <br>
         <input type="submit" value="Submit">
     </form>
+
+    {% else %}
+        <h1>You're not in any group</h1>
+        <a href="groupHome"> Go to homepage</a>
+    {% endif %}
 
 </body>
 </html>
