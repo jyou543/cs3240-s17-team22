@@ -13,8 +13,7 @@ class Migration(migrations.Migration):
         migrations.CreateModel(
             name='Report',
             fields=[
-                ('id', models.AutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('created_at', models.DateTimeField(auto_now_add=True)),
+                ('id', models.AutoField(verbose_name='ID', auto_created=True, serialize=False, primary_key=True)),
                 ('company_name', models.CharField(max_length=255)),
                 ('company_phone', models.CharField(max_length=255)),
                 ('company_email', models.CharField(max_length=255)),
@@ -24,7 +23,7 @@ class Migration(migrations.Migration):
                 ('industry', models.CharField(max_length=255)),
                 ('current_projects', models.TextField()),
                 ('private_report', models.CharField(max_length=100)),
-                # ('files_attached', models.FileField(upload_to='')),
+                ('files_attached', models.FileField(null=True, upload_to='', blank=True)),
             ],
         ),
     ]

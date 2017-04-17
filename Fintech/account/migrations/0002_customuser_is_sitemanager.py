@@ -7,12 +7,13 @@ from django.db import models, migrations
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('reports', '0004_report_files_attached'),
+        ('account', '0001_initial'),
     ]
 
     operations = [
-        migrations.RemoveField(
-            model_name='report',
-            name='created_at',
+        migrations.AddField(
+            model_name='customuser',
+            name='is_SiteManager',
+            field=models.BooleanField(default=False),
         ),
     ]

@@ -7,6 +7,8 @@ from .forms import SignupForm
 from .models import CustomUser
 from django.contrib.auth.models import User
 from django.contrib.auth.decorators import login_required
+from django.contrib.auth.decorators import user_passes_test
+from django.contrib import messages
 # Create your views here.
 
 
@@ -42,30 +44,44 @@ def signupform(request):
     #returning form
     return render(request, 'html5up/signup.html', {'form':form})
 
+
 @login_required
 def showdata(request):
     all_users = User.objects.all()
     return render(request, 'showdata.html', {'all_users': all_users, })
+
 
 def home(request):
     c = {}
     c.update(csrf(request))
     return render(request, 'html5up/index.html', c)
 
+
 def investor_info(request):
     c = {}
     c.update(csrf(request))
     return render(request, 'html5up/investor_info.html', c)
+
 
 def company_info(request):
     c = {}
     c.update(csrf(request))
     return render(request, 'html5up/company_info.html', c)
 
+
 def log(request):
     c = {}
     c.update(csrf(request))
+    if not User.objects.filter(username="sm").exists():
+       user = User.objects.create_user(username='sm', email='smEmail', password='sm')
+       user.save()
+       uinfo = CustomUser()
+       uinfo.user = user
+       uinfo.user_type = 'C'
+       uinfo.is_SiteManager = True
+       uinfo.save()
     return render(request, 'html5up/login.html', c)
+
 
 def auth(request):
     username = request.POST['username']
@@ -77,22 +93,55 @@ def auth(request):
     else:
         return HttpResponseRedirect('/invalid')
 
+
 @login_required
 def loggedin(request):
     c = {}
     c.update(csrf(request))
-    user_type = request.POST.get('user_type', False)
-    if user_type == 'I':
+    if request.user.customuser.is_SiteManager:
+        return render(request,'loggedin.html', c)
+    if request.user.customuser.user_type == 'I':
         return render(request, 'html5up/investor.html', c )
-    elif user_type == 'C':
+    elif request.user.customuser.user_type == 'C':
         return render(request, 'html5up/company.html', c )
     else:
         return render(request, 'html5up/investor.html', c)
 
+
 def invalid(request):
     return render(request, 'html5up/invalid.html')
+
 
 @login_required
 def loggedout(request):
     logout(request)
     return render(request, 'html5up/loggedout.html')
+
+
+@user_passes_test(lambda u: u.customuser.is_SiteManager)
+def del_user(request):
+    username = request.POST["username"]
+    if User.objects.filter(username=username).exists():
+        user = User.objects.get(username=username)
+    # if user.DoesNotExist:
+    #     messages.info(request, "User does not exist",extra_tags='safe')
+    # else:
+        user.delete()
+        messages.info(request, "User deleted Successfully")
+    else:
+        messages.info(request, "User does not exist")
+    return HttpResponseRedirect('/loggedin')
+
+
+@user_passes_test(lambda u: u.customuser.is_SiteManager)
+def sus_user(request):
+    username = request.POST["username"]
+    if User.objects.filter(username=username).exists():
+        user = User.objects.get(username=username)
+        user.set_unusable_password()
+        user.is_active = False
+        user.save()
+        messages.info(request, "User suspended Successfully")
+    else:
+        messages.info(request, "User does not exist")
+    return HttpResponseRedirect('/loggedin')
