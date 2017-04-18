@@ -7,7 +7,7 @@ from account.models import CustomUser
 from django.contrib.auth.models import User
 
 def groupHome(request):
-    return render(request, 'groupHome.html')
+    return render(request, 'html5up/groups.html')
 
 def submit_groups(request):
     if request.method=='POST':
@@ -29,12 +29,12 @@ def submit_groups(request):
                 group_obj.members.add(member)
             #return HttpResponse(group_obj.members.all())
             #return HttpResponse("<h1>Success</h1>")
-            return render(request, 'groupSuccessPage.html')
+            return render(request, 'html5up/group_success.html')
     else:
         current_user=my_user(request).user
         form= MakeGroup(current_user=current_user)
 
-    return render(request, 'makeGroups.html', {'form': form});
+    return render(request, 'html5up/makeGroups.html', {'form': form});
 
 def invalid_submit_group(request):
     return render(request, 'invalidSubmitGroup.html')
@@ -46,7 +46,7 @@ def view_groups(request):
     #allGroups= Group.objects.all().filter()
     #members=my_user(request)
     allGroups=Group.objects.all().filter(members=my_user(request))
-    return render(request, 'viewGroups.html', {'allGroups': allGroups});
+    return render(request, 'html5up/viewGroups.html', {'allGroups': allGroups});
 
 
 def leave_groups(request):
@@ -56,7 +56,7 @@ def leave_groups(request):
         for name in checks:
             # return HttpResponse("<h1>Success</h1>")
             allGroups.filter(name=name).delete()
-    return render(request, 'viewGroups.html', {'allGroups': allGroups});
+    return render(request, 'html5up/viewGroups.html', {'allGroups': allGroups});
 
 def view_groups_for_adding(request):
     allGroups=Group.objects.all().filter(members=my_user(request))
@@ -92,4 +92,3 @@ def my_user(request):
         user = request.user
     #return username
     return CustomUser.objects.all().filter(user=user)[0]
-
