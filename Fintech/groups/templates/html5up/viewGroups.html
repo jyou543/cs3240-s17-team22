@@ -45,6 +45,7 @@
 
                                 <!-- Highlight -->
                                     <section class="box highlight">
+                                        {% if allGroups %}
 
 
                                         <form action = "/leaveGroups/" method = "post">
@@ -58,7 +59,7 @@
                                                         {{ member.user.get_username }}<br>
                                                     {% endfor %}
                                                     <br>
-                                                    Delete <input type="checkbox" name="checks" value={{ group.name }} ><br>
+                                                    Select <input type="checkbox" name="checks" value={{ group.name }} ><br>
 
                                                 </section>
                                                 </tr>
@@ -68,6 +69,12 @@
                                             <br>
                                             <input type="submit" value="Leave">
                                         </form>
+
+                                     {% else %}
+                                        <h1>You're not in any group</h1>
+                                        <a href="groups"> Go to Group Homepage</a>
+                                    {% endif %}
+
                                     </section>
 
                                         <!-- Copyright -->

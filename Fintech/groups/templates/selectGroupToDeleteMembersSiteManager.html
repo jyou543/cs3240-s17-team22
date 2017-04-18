@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Select Group</title>
+</head>
+<body>
+    {% if allGroups %}
+        <h1> Select group to change</h1>
+
+       <form action = "/selectMembersToDeleteSiteManager/" method = "post">
+            {% csrf_token %}
+            <select name="groupName">
+                {% for group in allGroups %}
+
+                    <option value="{{ group.name }}">{{ group.name }}</option>
+
+                {% endfor %}
+            </select>
+
+            <br>
+            <br>
+            <input type="submit" value="Submit">
+        </form>
+
+    {% else %}
+        <h1>No groups exist</h1>
+        <a href="groupHomeSiteManager"> Go to homepage</a>
+    {% endif %}
+</body>
+</html>
