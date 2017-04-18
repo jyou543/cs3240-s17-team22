@@ -51,6 +51,7 @@ def view_groups(request):
 
 def leave_groups(request):
     allGroups = Group.objects.all()
+    allGroups=Group.objects.all().filter(members=my_user(request))
     if request.method == 'POST':
         checks = request.POST.getlist('checks')
         for name in checks:
