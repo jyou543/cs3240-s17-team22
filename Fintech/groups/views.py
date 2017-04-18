@@ -106,6 +106,8 @@ def groupHomeSiteManager(request):
 
 def view_groups_site_manager(request):
     allGroups=Group.objects.all()
+    if(not my_user(request).is_SiteManager):
+        return HttpResponse("<h1>Forbidden</h1>")
     return render(request, 'viewGroupsSiteManager.html', {'allGroups': allGroups});
 
 def delete_groups_site_manager(request):
@@ -118,9 +120,13 @@ def delete_groups_site_manager(request):
 
 def view_groups_for_adding_site_manager(request):
     allGroups=Group.objects.all()
+    if (not my_user(request).is_SiteManager):
+        return HttpResponse("<h1>Forbidden</h1>")
     return render(request, 'selectGroupToAddMembersSiteManager.html', {'allGroups': allGroups})
 
 def select_members_to_add_site_manager(request):
+    if (not my_user(request).is_SiteManager):
+        return HttpResponse("<h1>Forbidden</h1>")
     #return HttpResponse("<h1>Success</h1>")
     notMembers = CustomUser.objects.all()
     groupName=None
@@ -143,6 +149,8 @@ def add_members_site_manager(request):
         return render(request, 'successPageSiteManager.html')
 
 def view_groups_for_deleting_site_manager(request):
+    if (not my_user(request).is_SiteManager):
+        return HttpResponse("<h1>Forbidden</h1>")
     allGroups=Group.objects.all()
     return render(request, 'selectGroupToDeleteMembersSiteManager.html', {'allGroups': allGroups})
 
