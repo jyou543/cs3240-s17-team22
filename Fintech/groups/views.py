@@ -40,7 +40,7 @@ def invalid_submit_group(request):
     return render(request, 'invalidSubmitGroup.html')
 
 def success(request):
-    return render(request, 'groupSuccessPage.html')
+    return render(request, 'html5up/group_success.html')
 
 def view_groups(request):
     #allGroups= Group.objects.all().filter()
@@ -60,7 +60,7 @@ def leave_groups(request):
 
 def view_groups_for_adding(request):
     allGroups=Group.objects.all().filter(members=my_user(request))
-    return render(request, 'selectGroupToChange.html', {'allGroups': allGroups})
+    return render(request, 'html5up/selectGroupToChange.html', {'allGroups': allGroups})
 
 def select_members_to_add(request):
     notMembers = CustomUser.objects.all()
@@ -83,7 +83,7 @@ def add_members(request):
             user = User.objects.get(username=username)
             custom_user=CustomUser.objects.all().filter(user=user)[0]
             group.members.add(custom_user)
-        return render(request, 'groupSuccessPage.html')
+        return render(request, 'html5up/addedMembers_success.html')
 
 
 def my_user(request):

@@ -39,28 +39,33 @@
 
                                 <!-- Highlight -->
                                 <section class="box highlight">
-    <h2>Select Members to Add to {{ groupName}}</h2>
-      <form action = "/addMembers/" method = "post">
-        {% csrf_token %}
-            <tr>
-                {% for person in notMembers %}
-                    {{ person }}<br>
-                    Add <input type="checkbox" name="checks" value={{ person.user.get_username }} ><br>
-                    <br>
-                {% endfor %}
+                                    {% if allGroups %}
+                                        <h1> Select group to change</h1>
 
-                <br>
+                                       <form action = "/selectMembersToAdd/" method = "post">
+                                            {% csrf_token %}
+                                            <div class = "select-style">
+                                            <select name="groupName">
+                                                {% for group in allGroups %}
 
+                                                    <option value="{{ group.name }}">{{ group.name }}</option>
 
-            </tr>
+                                                {% endfor %}
+                                            </select>
+                                        </div>
+                                            <br>
+                                            <br>
+                                            <input type="submit" value="Submit">
+                                        </form>
 
-        <input type="hidden" name="groupName" value={{ groupName }} >
-        <input type="submit" value="Submit">
-        <br>
-    </form>
-      <ul class="copyright">
-          <div style="text-align:center;"><li>&copy; Lokahi Fintech. All rights reserved</li><li>Design: <a href="http://html5up.net">HTML5 UP</a></li></div>
-            </ul>
+                                    {% else %}
+                                        <h1>You're not in any group</h1>
+                                        <a href="groupHome"> Go to homepage</a>
+                                    {% endif %}
+                                                                <!-- Copyright -->
+                                <ul class="copyright">
+                                    <div style="text-align:center;"><li>&copy; Lokahi Fintech. All rights reserved</li><li>Design: <a href="http://html5up.net">HTML5 UP</a></li></div>
+                                </ul>
                 </div>
 
         <!-- Scripts -->
@@ -71,7 +76,5 @@
             <script src="assets/js/util.js"></script>
             <!--[if lte IE 8]><script src="assets/js/ie/respond.min.js"></script><![endif]-->
             <script src="assets/js/main.js"></script>
-</body>
-</html>
 </body>
 </html>
