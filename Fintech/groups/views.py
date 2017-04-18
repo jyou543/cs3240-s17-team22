@@ -19,7 +19,7 @@ def submit_groups(request):
             allGroups=Group.objects.all()
             if(allGroups.filter(name=group_name)):
                 #return HttpResponse(allGroups)
-                return render(request, 'invalidSubmitGroup.html')
+                return render(request, 'html5up/invalid_submission.html')
 
             group_members= request.POST.getlist('members')
             group_obj = Group(name=group_name)
@@ -40,7 +40,7 @@ def submit_groups(request):
     return render(request, 'html5up/makeGroups.html', {'form': form});
 
 def invalid_submit_group(request):
-    return render(request, 'invalidSubmitGroup.html')
+    return render(request, 'html5up/invalid_submission.html')
 
 def success(request):
     return render(request, 'html5up/group_success.html')
