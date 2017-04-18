@@ -16,7 +16,8 @@
                 <h2>Title: {{ message.title }}</h2>
                 <h3>Message: {{ message.body }}</h3>
 
-                Delete <input type="checkbox" name="checks" value="{{ message.sender.user.username }},{{ message.title }},{{ message.body }}" ><br>
+{#                Delete <input type="checkbox" name="checks" value="{{ message.sender.user.username }},{{ message.title }},{{ message.body }}" ><br>#}
+                Delete <input type="checkbox" name="checks" value="{{ message.id }}" ><br>
 
 
             </tr>

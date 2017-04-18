@@ -12,7 +12,7 @@ class NewMessageForm(forms.Form):
     recipient=forms.CharField(label='Send To')
     title = forms.CharField(label='Title of Message:')
     body=forms.CharField(label='Body of Message', widget=forms.Textarea())
-    #encrypt=forms.BooleanField(widget=forms.CheckboxInput(), required=False, label='Encrypted?')
+    encrypt=forms.BooleanField(widget=forms.CheckboxInput(), required=False, label='Encrypt')
 
 
 

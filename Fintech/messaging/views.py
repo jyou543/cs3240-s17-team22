@@ -30,9 +30,12 @@ def new_messages(request):
                return render(request, 'invalidSubmitMessage.html')
            title=request.POST.get('title')
            body = request.POST.get('body')
-           message_obj=private_message(sender=sender, recipient=recipient, title=title, body=body)
+           encrypt=request.POST.get('encrypt')
+           #return HttpResponse(encrypt)
+           message_obj=private_message(sender=sender, recipient=recipient, title=title, body=body, encrypt=encrypt)
            #return render_to_response(request, 'makeMessages.html')
            #return render(request, 'makeMessages.html')
+           #return HttpResponse(message_obj.encrypt)
            message_obj.save()
            return render(request, 'messageSuccessPage.html')
 
@@ -62,14 +65,15 @@ def delete_messages(request):
     if request.method == 'POST':
         checks = request.POST.getlist('checks')
         for message in checks:
-            # message=message.replace('[',"")
-            # message=message.replace(']',"")
-            message=message.split(',')
-            #return HttpResponse(message[1])
-            user = User.objects.get(username=message[0])
-            sender=CustomUser.objects.all().filter(user=user)
-            allMessages.filter(recipient=my_user(request), sender=sender,  title=message[1], body=message[2]).delete()
+            # message=message.split(',')
+            # user = User.objects.get(username=message[0])
+            # sender=CustomUser.objects.all().filter(user=user)
+            # allMessages.filter(recipient=my_user(request), sender=sender,  title=message[1], body=message[2]).delete()
+            allMessages.filter(id=message).delete()
     return render(request, 'viewMessages.html', {'allMessages': allMessages});
+
+#def encryption(message):
+
 
 
 def my_user(request):
