@@ -9,6 +9,7 @@ from django.contrib.auth.models import User
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.decorators import user_passes_test
 from django.contrib import messages
+from messaging import views as messaging_views
 # Create your views here.
 
 
@@ -30,8 +31,13 @@ def signupform(request):
             uinfo = CustomUser()
             uinfo.user = user
             uinfo.user_type = user_type
+            key=messaging_views.key_generator()
+            publicKey=messaging_views.get_public_key(key)
+            privateKey=messaging_views.get_private_key(key)
+            uinfo.publicKey=publicKey
+            uinfo.privateKey=privateKey
             uinfo.save()
-            return render(request, 'html5up/login.html')  # Redirect after POST
+            return render(request, 'html5up/login.html', {'privateKey': privateKey})  # Redirect after POST
 
             # return render(request, 'result.html', {
             # 		'username': form.cleaned_data['username'],

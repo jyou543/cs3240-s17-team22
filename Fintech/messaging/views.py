@@ -60,6 +60,8 @@ def success(request):
 def view_messages(request):
     allMessages= private_message.objects.all().filter(recipient=my_user(request))
     #allMessages=delete_message(request)
+    key=key_generator()
+    HttpResponse(str(get_private_key(key)))
     return render(request, 'viewMessages.html', {'allMessages': allMessages});
 
 def delete_messages(request):
