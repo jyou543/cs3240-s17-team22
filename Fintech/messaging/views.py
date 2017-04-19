@@ -39,6 +39,12 @@ def new_messages(request):
            #return render(request, 'makeMessages.html')
            #return HttpResponse(message_obj.encrypt)
            message_obj.save()
+           if message_obj.encrypt:
+               random_number = Random.new().read
+               key = RSA.importKey(message_obj.recipient.publicKey)
+               text = message_obj.body
+               message_obj.body=( key.encrypt(text.encode(), random_number))
+               message_obj.save()
            return render(request, 'messageSuccessPage.html')
 
 
@@ -106,7 +112,3 @@ def get_public_key(key):
 def get_private_key(key):
     privateKey=key.exportKey(format='PEM', pkcs=1)
     return privateKey
-
-
-
-
