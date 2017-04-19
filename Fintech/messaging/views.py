@@ -43,7 +43,7 @@ def new_messages(request):
                random_number = Random.new().read
                key = RSA.importKey(message_obj.recipient.publicKey)
                text = message_obj.body
-               message_obj.body=( key.encrypt(text.encode(), random_number))
+               message_obj.body=str( key.encrypt(text.encode(), random_number)[0])
                message_obj.save()
            return render(request, 'messageSuccessPage.html')
 
@@ -110,25 +110,21 @@ def get_private_key(key):
     privateKey=key.exportKey(format='PEM', pkcs=1)
     return privateKey
 
-def enter_password(request):
-    allMessages = private_message.objects.all().filter(recipient=my_user(request), encrypt=True)
-    return render(request, 'enterPrivateKey.html', {'allMessages': allMessages});
+# def enter_password(request):
+#     allMessages = private_message.objects.all().filter(recipient=my_user(request), encrypt=True)
+#     return render(request, 'enterPrivateKey.html', {'allMessages': allMessages});
 
 
 def decrypt_messages(request):
-    if request.method=='POST':
-        privateKey=request.POST.get('privateKey')
-        key = RSA.importKey(privateKey)
-        allMessages=private_message.objects.all.filter(recipient=my_user(), encrypt=True)
-        for message in allMessages:
-            text=message.body
-            message.body=key.decrypt(text)
-            message.save()
-    # allMessages = private_message.objects.all().filter(recipient=my_user(request))
-    # return render(request, 'viewMessages.html', {'allMessages': allMessages});
-    else:
-        return render(request, 'invalidSubmitMessage.html')
-    return render(request, 'messageSuccessPage.html')
+    key = RSA.importKey(my_user(request).privateKey)
+    allMessages=private_message.objects.all().filter(recipient=my_user(request), encrypt=True)
+    for message in allMessages:
+        text=eval(message.body)
+        message.body=key.decrypt(text)
+        message.encrypt=False
+        message.save()
+    allMessages = private_message.objects.all().filter(recipient=my_user(request))
+    return render(request, 'viewMessages.html', {'allMessages': allMessages});
 
 
 
