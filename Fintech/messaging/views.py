@@ -1,3 +1,5 @@
+from Crypto import Random
+from Crypto.PublicKey import RSA
 from django.http import HttpResponse
 from django.shortcuts import render, render_to_response
 from django.template import RequestContext
@@ -89,6 +91,20 @@ def check_valid_user(user):
         return False
     else:
         return True
+
+def key_generator():
+    random_generator = Random.new().read
+    key = RSA.generate(1024, random_generator)
+    return key
+
+def get_public_key(key):
+    publicKey=key.publickey().exportKey(format='PEM', pkcs=1)
+    return publicKey
+
+def get_private_key(key):
+    privateKey=key.exportKey(format='PEM', pkcs=1)
+    return privateKey
+
 
 
 
