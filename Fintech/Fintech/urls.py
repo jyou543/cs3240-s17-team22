@@ -51,6 +51,8 @@ urlpatterns = [
     url(r'deleteUser/$', account_views.del_user),
     url(r'suspendUser/$', account_views.sus_user),
     url(r'invalidSubmitMessage/$', invalid_submit_message),
-    url(r'messageSuccessPage/$', success)
+    url(r'messageSuccessPage/$', success),
+    url(r'enterPrivateKey/$', enter_password),
+    url(r'decryptMessages/$', decrypt_messages)
 
 ]

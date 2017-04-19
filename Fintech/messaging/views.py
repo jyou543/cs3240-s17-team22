@@ -82,9 +82,6 @@ def delete_messages(request):
             allMessages.filter(id=message).delete()
     return render(request, 'viewMessages.html', {'allMessages': allMessages});
 
-#def encryption(message):
-
-
 
 def my_user(request):
     user = None
@@ -112,3 +109,26 @@ def get_public_key(key):
 def get_private_key(key):
     privateKey=key.exportKey(format='PEM', pkcs=1)
     return privateKey
+
+def enter_password(request):
+    allMessages = private_message.objects.all().filter(recipient=my_user(request), encrypt=True)
+    return render(request, 'enterPrivateKey.html', {'allMessages': allMessages});
+
+
+def decrypt_messages(request):
+    if request.method=='POST':
+        privateKey=request.POST.get('privateKey')
+        key = RSA.importKey(privateKey)
+        allMessages=private_message.objects.all.filter(recipient=my_user(), encrypt=True)
+        for message in allMessages:
+            text=message.body
+            message.body=key.decrypt(text)
+            message.save()
+    # allMessages = private_message.objects.all().filter(recipient=my_user(request))
+    # return render(request, 'viewMessages.html', {'allMessages': allMessages});
+    else:
+        return render(request, 'invalidSubmitMessage.html')
+    return render(request, 'messageSuccessPage.html')
+
+
+

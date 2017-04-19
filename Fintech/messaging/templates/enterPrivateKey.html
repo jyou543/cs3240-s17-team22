@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Password Prompt</title>
+</head>
+<body>
+     {% if allMessages %}
+
+        <form action = "/decryptMessages/" method = "post">
+            {% csrf_token %}
+                <tr>
+                    <h1>Password Prompt: </h1>
+                      Enter Your Private Key: <input type="text" name="privateKey"><br>
+
+
+                </tr>
+
+            <br>
+            <br>
+            <input type="submit" value="Submit">
+        </form>
+
+        {% else %}
+            <h1>You don't have any encrypted messages</h1>
+            <a href="decryptMessages"> Go to homepage</a>
+        {% endif %}
+
+</body>
+</html>
