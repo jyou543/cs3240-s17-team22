@@ -26,6 +26,8 @@ class CustomUser(models.Model):
     #         permissions = (
     #             ("view_reports", "view reports")
     #         )
+    publicKey=models.TextField(blank=True)
+    privateKey=models.TextField(blank=True)
 
 #this returns the name of the user when the object of user is printed
     def __str__(self):

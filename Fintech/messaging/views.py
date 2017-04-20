@@ -1,12 +1,16 @@
+from Crypto import Random
+from Crypto.PublicKey import RSA
 from django.http import HttpResponse
 from django.shortcuts import render, render_to_response
 from django.template import RequestContext
 from account.models import CustomUser
 from django.contrib.auth.models import User
+from groups.models import Group
 
 
 from .models import private_message
 from .forms import NewMessageForm
+from .forms import NewGroupMessageForm
 
 
 def messageHome(request):
@@ -30,11 +34,20 @@ def new_messages(request):
                return render(request, 'invalidSubmitMessage.html')
            title=request.POST.get('title')
            body = request.POST.get('body')
-           message_obj=private_message(sender=sender, recipient=recipient, title=title, body=body)
+           encrypt=request.POST.get('encrypt')
+           #return HttpResponse(encrypt)
+           message_obj=private_message(sender=sender, recipient=recipient, title=title, body=body, encrypt=encrypt)
            #return render_to_response(request, 'makeMessages.html')
            #return render(request, 'makeMessages.html')
+           #return HttpResponse(message_obj.encrypt)
            message_obj.save()
-           return render(request, 'successPage.html')
+           if message_obj.encrypt:
+               random_number = Random.new().read
+               key = RSA.importKey(message_obj.recipient.publicKey)
+               text = message_obj.body
+               message_obj.body=str( key.encrypt(text.encode(), random_number)[0])
+               message_obj.save()
+           return render(request, 'messageSuccessPage.html')
 
 
 
@@ -50,11 +63,13 @@ def invalid_submit_message(request):
     return render(request, 'invalidSubmitMessage.html')
 
 def success(request):
-    return render(request, 'successPage.html')
+    return render(request, 'messageSuccessPage.html')
 
 def view_messages(request):
     allMessages= private_message.objects.all().filter(recipient=my_user(request))
     #allMessages=delete_message(request)
+    key=key_generator()
+    HttpResponse(str(get_private_key(key)))
     return render(request, 'viewMessages.html', {'allMessages': allMessages});
 
 def delete_messages(request):
@@ -62,13 +77,11 @@ def delete_messages(request):
     if request.method == 'POST':
         checks = request.POST.getlist('checks')
         for message in checks:
-            # message=message.replace('[',"")
-            # message=message.replace(']',"")
-            message=message.split(',')
-            #return HttpResponse(message[1])
-            user = User.objects.get(username=message[0])
-            sender=CustomUser.objects.all().filter(user=user)
-            allMessages.filter(recipient=my_user(request), sender=sender,  title=message[1], body=message[2]).delete()
+            # message=message.split(',')
+            # user = User.objects.get(username=message[0])
+            # sender=CustomUser.objects.all().filter(user=user)
+            # allMessages.filter(recipient=my_user(request), sender=sender,  title=message[1], body=message[2]).delete()
+            allMessages.filter(id=message).delete()
     return render(request, 'viewMessages.html', {'allMessages': allMessages});
 
 
@@ -85,6 +98,62 @@ def check_valid_user(user):
         return False
     else:
         return True
+
+def key_generator():
+    random_generator = Random.new().read
+    key = RSA.generate(1024, random_generator)
+    return key
+
+def get_public_key(key):
+    publicKey=key.publickey().exportKey(format='PEM', pkcs=1)
+    return publicKey
+
+def get_private_key(key):
+    privateKey=key.exportKey(format='PEM', pkcs=1)
+    return privateKey
+
+# def enter_password(request):
+#     allMessages = private_message.objects.all().filter(recipient=my_user(request), encrypt=True)
+#     return render(request, 'enterPrivateKey.html', {'allMessages': allMessages});
+
+
+def decrypt_messages(request):
+    key = RSA.importKey(my_user(request).privateKey)
+    allMessages=private_message.objects.all().filter(recipient=my_user(request), encrypt=True)
+    for message in allMessages:
+        text=eval(message.body)
+        message.body=key.decrypt(text)
+        message.encrypt=False
+        message.save()
+    allMessages = private_message.objects.all().filter(recipient=my_user(request))
+    return render(request, 'viewMessages.html', {'allMessages': allMessages});
+
+
+def message_groups(request):
+    if request.method == 'POST':
+        form = NewGroupMessageForm(request.POST)
+        if form.is_valid():
+            sender = my_user(request)
+            recipient = None
+            allUsers = CustomUser.objects.all()
+            groupName=request.POST.get('groupName')
+            group=Group.objects.all().filter(name=groupName)[0]
+            members=group.members.all().exclude(user=my_user(request).user)
+            for member in members:
+                recipient = member
+                title = request.POST.get('title')
+                body = request.POST.get('body')
+                message_obj = private_message(sender=sender, recipient=recipient, title=title, body=body, encrypt=False)
+                message_obj.save()
+            return render(request, 'messageSuccessPage.html')
+
+
+    else:
+        form = NewGroupMessageForm()
+
+    return render(request, 'makeGroupMessages.html', {'form': form})
+
+
 
 
 

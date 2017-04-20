@@ -7,7 +7,7 @@ from account.models import CustomUser
 from django.contrib.auth.models import User
 
 def groupHome(request):
-    return render(request, 'groupHome.html')
+    return render(request, 'html5up/groups.html')
 
 def submit_groups(request):
     if request.method=='POST':
@@ -19,7 +19,7 @@ def submit_groups(request):
             allGroups=Group.objects.all()
             if(allGroups.filter(name=group_name)):
                 #return HttpResponse(allGroups)
-                return render(request, 'invalidSubmitGroup.html')
+                return render(request, 'html5up/invalid_submission.html')
 
             group_members= request.POST.getlist('members')
             group_obj = Group(name=group_name)
@@ -29,38 +29,44 @@ def submit_groups(request):
                 group_obj.members.add(member)
             #return HttpResponse(group_obj.members.all())
             #return HttpResponse("<h1>Success</h1>")
-            return render(request, 'successPage.html')
+            return render(request, 'html5up/group_success.html')
+        else:
+            current_user = my_user(request).user
+            form = MakeGroup(current_user=current_user)
     else:
         current_user=my_user(request).user
         form= MakeGroup(current_user=current_user)
 
-    return render(request, 'makeGroups.html', {'form': form});
+    return render(request, 'html5up/makeGroups.html', {'form': form});
 
 def invalid_submit_group(request):
-    return render(request, 'invalidSubmitGroup.html')
+    return render(request, 'html5up/invalid_submission.html')
 
 def success(request):
-    return render(request, 'successPage.html')
+    return render(request, 'html5up/group_success.html')
 
 def view_groups(request):
     #allGroups= Group.objects.all().filter()
     #members=my_user(request)
     allGroups=Group.objects.all().filter(members=my_user(request))
-    return render(request, 'viewGroups.html', {'allGroups': allGroups});
+    return render(request, 'html5up/viewGroups.html', {'allGroups': allGroups});
 
 
 def leave_groups(request):
     allGroups = Group.objects.all()
+    #allGroups=Group.objects.all().filter(members=my_user(request))
     if request.method == 'POST':
         checks = request.POST.getlist('checks')
         for name in checks:
             # return HttpResponse("<h1>Success</h1>")
-            allGroups.filter(name=name).delete()
-    return render(request, 'viewGroups.html', {'allGroups': allGroups});
+            allGroups.filter(name=name)[0].members.remove(my_user(request))
+            if allGroups.filter(name=name)[0].members.count()==0:
+                allGroups.filter(name=name).delete()
+    return render(request, 'html5up/viewGroups.html', {'allGroups': allGroups.filter(members=my_user(request))});
 
 def view_groups_for_adding(request):
     allGroups=Group.objects.all().filter(members=my_user(request))
-    return render(request, 'selectGroupToChange.html', {'allGroups': allGroups})
+    return render(request, 'html5up/selectGroupToChange.html', {'allGroups': allGroups})
 
 def select_members_to_add(request):
     notMembers = CustomUser.objects.all()
@@ -83,7 +89,7 @@ def add_members(request):
             user = User.objects.get(username=username)
             custom_user=CustomUser.objects.all().filter(user=user)[0]
             group.members.add(custom_user)
-        return render(request, 'successPage.html')
+        return render(request, 'html5up/addedMembers_success.html')
 
 
 def my_user(request):
@@ -93,3 +99,80 @@ def my_user(request):
     #return username
     return CustomUser.objects.all().filter(user=user)[0]
 
+# SITE MANAGER GROUP FUNCTIONS
+
+def groupHomeSiteManager(request):
+    return render(request, 'groupHomeSiteManager.html')
+
+def view_groups_site_manager(request):
+    allGroups=Group.objects.all()
+    if(not my_user(request).is_SiteManager):
+        return HttpResponse("<h1>Forbidden</h1>")
+    return render(request, 'viewGroupsSiteManager.html', {'allGroups': allGroups});
+
+def delete_groups_site_manager(request):
+    allGroups = Group.objects.all()
+    if request.method == 'POST':
+        checks = request.POST.getlist('checks')
+        for name in checks:
+            allGroups.filter(name=name).delete()
+    return render(request, 'viewGroupsSiteManager.html', {'allGroups': allGroups});
+
+def view_groups_for_adding_site_manager(request):
+    allGroups=Group.objects.all()
+    if (not my_user(request).is_SiteManager):
+        return HttpResponse("<h1>Forbidden</h1>")
+    return render(request, 'selectGroupToAddMembersSiteManager.html', {'allGroups': allGroups})
+
+def select_members_to_add_site_manager(request):
+    if (not my_user(request).is_SiteManager):
+        return HttpResponse("<h1>Forbidden</h1>")
+    #return HttpResponse("<h1>Success</h1>")
+    notMembers = CustomUser.objects.all()
+    groupName=None
+    if request.method == 'POST':
+        groupName=request.POST.get('groupName')
+        group = Group.objects.all().filter(name=groupName)[0]
+        for member in group.members.all():
+            notMembers=notMembers.exclude(user=member.user)
+    return render(request, 'selectMembersToAddSiteManager.html',  {'groupName': groupName , 'notMembers': notMembers })
+
+def add_members_site_manager(request):
+    if request.method=='POST':
+        groupName=request.POST.get('groupName')
+        newMembers=request.POST.getlist('checks')
+        group=Group.objects.all().filter(name=groupName)[0]
+        for username in newMembers:
+            user = User.objects.get(username=username)
+            custom_user=CustomUser.objects.all().filter(user=user)[0]
+            group.members.add(custom_user)
+        return render(request, 'successPageSiteManager.html')
+
+def view_groups_for_deleting_site_manager(request):
+    if (not my_user(request).is_SiteManager):
+        return HttpResponse("<h1>Forbidden</h1>")
+    allGroups=Group.objects.all()
+    return render(request, 'selectGroupToDeleteMembersSiteManager.html', {'allGroups': allGroups})
+
+def select_members_to_delete_site_manager(request):
+    #return HttpResponse("<h1>Success</h1>")
+    groupName=None
+    if request.method == 'POST':
+        groupName=request.POST.get('groupName')
+        group = Group.objects.all().filter(name=groupName)[0]
+        members=group.members.all()
+    return render(request, 'selectMembersToDeleteSiteManager.html',  {'groupName': groupName , 'members': members })
+
+def delete_members_site_manager(request):
+    if request.method=='POST':
+        groupName=request.POST.get('groupName')
+        members=request.POST.getlist('checks')
+        group=Group.objects.all().filter(name=groupName)[0]
+        for username in members:
+            user = User.objects.get(username=username)
+            custom_user=CustomUser.objects.all().filter(user=user)[0]
+            group.members.remove(custom_user)
+        allGroups = Group.objects.all()
+        if allGroups.filter(name=groupName)[0].members.count()==0:
+            allGroups.filter(name=groupName).delete()
+        return render(request, 'successPageSiteManager.html')

@@ -6,6 +6,7 @@ class private_message(models.Model):
     recipient=models.ForeignKey(CustomUser, related_name="receiver")
     title=models.CharField(max_length=300)
     body=models.CharField(max_length=300)
+    encrypt=models.BooleanField(default=False)
 
     def _str_(self):
         return self.title

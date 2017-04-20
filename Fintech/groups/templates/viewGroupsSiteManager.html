@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>VIEW GROUPS!</title>
+</head>
+<body>
+
+    {% if allGroups %}
+
+    <form action = "/deleteGroupsSiteManager/" method = "post">
+        {% csrf_token %}
+        {% for group in allGroups %}
+            <tr>
+                <h1>Group Name: {{ group.name }}</h1>
+                <h4>Group Members: </h4>
+                {% for member in group.members.all %}
+                    {{ member.user.get_username }}<br>
+                {% endfor %}
+
+                <br>
+                Delete <input type="checkbox" name="checks" value={{ group.name }} ><br>
+
+
+            </tr>
+        {% endfor %}
+
+        <br>
+        <br>
+        <input type="submit" value="Submit">
+    </form>
+
+    {% else %}
+        <h1>No groups exist</h1>
+        <a href="groupHome"> Go to homepage</a>
+    {% endif %}
+
+</body>
+</html>

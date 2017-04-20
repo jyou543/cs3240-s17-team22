@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+{% load static %}
+
+<link rel="stylesheet" type="text/css" href="{% static 'account/css/main.css' %}"/>
+<link rel="stylesheet" type="text/css" href="{% static 'account/css/ie8.css' %}"/>
+<link rel="stylesheet" type="text/css" href="{%static 'account/css/font-awesome.min.css'}" />
+<link rel="stylesheet" type="text/css" href="{% static 'account/css/ie8.css' %}"/>
+
+<html>
+    <head>
+        <title>Lokahi Fintech</title>
+        <meta charset="utf-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
+        <!--[if lte IE 8]><script src="assets/js/ie/html5shiv.js"></script><![endif]-->
+        <link rel="stylesheet" href="assets/css/main.css" />
+        <!--[if lte IE 8]><link rel="stylesheet" href="assets/css/ie8.css" /><![endif]-->
+        <link rel="stylesheet" href="font-awesome/css/font-awesome.min.css">
+    </head>
+    <body class="homepage">
+        <div id="page-wrapper">
+
+
+            <!-- Nav -->
+                <nav id="nav">
+                    <ul>
+                        <li><a href={% url 'loggedin' %}>Home</a></li>
+                        <li><a href =>Reports</a></li>
+                        <li class = "current"><a href = {% url 'groups' %}>Groups</a></li>
+                        <li><a href= {% url 'logout' %}>LOG OUT</a></li>
+                    </ul>
+                </nav>
+
+
+            <!-- Main -->
+                <div id="main-wrapper">
+                    <div id="main" class="container">
+                        <!-- <div class="row 200%">
+                            <div class="12u">-->
+
+                                <!-- Highlight -->
+                                <section class="box highlight">
+                                    {% if allGroups %}
+                                        <h1> Select group to change</h1>
+
+                                       <form action = "/selectMembersToAdd/" method = "post">
+                                            {% csrf_token %}
+                                            <div class = "select-style">
+                                            <select name="groupName">
+                                                {% for group in allGroups %}
+
+                                                    <option value="{{ group.name }}">{{ group.name }}</option>
+
+                                                {% endfor %}
+                                            </select>
+                                        </div>
+                                            <br>
+                                            <br>
+                                            <input type="submit" value="Submit">
+                                        </form>
+
+                                    {% else %}
+                                        <h1>You're not in any group</h1>
+                                        <a href="groups"> Return to Group Homepage</a>
+                                    {% endif %}
+                                                                <!-- Copyright -->
+                                <ul class="copyright">
+                                    <div style="text-align:center;"><li>&copy; Lokahi Fintech. All rights reserved</li><li>Design: <a href="http://html5up.net">HTML5 UP</a></li></div>
+                                </ul>
+                </div>
+
+        <!-- Scripts -->
+            <script src="assets/js/jquery.min.js"></script>
+            <script src="assets/js/jquery.dropotron.min.js"></script>
+            <script src="assets/js/skel.min.js"></script>
+            <script src="assets/js/skel-viewport.min.js"></script>
+            <script src="assets/js/util.js"></script>
+            <!--[if lte IE 8]><script src="assets/js/ie/respond.min.js"></script><![endif]-->
+            <script src="assets/js/main.js"></script>
+</body>
+</html>

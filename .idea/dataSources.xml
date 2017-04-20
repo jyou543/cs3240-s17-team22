@@ -1,16 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="DataSourceManagerImpl" format="xml" multifile-model="true">
-    <data-source source="LOCAL" name="Django default" uuid="d91709da-383d-4752-b469-7fcfb808c1c7">
+    <data-source source="LOCAL" name="db.sqlite3" uuid="3fe2a325-d498-486b-a09d-7c0ec917e4e6">
       <driver-ref>sqlite.xerial</driver-ref>
       <synchronize>true</synchronize>
-      <imported>true</imported>
-      <remarks>$PROJECT_DIR$/Fintech/Fintech/settings.py</remarks>
       <jdbc-driver>org.sqlite.JDBC</jdbc-driver>
-      <jdbc-url>jdbc:sqlite:C:\Users\Crawley\PycharmProjects\cs3240-s17-team22\Fintech\db.sqlite3</jdbc-url>
-      <driver-properties>
-        <property name="enable_load_extension" value="true" />
-      </driver-properties>
+      <jdbc-url>jdbc:sqlite:$PROJECT_DIR$/Fintech/db.sqlite3</jdbc-url>
     </data-source>
   </component>
 </project>

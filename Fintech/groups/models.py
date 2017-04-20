@@ -8,8 +8,8 @@ class Group(models.Model):
     members = models.ManyToManyField(CustomUser)
     #group=models.OneToOneField(Group)
 
-    def _str_(self):
-        return self.members
+    def __str__(self):
+        return self.name
 
     def __iter__(self):
         return self.members
