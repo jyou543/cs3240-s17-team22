@@ -5,10 +5,12 @@ from django.shortcuts import render, render_to_response
 from django.template import RequestContext
 from account.models import CustomUser
 from django.contrib.auth.models import User
+from groups.models import Group
 
 
 from .models import private_message
 from .forms import NewMessageForm
+from .forms import NewGroupMessageForm
 
 
 def messageHome(request):
@@ -125,6 +127,33 @@ def decrypt_messages(request):
         message.save()
     allMessages = private_message.objects.all().filter(recipient=my_user(request))
     return render(request, 'viewMessages.html', {'allMessages': allMessages});
+
+
+def message_groups(request):
+    if request.method == 'POST':
+        form = NewGroupMessageForm(request.POST)
+        if form.is_valid():
+            sender = my_user(request)
+            recipient = None
+            allUsers = CustomUser.objects.all()
+            groupName=request.POST.get('groupName')
+            group=Group.objects.all().filter(name=groupName)[0]
+            members=group.members.all().exclude(user=my_user(request).user)
+            for member in members:
+                recipient = member
+                title = request.POST.get('title')
+                body = request.POST.get('body')
+                message_obj = private_message(sender=sender, recipient=recipient, title=title, body=body, encrypt=False)
+                message_obj.save()
+            return render(request, 'messageSuccessPage.html')
+
+
+    else:
+        form = NewGroupMessageForm()
+
+    return render(request, 'makeGroupMessages.html', {'form': form})
+
+
 
 
 

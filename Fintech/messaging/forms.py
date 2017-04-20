@@ -1,5 +1,5 @@
 from django import forms
-
+from groups.models import Group
 
 def check_recipient(recipient):
     if recipient.is_authenticated():
@@ -14,5 +14,8 @@ class NewMessageForm(forms.Form):
     body=forms.CharField(label='Body of Message', widget=forms.Textarea())
     encrypt=forms.BooleanField(widget=forms.CheckboxInput(), required=False, label='Encrypt')
 
-
+class NewGroupMessageForm(forms.Form):
+    groupName= forms.CharField(label='Name of Group:')
+    title = forms.CharField(label='Title of Message:')
+    body = forms.CharField(label='Body of Message', widget=forms.Textarea())
 

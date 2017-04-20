@@ -46,6 +46,7 @@ urlpatterns = [
 
     url(r'messageHome/$', messageHome),
     url(r'makeMessages/$', new_messages),
+    url(r'makeGroupMessages/$', message_groups),
     url(r'viewMessages/$', view_messages),
     url(r'deleteMessages/$', delete_messages),
     url(r'deleteUser/$', account_views.del_user),
