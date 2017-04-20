@@ -42,7 +42,7 @@ urlpatterns = [
     url(r'suspendUser/$', account_views.sus_user),
     url(r'makeSiteManager/$', account_views.make_sm),
 
-    url(r'messageHome/$', messageHome),
+    url(r'messageHome/$', messageHome, name= 'messaging'),
     url(r'makeMessages/$', new_messages),
     url(r'makeGroupMessages/$', message_groups),
     url(r'viewMessages/$', view_messages),
