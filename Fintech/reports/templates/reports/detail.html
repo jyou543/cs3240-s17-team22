@@ -1,0 +1,37 @@
+{#<a href="{% url 'reports:detail' report.id %}"></a>#}
+
+    <ul>
+
+        <h1>{{ report.company_name }} Report</h1>
+
+        <table class="table">
+            <tr><td>Created By: {{ report.created_by }}</td></tr>
+            <tr><td>Company Phone: {{ report.company_phone }}</td></tr>
+            <tr><td>Company Email: {{ report.company_email }}</td></tr>
+            <tr><td>Company Location: {{ report.company_location }}</td></tr>
+            <tr><td>Company Country: {{ report.company_country }}</td></tr>
+            <tr><td>Sector: {{ report.sector }}</td></tr>
+            <tr><td>Industry: {{ report.industry }}</td></tr>
+            <tr><td>Current Projects: {{ report.current_projects }}</td></tr>
+            <tr><td>Private Report: {{ report.private_report }}</td></tr>
+            <tr><td>Files Attached: {{ report.files_attached.url }}</td></tr>
+            <tr><td>Created At:{{ report.created_at }}</td></tr>
+        </table>
+
+    <form action="{% url 'reports:report-delete' report.id %}" method="post" style="display: inline;">
+            {% csrf_token %}
+            <input type="hidden" name="report_id" value="{{ report.id }}" />
+            <button type="submit" class="btn btn-danger btn-xs">
+                <span class="glyphicon glyphicon-remove"></span>&nbsp; Delete
+            </button>
+    </form>
+
+
+    <a href="{% url 'reports:report-update' report.id %}" style="display: inline;">
+            <button type="" class="btn btn-default btn-sm">Update</button>
+    </a>
+
+
+        </li>
+
+    </ul>
