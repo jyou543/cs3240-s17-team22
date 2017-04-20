@@ -7,12 +7,12 @@ from django.contrib.auth.models import User
 
 
 def content_file_name(instance, filename):
-    return '/'.join(['report', instance.CustomUser.user.username, filename])
+    return '/'.join(['report', str(instance.created_by), filename])
 
 
 
 class Report(models.Model):
-    created_by = models.ForeignKey(CustomUser, on_delete=models.CASCADE)
+    created_by = models.ForeignKey(CustomUser, on_delete=models.CASCADE, default=1)
     created_at = models.DateTimeField(auto_now_add=True)
     company_name=models.CharField(max_length=255)
     company_phone=models.CharField(max_length=255)
@@ -25,6 +25,6 @@ class Report(models.Model):
     private_report = models.BooleanField(default=False)
     files_attached = models.FileField(blank=True, null=True, upload_to=content_file_name)
 
-    # # returns the name of the company the report is for
-    # def get_absolute_url(self):
-    #     return reverse('reports:detail', kwargs={'pk': self.pk})
+    # returns the name of the company the report is for
+    def get_absolute_url(self):
+        return reverse('reports:index')#, kwargs={'pk': self.pk})
