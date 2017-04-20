@@ -10,6 +10,7 @@ class ReportForm(forms.ModelForm):
         fields = ['company_name', 'company_phone', 'company_email',
                   'company_location', 'company_country', 'sector', 'industry',
                   'current_projects', 'private_report', 'files_attached']
+        widgets = {"files_attached": forms.FileInput(attrs={'id': 'files', 'required': True, 'multiple': True})}
 
     # created_at = forms.DateTimeField(label='Created at:')
     # company_name = forms.CharField(label='Company Name:', max_length=255)
