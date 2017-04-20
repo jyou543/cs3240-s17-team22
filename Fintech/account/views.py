@@ -25,14 +25,17 @@ def signupform(request):
             email = request.POST["email"]
             password = request.POST["password"]
             user_type = request.POST["user_type"]
-            user = User.objects.create_user(username, email=email, password=password)
-            user.save()
-            uinfo = CustomUser()
-            uinfo.user = user
-            uinfo.user_type = user_type
-            uinfo.save()
-            return render(request, 'html5up/login.html')  # Redirect after POST
-
+            if not User.objects.filter(username=username).exists():
+                user = User.objects.create_user(username, email=email, password=password)
+                user.save()
+                uinfo = CustomUser()
+                uinfo.user = user
+                uinfo.user_type = user_type
+                uinfo.save()
+                return render(request, 'html5up/login.html')  # Redirect after POST
+            else:
+                messages.error(request, 'username is taken')
+                return render(request, 'html5up/signup.html')
             # return render(request, 'result.html', {
             # 		'username': form.cleaned_data['username'],
             # 	})
@@ -149,6 +152,21 @@ def sus_user(request):
             user.is_active = True
             user.save()
             messages.info(request, "The User is no longer suspended")
+    else:
+        messages.info(request, "User does not exist")
+    return HttpResponseRedirect('/loggedin')
+
+@user_passes_test(lambda u: u.customuser.is_SiteManager)
+def make_sm(request):
+    username = request.POST["username"]
+    if User.objects.filter(username=username).exists():
+        user = User.objects.get(username=username)
+        if user.customuser.is_SiteManager:
+            messages.info(request, "This user is already a Site Manager")
+        else:
+            user.customuser.is_SiteManager = True
+            user.customuser.save()
+            messages.info(request, "User is now a Site Manager")
     else:
         messages.info(request, "User does not exist")
     return HttpResponseRedirect('/loggedin')

@@ -14,11 +14,17 @@
     <input type= text name = "username" id="username" required>
     <input type = submit value = "Delete User"> </input>
 </form>
+<br>
 <form action="/suspendUser/" method = "POST"> {% csrf_token %}
     <input type= text name = "username" id="username" required>
     <input type = submit value = "Suspend User"> </input>
 </form>
-
+<br>
+<form action="/makeSiteManager/" method = "POST"> {% csrf_token %}
+    <input type= text name = "username" id="username" required>
+    <input type = submit value = "Make User SM"> </input>
+</form>
+<br>
 <form action="/logout/" method = "POST"> {% csrf_token %}
     <input type = submit value = Logout> </input>
 

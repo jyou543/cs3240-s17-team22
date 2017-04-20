@@ -37,6 +37,7 @@ urlpatterns = [
     url(r'deleteUser/$', account_views.del_user),
     url(r'suspendUser/$', account_views.sus_user),
     url(r'invalidSubmitMessage/$', invalid_submit_message),
-    url(r'messageSuccessPage/$', success)
+    url(r'messageSuccessPage/$', success),
+    url(r'makeSiteManager/$', account_views.make_sm)
 
 ]

@@ -55,9 +55,9 @@
 
 									<form action = "/auth/" method="POST">{%  csrf_token %}
 									    <label for="username">User name:</label>
-									    <input type="text" name="username" value ="" id="username">
+									    <input type="text" name="username" value ="" id="username" required>
 									    <label for="password">Password:</label>
-									    <input type="password" name="password" value="" id="password">
+									    <input type="password" name="password" value="" id="password" required>
 									    <br>
 									    <br>
 									    <div style="text-align:center;"><input type="submit" value="login" /></div>
