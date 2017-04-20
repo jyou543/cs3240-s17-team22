@@ -35,11 +35,12 @@ def new_messages(request):
            title=request.POST.get('title')
            body = request.POST.get('body')
            encrypt=request.POST.get('encrypt')
-           #return HttpResponse(encrypt)
            message_obj=private_message(sender=sender, recipient=recipient, title=title, body=body, encrypt=encrypt)
            #return render_to_response(request, 'makeMessages.html')
            #return render(request, 'makeMessages.html')
            #return HttpResponse(message_obj.encrypt)
+           if(not encrypt):
+               message_obj.encrypt=False
            message_obj.save()
            if message_obj.encrypt:
                random_number = Random.new().read
@@ -137,6 +138,8 @@ def message_groups(request):
             recipient = None
             allUsers = CustomUser.objects.all()
             groupName=request.POST.get('groupName')
+            if(not Group.objects.all().filter(name=groupName)):
+                return render(request, 'invalidGroupSubmitMessage.html')
             group=Group.objects.all().filter(name=groupName)[0]
             members=group.members.all().exclude(user=my_user(request).user)
             for member in members:
@@ -152,8 +155,4 @@ def message_groups(request):
         form = NewGroupMessageForm()
 
     return render(request, 'makeGroupMessages.html', {'form': form})
-
-
-
-
 
