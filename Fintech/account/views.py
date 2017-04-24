@@ -111,7 +111,7 @@ def loggedin(request):
     c = {}
     c.update(csrf(request))
     if request.user.customuser.is_SiteManager:
-        return render(request,'loggedin.html', c)
+        return render(request,'html5up/sitemanager.html', c)
     if request.user.customuser.user_type == 'I':
         return render(request, 'html5up/investor.html', c )
     elif request.user.customuser.user_type == 'C':
