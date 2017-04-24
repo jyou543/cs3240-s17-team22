@@ -15,7 +15,7 @@ from .forms import NewGroupMessageForm
 
 def messageHome(request):
     #return render_to_response('messageHome.html')
-    return render(request, 'messageHome.html')
+    return render(request, 'html5up/message_home.html')
 
 
 def new_messages(request):
@@ -31,7 +31,7 @@ def new_messages(request):
                if worker.user.username==request.POST.get('recipient'):
                    recipient=worker
            if(recipient)==None :
-               return render(request, 'invalidSubmitMessage.html')
+               return render(request, 'html5up/invalid_submit.html')
            title=request.POST.get('title')
            body = request.POST.get('body')
            encrypt=request.POST.get('encrypt')
@@ -48,7 +48,7 @@ def new_messages(request):
                text = message_obj.body
                message_obj.body=str( key.encrypt(text.encode(), random_number)[0])
                message_obj.save()
-           return render(request, 'messageSuccessPage.html')
+           return render(request, 'html5up/message_success.html')
 
 
 
@@ -56,22 +56,22 @@ def new_messages(request):
        form=NewMessageForm()
 
    #variables=RequestContext(request, {'form':form})
-   return render(request, 'makeMessages.html', {'form':form})
+   return render(request, 'html5up/make_messages.html', {'form':form})
    #return render_to_response( 'makeMessages.html', variables)
 
 
 def invalid_submit_message(request):
-    return render(request, 'invalidSubmitMessage.html')
+    return render(request, 'html5up/invalid_submit.html')
 
 def success(request):
-    return render(request, 'messageSuccessPage.html')
+    return render(request, 'html5up/message_success.html')
 
 def view_messages(request):
     allMessages= private_message.objects.all().filter(recipient=my_user(request))
     #allMessages=delete_message(request)
     key=key_generator()
     HttpResponse(str(get_private_key(key)))
-    return render(request, 'viewMessages.html', {'allMessages': allMessages});
+    return render(request, 'html5up/view_messages.html', {'allMessages': allMessages});
 
 def delete_messages(request):
     allMessages = private_message.objects.all().filter(recipient=my_user(request))
@@ -83,7 +83,7 @@ def delete_messages(request):
             # sender=CustomUser.objects.all().filter(user=user)
             # allMessages.filter(recipient=my_user(request), sender=sender,  title=message[1], body=message[2]).delete()
             allMessages.filter(id=message).delete()
-    return render(request, 'viewMessages.html', {'allMessages': allMessages});
+    return render(request, 'html5up/view_messages.html', {'allMessages': allMessages});
 
 
 def my_user(request):
@@ -127,7 +127,7 @@ def decrypt_messages(request):
         message.encrypt=False
         message.save()
     allMessages = private_message.objects.all().filter(recipient=my_user(request))
-    return render(request, 'viewMessages.html', {'allMessages': allMessages});
+    return render(request, 'html5up/view_messages.html', {'allMessages': allMessages});
 
 
 def message_groups(request):
@@ -139,7 +139,7 @@ def message_groups(request):
             allUsers = CustomUser.objects.all()
             groupName=request.POST.get('groupName')
             if(not Group.objects.all().filter(name=groupName)):
-                return render(request, 'invalidGroupSubmitMessage.html')
+                return render(request, 'html5up/invalid_group.html')
             group=Group.objects.all().filter(name=groupName)[0]
             members=group.members.all().exclude(user=my_user(request).user)
             for member in members:
@@ -148,11 +148,11 @@ def message_groups(request):
                 body = request.POST.get('body')
                 message_obj = private_message(sender=sender, recipient=recipient, title=title, body=body, encrypt=False)
                 message_obj.save()
-            return render(request, 'messageSuccessPage.html')
+            return render(request, 'html5up/message_success.html')
 
 
     else:
         form = NewGroupMessageForm()
 
-    return render(request, 'makeGroupMessages.html', {'form': form})
+    return render(request, 'html5up/make_GroupMessages.html', {'form': form})
 

@@ -1,0 +1,71 @@
+<!DOCTYPE HTML>
+<!--
+    TXT by HTML5 UP
+    html5up.net | @ajlkn
+    Free for personal and commercial use under the CCA 3.0 license (html5up.net/license)
+-->
+{% load static %}
+
+<link rel="stylesheet" type="text/css" href="{% static 'groups/css/main.css' %}"/>
+<link rel="stylesheet" type="text/css" href="{% static 'groups/css/ie8.css' %}"/>
+<link rel="stylesheet" type="text/css" href="{% static 'groups/css/font-awesome.min.css' %}" />
+<html>
+    <head>
+        <title>Lokahi Fintech</title>
+        <meta charset="utf-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
+        <!--[if lte IE 8]><script src="assets/js/ie/html5shiv.js"></script><![endif]-->
+        <link rel="stylesheet" href="assets/css/main.css" />
+        <!--[if lte IE 8]><link rel="stylesheet" href="assets/css/ie8.css" /><![endif]-->
+        <link rel="stylesheet" href="font-awesome/css/font-awesome.min.css">
+    </head>
+    <body class="homepage">
+        <div id="page-wrapper">
+
+            <!-- Header -->
+                
+                
+
+            <!-- Nav -->
+                <nav id="nav">
+                    <ul>
+                        <li><a href={% url 'loggedin' %}>Home</a></li>
+                        <li><a href =>Reports</a></li>
+                        <li><a href = {% url 'groups' %}>Groups</a></li>
+                        <li class = "current"><a href = {% url 'messaging' %}>Messaging</a></li>
+                        <li><a href= {% url 'logout' %}>LOG OUT</a></li>
+                    </ul>
+                </nav>
+                <div id="main-wrapper">
+                <header id="header">
+                <br>
+                <div style="text-align:center;">
+                 <h1>Group Does Not Exist</h1>
+            
+                 </header>
+                 <div style="text-align:center;">
+                 <button><a href = {% url 'makeGroupMessages' %}><font color = "white">Try Again</font></a></button>
+                 <br>
+                 <br>
+                 <a href="messageHome">Return to Messaging Home</a>
+                 <br>
+                 
+             </div>
+             
+            <ul class="copyright">
+                <div style="text-align:center;"><li>&copy; Lokahi Fintech. All rights reserved</li><li>Design: <a href="http://html5up.net">HTML5 UP</a></li></div>
+                    </ul>
+
+            </div>
+
+        <!-- Scripts -->
+            <script src="assets/js/jquery.min.js"></script>
+            <script src="assets/js/jquery.dropotron.min.js"></script>
+            <script src="assets/js/skel.min.js"></script>
+            <script src="assets/js/skel-viewport.min.js"></script>
+            <script src="assets/js/util.js"></script>
+            <!--[if lte IE 8]><script src="assets/js/ie/respond.min.js"></script><![endif]-->
+            <script src="assets/js/main.js"></script>
+
+    </body>
+</html>
