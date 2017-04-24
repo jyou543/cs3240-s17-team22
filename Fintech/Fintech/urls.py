@@ -52,7 +52,8 @@ urlpatterns = [
     url(r'invalidSubmitMessage/$', invalid_submit_message),
     url(r'messageSuccessPage/$', success),
     # url(r'enterPrivateKey/$', enter_password),
-    url(r'decryptMessages/$', decrypt_messages)
+    url(r'decryptMessages/$', decrypt_messages),
+
 
 ]
 

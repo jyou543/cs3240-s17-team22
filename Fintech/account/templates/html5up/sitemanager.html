@@ -39,7 +39,7 @@
 				<nav id="nav">
 					<ul>
 						<li class="current"><a href={% url 'loggedin' %}>Home</a></li>
-						<li><a href={% url IndexView.as_view()%}>Reports</a></li>
+						<li><a href="{% url 'reports:index'%}">Reports</a></li>
 						<li><a href = {% url 'groups' %}>Groups</a></li>
 						<li><a href={% url 'messaging'%}>Messaging</a><li>
 						<li><a href= {% url 'logout' %}>LOG OUT</a></li>
@@ -77,7 +77,7 @@
 										<br>
 										<form action="/suspendUser/" method = "POST"> {% csrf_token %}
 										    <div style = "padding-left: 80px; float:left; width: 700px;"><input type= text name = "username" id="username" required></div>
-										    <div style = "padding-left: 100px; float:left"><input type = submit value = "Suspend User"> </input></div>
+										    <div style = "padding-left: 100px; float:left"><input type = submit value = "Suspend/Reactivate User"> </input></div>
 										</form>
 										<br>
 										<br>

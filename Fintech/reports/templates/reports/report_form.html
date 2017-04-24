@@ -1,13 +1,85 @@
-<h3>Add a New Report</h3>
-{% if error_message %}
-    <p><strong>{{ error_message }}</strong></p>
-{% endif %}
-<form class="form-horizontal" action="" method="post" enctype="multipart/form-data">
-    {% csrf_token %}
-    {% include 'reports/form-template.html' %}
-    <div class="form-group">
-        <div class="col-sm-offset-2 col-sm-10">
-            <button type="submit" class="btn btn-success">Submit</button>
-        </div>
-    </div>
-</form>
+
+<!DOCTYPE HTML>
+<!--
+    TXT by HTML5 UP
+    html5up.net | @ajlkn.
+    Free for personal and commercial use under the CCA 3.0 license (html5up.net/license)
+-->
+{% load static %}
+
+<link rel="stylesheet" type="text/css" href="{% static 'messaging/css/main.css' %}"/>
+<link rel="stylesheet" type="text/css" href="{% static 'messaging/css/ie8.css' %}"/>
+<link rel="stylesheet" type="text/css" href="{% static 'messaging/css/font-awesome.min.css' %}" />
+<html>
+    <head>
+        <title>Lokahi Fintech</title>
+        <meta charset="utf-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
+        <!--[if lte IE 8]><script src="assets/js/ie/html5shiv.js"></script><![endif]-->
+        <link rel="stylesheet" href="assets/css/main.css" />
+        <!--[if lte IE 8]><link rel="stylesheet" href="assets/css/ie8.css" /><![endif]-->
+        <link rel="stylesheet" href="font-awesome/css/font-awesome.min.css">
+    </head>
+    <body class="homepage">
+        <div id="page-wrapper">
+
+            <!-- Header -->
+                <header id="header">
+                    <div class="logo container">
+                        <div>
+                            <h1><a id="logo">Create a New Report</a></h1>
+                        </div>
+                    </div>
+                </header>
+
+            <!-- Nav -->
+                <nav id="nav">
+                    <ul>
+                        <li><a href={% url 'loggedin' %}>Home</a></li>
+                        <li class = "current"><a href = "{% url 'reports:index'%}" >Reports</a></li>
+                        <li><a href = {% url 'groups' %}>Groups</a></li>
+                        <li><a href = {% url 'messaging' %}>Messaging</a></li>
+                        <li><a href= {% url 'logout' %}>LOG OUT</a></li>
+                    </ul>
+                </nav>
+            <!-- Main -->
+                <div id="main-wrapper">
+                	<div style = "padding-left: 40px">
+					{% if error_message %}
+					    <p><strong>{{ error_message }}</strong></p>
+					{% endif %}
+					<form class="form-horizontal" action="" method="post" enctype="multipart/form-data">
+					    {% csrf_token %}
+					    {% include 'reports/form-template.html' %}
+					    <div class="form-group">
+					    	<br>
+					        <div class="col-sm-offset-2 col-sm-10" style = "text-align:center">
+					            <button type="submit" class="btn btn-success">Submit</button>
+					        </div>
+					    </div>
+					    </div>
+					</form>
+		                <footer id="footer">
+
+
+                    <!-- Copyright -->
+                            <ul class="copyright">
+                                <li>&copy; Lokahi Fintech. All rights reserved</li><li>Design: <a href="http://html5up.net">HTML5 UP</a></li>
+                            </ul>
+                        </div>
+
+                </footer>
+
+            </div>
+
+        <!-- Scripts -->
+            <script src="assets/js/jquery.min.js"></script>
+            <script src="assets/js/jquery.dropotron.min.js"></script>
+            <script src="assets/js/skel.min.js"></script>
+            <script src="assets/js/skel-viewport.min.js"></script>
+            <script src="assets/js/util.js"></script>
+            <!--[if lte IE 8]><script src="assets/js/ie/respond.min.js"></script><![endif]-->
+            <script src="assets/js/main.js"></script>
+
+    </body>
+</html>

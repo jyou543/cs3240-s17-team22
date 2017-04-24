@@ -1,37 +1,108 @@
-{#<a href="{% url 'reports:detail' report.id %}"></a>#}
+<!DOCTYPE HTML>
+<!--
+    TXT by HTML5 UP
+    html5up.net | @ajlkn.
+    Free for personal and commercial use under the CCA 3.0 license (html5up.net/license)
+-->
+{% load static %}
+
+<link rel="stylesheet" type="text/css" href="{% static 'messaging/css/main.css' %}"/>
+<link rel="stylesheet" type="text/css" href="{% static 'messaging/css/ie8.css' %}"/>
+<link rel="stylesheet" type="text/css" href="{% static 'messaging/css/font-awesome.min.css' %}" />
+<html>
+    <head>
+        <title>Lokahi Fintech</title>
+        <meta charset="utf-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
+        <!--[if lte IE 8]><script src="assets/js/ie/html5shiv.js"></script><![endif]-->
+        <link rel="stylesheet" href="assets/css/main.css" />
+        <!--[if lte IE 8]><link rel="stylesheet" href="assets/css/ie8.css" /><![endif]-->
+        <link rel="stylesheet" href="font-awesome/css/font-awesome.min.css">
+    </head>
+    <body class="homepage">
+        <div id="page-wrapper">
+
+            <!-- Header -->
+                <header id="header">
+                    <div class="logo container">
+                        <div>
+                            <h1><a id="logo">{{ report.company_name }} Report</a></h1>
+                        </div>
+                    </div>
+                </header>
+
+            <!-- Nav -->
+                <nav id="nav">
+                    <ul>
+                        <li><a href={% url 'loggedin' %}>Home</a></li>
+                        <li class = "current"><a href = "{% url 'reports:index'%}" >Reports</a></li>
+                        <li><a href = {% url 'groups' %}>Groups</a></li>
+                        <li><a href = {% url 'messaging' %}>Messaging</a></li>
+                        <li><a href= {% url 'logout' %}>LOG OUT</a></li>
+                    </ul>
+                </nav>
+            <!-- Main -->
+                <div id="main-wrapper">{#<a href="{% url 'reports:detail' report.id %}"></a>#}
 
     <ul>
-
-        <h1>{{ report.company_name }} Report</h1>
-
+        <br>
         <table class="table">
-            <tr><td>Created By: {{ report.created_by }}</td></tr>
-            <tr><td>Company Phone: {{ report.company_phone }}</td></tr>
-            <tr><td>Company Email: {{ report.company_email }}</td></tr>
-            <tr><td>Company Location: {{ report.company_location }}</td></tr>
-            <tr><td>Company Country: {{ report.company_country }}</td></tr>
-            <tr><td>Sector: {{ report.sector }}</td></tr>
-            <tr><td>Industry: {{ report.industry }}</td></tr>
-            <tr><td>Current Projects: {{ report.current_projects }}</td></tr>
-            <tr><td>Private Report: {{ report.private_report }}</td></tr>
-            <tr><td>Files Attached: {{ report.files_attached.url }}</td></tr>
-            <tr><td>Created At:{{ report.created_at }}</td></tr>
+            <tr><td><div style = "padding-left: 40px">Created By: {{ report.created_by }}</div></td></tr>
+            <tr><td><div style = "padding-left: 40px">Company Phone: {{ report.company_phone }}</div></td></tr>
+            <tr><td><div style = "padding-left: 40px">Company Email: {{ report.company_email }}</div></td></tr>
+            <tr><td><div style = "padding-left: 40px">Company Location: {{ report.company_location }}</div></td></tr>
+            <tr><td><div style = "padding-left: 40px">Company Country: {{ report.company_country }}</div></td></tr>
+            <tr><td><div style = "padding-left: 40px">Sector: {{ report.sector }}</div></td></tr>
+            <tr><td><div style = "padding-left: 40px">Industry: {{ report.industry }}</div></td></tr>
+            <tr><td><div style = "padding-left: 40px">Current Projects: {{ report.current_projects }}</div></td></tr>
+            <tr><td><div style = "padding-left: 40px">Private Report: {{ report.private_report }}</div></td></tr>
+            <tr><td><div style = "padding-left: 40px">Files Attached: {{ report.files_attached.url }}</div></td></tr>
+            <tr><td><div style = "padding-left: 40px">Created At:{{ report.created_at }}</div></td></tr>
         </table>
 
+    <div style = "text-align: center">
     <form action="{% url 'reports:report-delete' report.id %}" method="post" style="display: inline;">
             {% csrf_token %}
-            <input type="hidden" name="report_id" value="{{ report.id }}" />
+            <input type="hidden" name="report_id" value="{{ report.id }}"/>
             <button type="submit" class="btn btn-danger btn-xs">
                 <span class="glyphicon glyphicon-remove"></span>&nbsp; Delete
             </button>
     </form>
 
 
-    <a href="{% url 'reports:report-update' report.id %}" style="display: inline;">
+    <a href="{% url 'reports:report-update' report.id %}" style="display: inline; padding-left: 40px">
             <button type="" class="btn btn-default btn-sm">Update</button>
     </a>
 
-
+</div>
+<br>
+<div style = "text-align: center">
+    <a href="{% url 'reports:index' %}"<button type="" class="btn btn-default btn-sm">Return to Reports Home</button>
+    </div>
         </li>
 
     </ul>
+                <footer id="footer">
+
+
+                    <!-- Copyright -->
+                            <ul class="copyright">
+                                <li>&copy; Lokahi Fintech. All rights reserved</li><li>Design: <a href="http://html5up.net">HTML5 UP</a></li>
+                            </ul>
+                        </div>
+
+                </footer>
+
+            </div>
+
+        <!-- Scripts -->
+            <script src="assets/js/jquery.min.js"></script>
+            <script src="assets/js/jquery.dropotron.min.js"></script>
+            <script src="assets/js/skel.min.js"></script>
+            <script src="assets/js/skel-viewport.min.js"></script>
+            <script src="assets/js/util.js"></script>
+            <!--[if lte IE 8]><script src="assets/js/ie/respond.min.js"></script><![endif]-->
+            <script src="assets/js/main.js"></script>
+
+    </body>
+</html>
