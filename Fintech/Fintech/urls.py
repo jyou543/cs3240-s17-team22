@@ -45,9 +45,9 @@ urlpatterns = [
     url(r'makeSiteManager/$', account_views.make_sm),
 
     url(r'messageHome/$', messageHome, name= 'messaging'),
-    url(r'makeMessages/$', new_messages),
-    url(r'makeGroupMessages/$', message_groups),
-    url(r'viewMessages/$', view_messages),
+    url(r'makeMessages/$', new_messages, name = 'makeMessages'),
+    url(r'makeGroupMessages/$', message_groups, name = 'makeGroupMessages'),
+    url(r'viewMessages/$', view_messages, name = 'viewMessages'),
     url(r'deleteMessages/$', delete_messages),
     url(r'invalidSubmitMessage/$', invalid_submit_message),
     url(r'messageSuccessPage/$', success),
