@@ -18,13 +18,11 @@ from django.contrib.auth.models import User
 from django.db.models import Q
 
 
-
-
 # view for the index page
 class IndexView(generic.ListView):
     # name of the object to be used in the index.html
     context_object_name = 'report_list'
-    template_name = 'reports/index.html'
+    template_name = 'reports/html5up/reports.html'
 
 
     def get_queryset(self):
