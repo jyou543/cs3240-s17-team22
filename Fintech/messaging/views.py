@@ -6,18 +6,19 @@ from django.template import RequestContext
 from account.models import CustomUser
 from django.contrib.auth.models import User
 from groups.models import Group
+from django.contrib.auth.decorators import login_required
 
 
 from .models import private_message
 from .forms import NewMessageForm
 from .forms import NewGroupMessageForm
 
-
+@login_required
 def messageHome(request):
     #return render_to_response('messageHome.html')
     return render(request, 'html5up/message_home.html')
 
-
+@login_required
 def new_messages(request):
    if request.method == 'POST':
        user=my_user(request)
@@ -59,13 +60,15 @@ def new_messages(request):
    return render(request, 'html5up/make_messages.html', {'form':form})
    #return render_to_response( 'makeMessages.html', variables)
 
-
+@login_required
 def invalid_submit_message(request):
     return render(request, 'html5up/invalid_submit.html')
 
+@login_required
 def success(request):
     return render(request, 'html5up/message_success.html')
 
+@login_required
 def view_messages(request):
     allMessages= private_message.objects.all().filter(recipient=my_user(request))
     #allMessages=delete_message(request)
@@ -73,6 +76,7 @@ def view_messages(request):
     HttpResponse(str(get_private_key(key)))
     return render(request, 'html5up/view_messages.html', {'allMessages': allMessages});
 
+@login_required
 def delete_messages(request):
     allMessages = private_message.objects.all().filter(recipient=my_user(request))
     if request.method == 'POST':
@@ -100,10 +104,12 @@ def check_valid_user(user):
     else:
         return True
 
+
 def key_generator():
     random_generator = Random.new().read
     key = RSA.generate(1024, random_generator)
     return key
+
 
 def get_public_key(key):
     publicKey=key.publickey().exportKey(format='PEM', pkcs=1)
@@ -118,6 +124,7 @@ def get_private_key(key):
 #     return render(request, 'enterPrivateKey.html', {'allMessages': allMessages});
 
 
+@login_required
 def decrypt_messages(request):
     key = RSA.importKey(my_user(request).privateKey)
     allMessages=private_message.objects.all().filter(recipient=my_user(request), encrypt=True)
@@ -130,6 +137,7 @@ def decrypt_messages(request):
     return render(request, 'html5up/view_messages.html', {'allMessages': allMessages});
 
 
+@login_required
 def message_groups(request):
     if request.method == 'POST':
         form = NewGroupMessageForm(request.POST)

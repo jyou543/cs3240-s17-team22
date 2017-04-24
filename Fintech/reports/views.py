@@ -7,6 +7,7 @@ from .models import Report
 from django.core.context_processors import csrf, request
 from django.contrib.auth import authenticate, login
 from django.contrib.auth import logout
+from django.contrib.auth.decorators import login_required
 from .forms import ReportForm
 from account.models import CustomUser
 from django.views.generic.edit import CreateView, UpdateView, DeleteView
