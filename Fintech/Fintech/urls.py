@@ -31,13 +31,13 @@ urlpatterns = [
     url(r'groupSuccessPage/$', group_views.success),
 
     #SITE MANAGER GROUP URLS
-    url(r'groupHomeSiteManager/$', group_views.groupHomeSiteManager),
+    url(r'groupHomeSiteManager/$', group_views.groupHomeSiteManager, name = 'groupHomeSiteManager'),
     url(r'deleteGroupsSiteManager/$', group_views.delete_groups_site_manager),
-    url(r'viewGroupsSiteManager/$', group_views.view_groups_site_manager),
-    url(r'selectGroupToAddMembersSiteManager/$', group_views.view_groups_for_adding_site_manager),
+    url(r'viewGroupsSiteManager/$', group_views.view_groups_site_manager, name = 'viewGroupsSiteManager'),
+    url(r'selectGroupToAddMembersSiteManager/$', group_views.view_groups_for_adding_site_manager, name = 'selectGroupToAddMembersSiteManager'),
     url(r'selectMembersToAddSiteManager/$', group_views.select_members_to_add_site_manager),
-    url(r'addMembersSiteManager/$', group_views.add_members_site_manager),
-    url(r'selectGroupToDeleteMembersSiteManager/$', group_views.view_groups_for_deleting_site_manager),
+    url(r'addMembersSiteManager/$', group_views.add_members_site_manager, name = 'addMembersSiteManager'),
+    url(r'selectGroupToDeleteMembersSiteManager/$', group_views.view_groups_for_deleting_site_manager, name = 'selectGroupToDeleteMembersSiteManager'),
     url(r'selectMembersToDeleteSiteManager/$', group_views.select_members_to_delete_site_manager),
     url(r'deleteMembersSiteManager/$', group_views.delete_members_site_manager),
     url(r'deleteUser/$', account_views.del_user),

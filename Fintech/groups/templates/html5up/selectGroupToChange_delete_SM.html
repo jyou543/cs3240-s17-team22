@@ -43,7 +43,7 @@
                                     {% if allGroups %}
                                         <h1> Select group to change</h1>
 
-                                       <form action = "/selectMembersToAdd/" method = "post">
+                                       <form action = "/selectMembersToDeleteSiteManager/" method = "post">
                                             {% csrf_token %}
                                             <div class = "select-style">
                                             <select name="groupName">

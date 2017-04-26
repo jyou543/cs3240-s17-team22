@@ -26,6 +26,7 @@
                         <li><a href={% url 'loggedin' %}>Home</a></li>
                         <li><a href="{% url 'reports:index'%}">Reports</a></li>
                         <li class = "current"><a href = {% url 'groups' %}>Groups</a></li>
+                        <li><a href = {% url 'messaging' %}>Messaging</a></li>
                         <li><a href= {% url 'logout' %}>LOG OUT</a></li>
                     </ul>
                 </nav>
@@ -40,7 +41,7 @@
                                 <!-- Highlight -->
                                 <section class="box highlight">
     <h2>Select Members to Add to {{ groupName}}</h2>
-      <form action = "/addMembers/" method = "post">
+      <form action = "/addMembersSiteManager/" method = "post">
         {% csrf_token %}
             <tr>
                 {% for person in notMembers %}
@@ -58,6 +59,7 @@
         <input type="submit" value="Submit">
         <br>
     </form>
+    <br>
       <ul class="copyright">
           <div style="text-align:center;"><li>&copy; Lokahi Fintech. All rights reserved</li><li>Design: <a href="http://html5up.net">HTML5 UP</a></li></div>
             </ul>
