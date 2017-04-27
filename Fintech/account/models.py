@@ -17,4 +17,7 @@ class CustomUser(models.Model):
         sm = "False"
         if self.user.customuser.is_SiteManager:
             sm = "True"
-        return self.user.get_username() + ": " + (self.user.customuser.get_user_type_display()) + sm
+            return self.user.get_username()+ ": " + "Site Manager"
+        #return self.user.get_username() + ": " + (self.user.customuser.get_user_type_display()) + sm
+        return self.user.get_username() + ": " + (self.user.customuser.get_user_type_display())
+
