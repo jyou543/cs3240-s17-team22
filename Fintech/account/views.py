@@ -2,7 +2,7 @@ from django.shortcuts import render
 from django.shortcuts import render_to_response
 from django.http import HttpResponseRedirect
 from django.contrib.auth import authenticate,login,logout
-from django.core.context_processors import csrf
+from django.template.context_processors import csrf
 from .forms import SignupForm
 from .models import CustomUser
 from django.contrib.auth.models import User
@@ -116,7 +116,7 @@ def loggedin(request):
     c = {}
     c.update(csrf(request))
     if request.user.customuser.is_SiteManager:
-        return render(request,'loggedin.html', c)
+        return render(request,'html5up/sitemanager.html', c)
     if request.user.customuser.user_type == 'I':
         return render(request, 'html5up/investor.html', c )
     elif request.user.customuser.user_type == 'C':

@@ -24,8 +24,9 @@
                 <nav id="nav">
                     <ul>
                         <li><a href={% url 'loggedin' %}>Home</a></li>
-                        <li><a href =>Reports</a></li>
+                        <li><a href="{% url 'reports:index'%}">Reports</a></li>
                         <li class = "current"><a href = {% url 'groups' %}>Groups</a></li>
+                        <li><a href = {% url 'messaging' %}>Messaging</a></li>
                         <li><a href= {% url 'logout' %}>LOG OUT</a></li>
                     </ul>
                 </nav>
@@ -62,7 +63,8 @@
                                         <h1>You're not in any group</h1>
                                         <a href="groups"> Return to Group Homepage</a>
                                     {% endif %}
-                                                                <!-- Copyright -->
+                     <!-- Copyright -->
+                     <br>
                                 <ul class="copyright">
                                     <div style="text-align:center;"><li>&copy; Lokahi Fintech. All rights reserved</li><li>Design: <a href="http://html5up.net">HTML5 UP</a></li></div>
                                 </ul>

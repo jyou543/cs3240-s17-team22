@@ -39,7 +39,9 @@
 				<nav id="nav">
 					<ul>
 						<li class="current"><a href={% url 'loggedin' %}>Investor Home</a></li>
-						<li><a href=>Reports</a></li>
+						<li><a href="{% url 'reports:index'%}">Reports</a></li>
+						<li><a href = {% url 'groups' %}>Groups</a></li>
+						<li><a href={% url 'messaging'%}>Messaging</a><li>
 						<li><a href= {% url 'logout' %}>LOG OUT</a></li>
 					</ul>
 				</nav>

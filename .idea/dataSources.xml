@@ -6,6 +6,12 @@
       <synchronize>true</synchronize>
       <jdbc-driver>org.sqlite.JDBC</jdbc-driver>
       <jdbc-url>jdbc:sqlite:$PROJECT_DIR$/Fintech/db.sqlite3</jdbc-url>
+<<<<<<< HEAD
+=======
+      <driver-properties>
+        <property name="enable_load_extension" value="true" />
+      </driver-properties>
+>>>>>>> develop
     </data-source>
   </component>
 </project>

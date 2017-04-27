@@ -4,6 +4,8 @@ from account import views as account_views
 from reports import views as reports_views
 from groups import views as group_views
 from messaging.views import *
+from django.conf import settings
+from django.conf.urls.static import static
 
 urlpatterns = [
     url(r'^admin/', include(admin.site.urls)),
@@ -29,27 +31,32 @@ urlpatterns = [
     url(r'groupSuccessPage/$', group_views.success),
 
     #SITE MANAGER GROUP URLS
-    url(r'groupHomeSiteManager/$', group_views.groupHomeSiteManager),
+    url(r'groupHomeSiteManager/$', group_views.groupHomeSiteManager, name = 'groupHomeSiteManager'),
     url(r'deleteGroupsSiteManager/$', group_views.delete_groups_site_manager),
-    url(r'viewGroupsSiteManager/$', group_views.view_groups_site_manager),
-    url(r'selectGroupToAddMembersSiteManager/$', group_views.view_groups_for_adding_site_manager),
+    url(r'viewGroupsSiteManager/$', group_views.view_groups_site_manager, name = 'viewGroupsSiteManager'),
+    url(r'selectGroupToAddMembersSiteManager/$', group_views.view_groups_for_adding_site_manager, name = 'selectGroupToAddMembersSiteManager'),
     url(r'selectMembersToAddSiteManager/$', group_views.select_members_to_add_site_manager),
-    url(r'addMembersSiteManager/$', group_views.add_members_site_manager),
-    url(r'selectGroupToDeleteMembersSiteManager/$', group_views.view_groups_for_deleting_site_manager),
+    url(r'addMembersSiteManager/$', group_views.add_members_site_manager, name = 'addMembersSiteManager'),
+    url(r'selectGroupToDeleteMembersSiteManager/$', group_views.view_groups_for_deleting_site_manager, name = 'selectGroupToDeleteMembersSiteManager'),
     url(r'selectMembersToDeleteSiteManager/$', group_views.select_members_to_delete_site_manager),
     url(r'deleteMembersSiteManager/$', group_views.delete_members_site_manager),
     url(r'deleteUser/$', account_views.del_user),
     url(r'suspendUser/$', account_views.sus_user),
     url(r'makeSiteManager/$', account_views.make_sm),
 
-    url(r'messageHome/$', messageHome),
-    url(r'makeMessages/$', new_messages),
-    url(r'makeGroupMessages/$', message_groups),
-    url(r'viewMessages/$', view_messages),
+    url(r'messageHome/$', messageHome, name= 'messaging'),
+    url(r'makeMessages/$', new_messages, name = 'makeMessages'),
+    url(r'makeGroupMessages/$', message_groups, name = 'makeGroupMessages'),
+    url(r'viewMessages/$', view_messages, name = 'viewMessages'),
     url(r'deleteMessages/$', delete_messages),
     url(r'invalidSubmitMessage/$', invalid_submit_message),
     url(r'messageSuccessPage/$', success),
     # url(r'enterPrivateKey/$', enter_password),
-    url(r'decryptMessages/$', decrypt_messages)
+    url(r'decryptMessages/$', decrypt_messages),
+
 
 ]
+
+if settings.DEBUG:
+    urlpatterns += static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
+    urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

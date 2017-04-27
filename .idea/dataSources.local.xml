@@ -6,6 +6,11 @@
       <case-sensitivity plain-identifiers="mixed" quoted-identifiers="mixed" />
       <secret-storage>master_key</secret-storage>
       <auth-required>false</auth-required>
+<<<<<<< HEAD
+      <introspection-schemas>*:</introspection-schemas>
+=======
+      <introspection-schemas>*:main</introspection-schemas>
+>>>>>>> develop
     </data-source>
   </component>
 </project>
