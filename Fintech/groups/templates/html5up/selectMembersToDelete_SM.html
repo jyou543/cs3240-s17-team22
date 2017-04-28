@@ -46,7 +46,7 @@
             <tr>
                 {% for person in members %}
                     {{ person }}<br>
-                    Delete <input type="checkbox" name="checks" value={{ person.user.get_username }} ><br>
+                    Delete <input type="checkbox" name="checks" value="{{ person.user.get_username }}" ><br>
                     <br>
                 {% endfor %}
 

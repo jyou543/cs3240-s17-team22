@@ -13,7 +13,7 @@
                 <h4>Add New Members: </h4>
                 {% for person in notMembers %}
                     {{ person }}<br>
-                    Add <input type="checkbox" name="checks" value={{ person.user.get_username }} ><br>
+                    Add <input type="checkbox" name="checks" value="{{ person.user.get_username }}" ><br>
                     <br>
                 {% endfor %}
 
