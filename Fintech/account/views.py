@@ -8,8 +8,10 @@ from .models import CustomUser
 from django.contrib.auth.models import User
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.decorators import user_passes_test
+from django.http import HttpResponse
 from django.contrib import messages
 from messaging import views as messaging_views
+import json
 # Create your views here.
 
 
@@ -41,7 +43,7 @@ def signupform(request):
                 return render(request, 'html5up/login.html')  # Redirect after POST
             else:
                 messages.error(request, 'username is taken')
-                return render(request, 'html5up/signup.html')
+                return HttpResponseRedirect('/signup')
             # return render(request, 'result.html', {
             # 		'username': form.cleaned_data['username'],
             # 	})
@@ -155,7 +157,9 @@ def sus_user(request):
     username = request.POST["username"]
     if User.objects.filter(username=username).exists():
         user = User.objects.get(username=username)
-        if user.is_active:
+        if user.customuser.is_SiteManager:
+            messages.info(request, "This user is a SiteManager and thus you cannot change his/her status")
+        elif user.is_active:
             user.is_active = False
             user.save()
             messages.info(request, "User suspended Successfully")
@@ -181,3 +185,15 @@ def make_sm(request):
     else:
         messages.info(request, "User does not exist")
     return HttpResponseRedirect('/loggedin')
+
+
+def fdalogin(data):
+    username = data.POST["username"]
+    password = data.POST["password"]
+    user = authenticate(username, password)
+    if user is not None and user.is_active:
+        print("in if")
+
+        return HttpResponse("True")
+    else:
+        return HttpResponse("False")
