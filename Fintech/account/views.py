@@ -84,18 +84,18 @@ def log(request):
     c = {}
     c.update(csrf(request))
     if not User.objects.filter(username="sm").exists():
-       user = User.objects.create_user(username='sm', email='smEmail', password='sm')
-       user.save()
-       uinfo = CustomUser()
-       uinfo.user = user
-       uinfo.user_type = 'C'
-       uinfo.is_SiteManager = True
-       key = messaging_views.key_generator()
-       publicKey = messaging_views.get_public_key(key)
-       privateKey = messaging_views.get_private_key(key)
-       uinfo.publicKey = publicKey
-       uinfo.privateKey = privateKey
-       uinfo.save()
+        user = User.objects.create_user(username='sm', email='smEmail', password='sm')
+        user.save()
+        uinfo = CustomUser()
+        uinfo.user = user
+        uinfo.user_type = 'C'
+        uinfo.is_SiteManager = True
+        key = messaging_views.key_generator()
+        publicKey = messaging_views.get_public_key(key)
+        privateKey = messaging_views.get_private_key(key)
+        uinfo.publicKey = publicKey
+        uinfo.privateKey = privateKey
+        uinfo.save()
     return render(request, 'html5up/login.html', c)
 
 
