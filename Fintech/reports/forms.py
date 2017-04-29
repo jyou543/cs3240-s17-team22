@@ -7,12 +7,13 @@ class ReportForm(forms.ModelForm):
 
     class Meta:
         model = Report
-        fields = ['company_name', 'company_phone', 'company_email',
+        fields = ['company_name', 'ceo_name', 'company_phone', 'company_email',
                   'company_location', 'company_country', 'sector', 'industry',
                   'current_projects', 'private_report', 'files_attached']
-        widgets = {"files_attached": forms.FileInput(attrs={'id': 'files', 'required': True, 'multiple': True})}
+        widgets = {"files_attached": forms.FileInput(attrs={'id': 'files', 'required': False, 'multiple': True})}
 
-    # created_at = forms.DateTimeField(label='Created at:')
+
+        # created_at = forms.DateTimeField(label='Created at:')
     # company_name = forms.CharField(label='Company Name:', max_length=255)
     # company_phone = forms.CharField(label='Company Phone:', max_length=255)
     # company_email = forms.CharField(label='Company Email:', max_length=255)

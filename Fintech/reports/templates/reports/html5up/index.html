@@ -90,6 +90,7 @@
                         <ul>
                             {% for report in report_list %}
                                 <li><a href="{% url 'reports:detail' report.id %}">{{ report.company_name }}</a></li>
+                                <!--<li><a download class="list-group-item list-group-item-action" href=</li> -->
                             {% endfor %}
                         </ul>
 
