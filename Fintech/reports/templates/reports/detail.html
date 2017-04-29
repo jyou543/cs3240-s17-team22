@@ -56,7 +56,7 @@
             <tr><td><div style = "padding-left: 40px">Industry: {{ report.industry }}</div></td></tr>
             <tr><td><div style = "padding-left: 40px">Current Projects: {{ report.current_projects }}</div></td></tr>
             <tr><td><div style = "padding-left: 40px">Private Report: {{ report.private_report }}</div></td></tr>
-            <tr><td><div style = "padding-left: 40px">Files Attached: {{ report.files_attached.url }}</div></td></tr>
+            <tr><td><div style = "padding-left: 40px">Files Attached: <a href="{{ report.files_attached.url }}" download> <strong> {{  report.files_attached.name }}</strong></a></div></td></tr>
             <tr><td><div style = "padding-left: 40px">Created At:{{ report.created_at }}</div></td></tr>
         </table>
 
