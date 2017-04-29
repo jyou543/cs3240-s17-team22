@@ -10,8 +10,9 @@ from django.contrib.auth.decorators import login_required
 from django.contrib.auth.decorators import user_passes_test
 from django.http import HttpResponse
 from django.contrib import messages
+from django.http import JsonResponse
 from messaging import views as messaging_views
-import json
+from django.views.decorators.csrf import csrf_exempt
 # Create your views here.
 
 
@@ -186,14 +187,14 @@ def make_sm(request):
         messages.info(request, "User does not exist")
     return HttpResponseRedirect('/loggedin')
 
-
+@csrf_exempt
 def fdalogin(data):
     username = data.POST["username"]
+    print(username)
     password = data.POST["password"]
-    user = authenticate(username, password)
+    print(password)
+    user = authenticate(username = username, password = password)
     if user is not None and user.is_active:
-        print("in if")
-
-        return HttpResponse("True")
+        return JsonResponse({'login':True})
     else:
-        return HttpResponse("False")
+        return JsonResponse({'login':False})

@@ -53,7 +53,7 @@ urlpatterns = [
     url(r'messageSuccessPage/$', success),
     # url(r'enterPrivateKey/$', enter_password),
     url(r'decryptMessages/$', decrypt_messages),
-    url(r'^fdalogin/$', account_views.fdalogin),
+    url(r'^fdaLogin/$', account_views.fdalogin),
 
 ]
 
