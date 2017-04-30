@@ -13,6 +13,7 @@ from django.contrib import messages
 from django.http import JsonResponse
 from messaging import views as messaging_views
 from django.views.decorators.csrf import csrf_exempt
+from reports.models import Report
 # Create your views here.
 
 
@@ -190,11 +191,38 @@ def make_sm(request):
 @csrf_exempt
 def fdalogin(data):
     username = data.POST["username"]
-    print(username)
     password = data.POST["password"]
-    print(password)
     user = authenticate(username = username, password = password)
     if user is not None and user.is_active:
         return JsonResponse({'login':True})
     else:
         return JsonResponse({'login':False})
+
+@csrf_exempt
+def view_reports(request):
+    all_reports = Report.objects.all()
+    report_name = []
+    for x in all_reports:
+        report_name.append(x.company_name + " " + x.created_by.user.username + " " + str(x.id))
+    return JsonResponse({'reports': report_name})
+
+
+@csrf_exempt
+def view_one(data):
+    #report = Report.objects.all().filter(id=data.POST['id'])
+    report = None
+    for one in Report.objects.all():
+        if str(one.id) == data.POST['id']:
+            report = one
+    if report is None:
+        dictionary = {data.POST['id']: "Does not exist"}
+    else:
+        dictionary = {'created_by': report.created_by.user.username, 'phone': report.company_phone, 'email': report.company_email, 'location':
+            report.company_location, 'country': report.company_country, 'sector': report.sector, 'industry': report.industry,
+                  'projects': report.current_projects}
+        if report.files_attached:
+            dictionary['file'] = report.files_attached.url
+    return JsonResponse(dictionary)
+
+def index(request):
+    return HttpResponseRedirect('/home')

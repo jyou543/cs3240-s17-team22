@@ -54,7 +54,9 @@ urlpatterns = [
     # url(r'enterPrivateKey/$', enter_password),
     url(r'decryptMessages/$', decrypt_messages),
     url(r'^fdaLogin/$', account_views.fdalogin),
-
+    url(r'^viewReports/$', account_views.view_reports),
+    url(r'^viewOne/$', account_views.view_one),
+    url(r'^$',account_views.index)
 ]
 
 if settings.DEBUG:
