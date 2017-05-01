@@ -121,7 +121,9 @@
                         <br>
                     <form action="{% url 'reports:report-add'  %}" method="post">
                              {% csrf_token %}
+                        {% if user.customuser.user_type == "C" and user.customuser.is_SiteManager == False %}
                              <button type="submit" class="btn btn-default btn-sm">Create New Report</button>
+                        {% endif %}
                     </form>
                 </div>
                 
