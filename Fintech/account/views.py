@@ -135,7 +135,6 @@ def invalid(request):
     return render(request, 'html5up/invalid.html')
 
 
-@login_required
 def loggedout(request):
     logout(request)
     return render(request, 'html5up/loggedout.html')
@@ -189,6 +188,14 @@ def make_sm(request):
     else:
         messages.info(request, "User does not exist")
     return HttpResponseRedirect('/loggedin')
+
+
+@user_passes_test(lambda u: u.customuser.is_SiteManager)
+def revoke_sm(request):
+    request.user.customuser.is_SiteManager = False
+    request.user.customuser.save()
+    return HttpResponseRedirect('/loggedin')
+
 
 @csrf_exempt
 def fdalogin(data):

@@ -65,14 +65,7 @@
 										<header>
 											<h2>Welcome, {{ user.get_username }}</h2>
 										</header>
-										<h3> You are a {{ user.customuser.get_user_type_display }}</h3>
-										<br>
-										<br>
-										<form action="/deleteUser/" method = "POST"> {% csrf_token %}
-										    <div style = "padding-left: 80px; float:left; width: 700px;"><input type= text name = "username" id="username" required></div>
-										   <div style = "padding-left: 100px; float:left;"><input type = submit value = "Delete User"> </input></div>
-										</form>
-										<br>
+										<h3> You are a Site Manager</h3>
 										<br>
 										<br>
 										<form action="/suspendUser/" method = "POST"> {% csrf_token %}
@@ -89,6 +82,12 @@
 										<br>
 										<br>
 										<br>
+										<form action="/revokeSm/" method = "POST"> {% csrf_token %}
+										   <div style = "padding-left: 100px; float:left;"><input type = submit value = "Revoke SM Status"> </input></div>
+										</form>
+                                        <br>
+										<br>
+                                        <br>
 									</div>
 									</div>
 										{% for message in messages %}
