@@ -14,6 +14,8 @@ from django.http import JsonResponse
 from messaging import views as messaging_views
 from django.views.decorators.csrf import csrf_exempt
 from reports.models import Report
+from django.db.models import Q
+from groups.models import Group
 # Create your views here.
 
 
@@ -198,12 +200,29 @@ def fdalogin(data):
     else:
         return JsonResponse({'login':False})
 
-@csrf_exempt
-def view_reports(request):
+def get_reports(user):
     all_reports = Report.objects.all()
+    if not user.customuser.is_SiteManager:
+        if all_reports:
+            query = Q()
+            query |= Q(created_by=user.customuser)
+            all_groups = Group.objects.all().filter(members=user.customuser)
+            for group in all_groups:
+                for member in group.members.all():
+                    query |= Q(created_by=member)
+                query |= Q(private_report=False)
+                all_reports = all_reports.filter(query)
+    return all_reports
+
+@csrf_exempt
+def view_reports(data):
+    obs = User.objects.all().filter(username=data.POST['user'])
+    for x in obs:
+        user = x
     report_name = []
+    all_reports = get_reports(user)
     for x in all_reports:
-        report_name.append(x.company_name + " " + x.created_by.user.username + " " + str(x.id))
+        report_name.append("Company Name: " + x.company_name + "  Owner: " + x.created_by.user.username + "   ID: " + str(x.id))
     return JsonResponse({'reports': report_name})
 
 
@@ -211,11 +230,15 @@ def view_reports(request):
 def view_one(data):
     #report = Report.objects.all().filter(id=data.POST['id'])
     report = None
-    for one in Report.objects.all():
+    obs = User.objects.all().filter(username=data.POST['user'])
+    for x in obs:
+        user = x
+    all_reports = get_reports(user)
+    for one in all_reports:
         if str(one.id) == data.POST['id']:
             report = one
     if report is None:
-        dictionary = {data.POST['id']: "Does not exist"}
+        dictionary = {data.POST['id']: "DOes not exist"}
     else:
         dictionary = {'created_by': report.created_by.user.username, 'phone': report.company_phone, 'email': report.company_email, 'location':
             report.company_location, 'country': report.company_country, 'sector': report.sector, 'industry': report.industry,
