@@ -45,23 +45,26 @@ def view_reports():
         else:
             url = "http://127.0.0.1:8000/viewOne/"
             r = requests.post(url, data={'id': report, 'user': user})
-            print(r.status_code)
             data = r.json()
             for y in data:
-                print(y + ": " + data[y])
+                if y == 'file':
+                    print("Attached File: " + data[y].split("/")[-1])
+                else:
+                    print(y + ": " + data[y])
             print("\n")
-            if len(data) == 9:
+            if len(data) == 10:
                 download = input ("To download the file press 1, otherwise press any key: ")
                 if download == '1':
                     url = "http://127.0.0.1:8000" + data['file']
-                    print(url)
-                    download_file(url, 'thisWorks.txt')
+                    name = data['file'].split('/')[-1]
+                    download_file(url, name)
         print("\n")
 
 def download_file(url, name):
     #download file and encrppt if neceesary
     fullfilename = os.path.join('C:/Users/Neel_Patel/downloads/', name)
     urllib.request.urlretrieve(url, fullfilename)
+    print("\nDownload Complete!\n")
 
 
 def encrypt():

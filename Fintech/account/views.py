@@ -248,7 +248,7 @@ def view_one(data):
         dictionary = {data.POST['id']: "Does not exist"}
     else:
         dictionary = {'created_by': report.created_by.user.username, 'phone': report.company_phone, 'email': report.company_email, 'location':
-            report.company_location, 'country': report.company_country, 'sector': report.sector, 'industry': report.industry,
+            report.company_location, 'country': report.company_country, 'sector': report.sector, 'industry': report.industry, 'CEO':report.ceo_name,
                   'projects': report.current_projects}
         if report.files_attached:
             dictionary['file'] = report.files_attached.url
