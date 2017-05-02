@@ -85,16 +85,19 @@
 										<form action="/revokeSm/" method = "POST"> {% csrf_token %}
 										   <div style = "text-align: center"><input type = submit value = "Revoke SM Status"> </input></div>
 										</form>
-                                        <br>
-										<br>
+
                                         <br>
 									</div>
-									</div>
-										{% for message in messages %}
+										<div style = "text-align: center;">
+										<h2>{% for message in messages %}
 										    <li class="{{ message.tags }}">
 										    {% if 'safe' in message.tags %}{{ message|safe }}{% else %}{{ message }}{% endif %}
 										    </li>
-										{% endfor %}
+										    <br>
+										    <br>
+										{% endfor %}</h2>	</div>								</div>
+                                        <br>
+										<br>
 									<footer id="footer">
 					<!-- Copyright -->
 							<ul class="copyright">
