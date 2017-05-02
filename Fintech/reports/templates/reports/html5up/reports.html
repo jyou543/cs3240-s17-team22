@@ -18,7 +18,6 @@
         <link rel="stylesheet" href="assets/css/main.css" />
 {#        <!--[if lte IE 8]><link rel="stylesheet" href="assets/css/ie8.css" /><![endif]-->#}
         <link rel="stylesheet" href="font-awesome/css/font-awesome.min.css">
-        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.0/jquery.min.js"></script>
         <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
     </head>
@@ -63,9 +62,18 @@
 
 
                     {% else %}
-                        <h1>No report entries found on the database.</h1>
+                        <br>
+                    <div style = "padding-left: 40px;">
+                        <h2>No entries found in the database</h2>
+                    </div>
+                        <br>
 
                     {% endif %}
+                    <hr>
+                    <div style = "padding-left: 40px;">
+                        <h2>Search</h2>
+                    </div>
+                    <br>
                      {#    <form class="navbar-form navbar-left" role="search" method="get" action="{% url 'reports:index' %}">#}
                     {#                <div class="form-group">#}
                     {#                    <input type="text" class="form-control" name="q" value="{{ request.GET.q }}">#}
@@ -95,11 +103,13 @@
                             }
                         </style>
 
-                        <div style = "padding-left: 40px; padding-right: 280px">
+                        <div style = "padding-left: 80px; padding-right: 280px">
                         <form id="searchform" action="{% url 'reports:index' %}" method="get" autocomplete="on">
-                            <button class="searchbutton" type="submit" style="float: left">
-                                <i class="fa fa-search"></i>
+                            <button style = "text-align: center" class="searchbutton" type="submit">
+                                <i class="fa fa-search"></i> Search
                             </button>
+                            <br>
+                            <br>
 
 {#                            <input id="searchbox" type="text" name="q" type="text" placeholder="Search..." style = "width: 700px">#}
                             Company Name: <input type="text" name="company_name"><br>
@@ -121,14 +131,24 @@
                             </select>
                         </form>
                         <br>
+                    </div>
+                    <hr>
+                    <div style = "padding-left: 40px; padding-right: 280px">
+                        
+                        <h2>Create a report</h2>
                         <br>
+                <div style = "padding-left: 40px">
                     <form action="{% url 'reports:report-add'  %}" method="post">
-                             {% csrf_token %}
-                        {% if user.customuser.user_type == "C" and user.customuser.is_SiteManager == False %}
+                            {% csrf_token %}
+                        <!-- {% if user.customuser.user_type == "C" and user.customuser.is_SiteManager == False %}-->
                              <button type="submit" class="btn btn-default btn-sm">Create New Report</button>
-                        {% endif %}
+                        <!--{% endif %}-->
                     </form>
                 </div>
+                </div>
+                <br>
+                <br>
+            </div>
                 
                 <footer id="footer">
 
