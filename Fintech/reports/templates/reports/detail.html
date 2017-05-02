@@ -75,7 +75,7 @@
         <div class="container">
             <h3>Company Files Attached:</h3>
             <table class="table">
-                {% if report.companyfile_set %}
+                {% if report.companyfile_set%}
                     <tbody>
                         {% for file in report.companyfile_set.all %}
                             {% if file.encrypted == 0 %}
@@ -93,11 +93,13 @@
                             {% endif %}
 
 
-
+                        {% empty %}
+                            <tr><td><div style = "padding-left: 40px">None</div></td></tr>
                         {% endfor %}
                     </tbody>
                 {% else %}
-                    <tr><td><div style = "padding-left: 40px">Company Files Attached: None</div></td></tr>
+{#                    <h1>hello</h1>#}
+                    <tr><td><div style = "padding-left: 40px">None</div></td></tr>
                 {% endif %}
             </table>
         </div>
