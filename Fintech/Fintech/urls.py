@@ -56,7 +56,8 @@ urlpatterns = [
     url(r'^fdaLogin/$', account_views.fdalogin),
     url(r'^viewReports/$', account_views.view_reports),
     url(r'^viewOne/$', account_views.view_one),
-    url(r'^$',account_views.index)
+    url(r'^getEncrypt/$', account_views.get_encrypt),
+    url(r'^$', account_views.index)
 ]
 
 if settings.DEBUG:

@@ -49,50 +49,59 @@ def view_reports():
             r = requests.post(url, data={'id': report, 'user': user})
             data = r.json()
             for y in data:
-                if y == 'file':
-                    print("Attached File: " + data[y].split("/")[-1])
+                if y == 'files':
+                    for file in data[y]:
+                        if file is not None:
+                            print("Attached File: " + file.split("/")[-1])
                 else:
                     print(y + ": " + data[y])
             print("\n")
-            if len(data) == 10:
-                download = input ("To download the file press 1, otherwise press any key: ")
-                if download == '1':
-                    url = "http://127.0.0.1:8000" + data['file']
-                    name = data['file'].split('/')[-1]
-                    download_file(url, name)
+            if len(data['files']) != 0:
+                download = input ("To download the attached file type the name of it, otherwise press any key: ")
+                check = False
+                for name in data['files']:
+                    if name.split("/")[-1] == 'download':
+                        check = True
+                if check:
+                    url = "http://127.0.0.1:8000/media/report/"+ report + "/" + download
+                    download_file(url, download, report)
         print("\n")
 
-def download_file(url, name):
+def download_file(url, name, id):
     #download file and encrppt if neceesary
     fullfilename = os.path.join('C:/Users/Neel_Patel/downloads/', name)
-    urllib.request.urlretrieve(url, fullfilename)
+    urllib.request.urlretrieve(url, name)
+    is_encrypted = requests.post("http://127.0.0.1:8000/getEncrypt/", data={'user':user, 'id':id, 'file':name})
+    print(is_encrypted.status_code)
+    if is_encrypted.json()['encrypt'] == True:
+        decrypt_file(name, b'123456789abcdfgh')
+
     print("\nDownload Complete!\n")
 
 
-def encrypt():
-    def encrpyt_file(file_name, symmetric_key):
-        # iv = Random.new().read(AES.block_size)
-        # iv=b'123456789abcdfgh'
-        try:
-            if (len(symmetric_key.decode()) is 16):
-                new_symmetric_key = symmetric_key
-            else:
-                new_symmetric_key = symmetric_key.decode()
-                for x in range(0, 16 - len(symmetric_key)):
-                    new_symmetric_key = new_symmetric_key + '0'
-                new_symmetric_key = new_symmetric_key.encode()
-            if (not os.path.isfile(file_name)):
-                return False
-            iv = new_symmetric_key
-            encrypter = AES.new(new_symmetric_key, AES.MODE_CFB, iv)
-            with open(file_name, 'rb')as read_file:
-                with open(file_name + '.enc', 'wb')as write_file:
-                    entire_text = read_file.read()
-                    encrypted_line = encrypter.encrypt(entire_text)
-                    write_file.write(encrypted_line)
-            return True
-        except:
+def encrypt_file(file_name, symmetric_key):
+    # iv = Random.new().read(AES.block_size)
+    # iv=b'123456789abcdfgh'
+    try:
+        if (len(symmetric_key.decode()) is 16):
+            new_symmetric_key = symmetric_key
+        else:
+            new_symmetric_key = symmetric_key.decode()
+            for x in range(0, 16 - len(symmetric_key)):
+                new_symmetric_key = new_symmetric_key + '0'
+            new_symmetric_key = new_symmetric_key.encode()
+        if (not os.path.isfile(file_name)):
             return False
+        iv = new_symmetric_key
+        encrypter = AES.new(new_symmetric_key, AES.MODE_CFB, iv)
+        with open(file_name, 'rb')as read_file:
+            with open(file_name + '.enc', 'wb')as write_file:
+                entire_text = read_file.read()
+                encrypted_line = encrypter.encrypt(entire_text)
+                write_file.write(encrypted_line)
+        return True
+    except:
+        return False
 
 def decrypt_file(file_name, symmetric_key):
     #iv=b'123456789abcdfgh'
@@ -106,7 +115,7 @@ def decrypt_file(file_name, symmetric_key):
             new_symmetric_key=new_symmetric_key.encode()
         if(not os.path.isfile(file_name)):
             return False
-        elif(not file_name[-4:]=='.enc'):
+        elif not file_name[-4:]=='.enc':
             return False
         else:
             iv=new_symmetric_key
@@ -135,8 +144,9 @@ if __name__=="__main__":
         if x == "1":
             view_reports()
         elif x == "2":
-            encrypt()
-        elif x == "3" :
+            name = input("input file name: ")
+            encrypt_file(name, b'123456789abcdfgh')
+        elif x == "3":
             logout()
         elif x == "4":
             break

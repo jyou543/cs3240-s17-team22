@@ -8,7 +8,6 @@ from .models import CustomUser
 from django.contrib.auth.models import User
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.decorators import user_passes_test
-from django.http import HttpResponse
 from django.contrib import messages
 from django.http import JsonResponse
 from messaging import views as messaging_views
@@ -247,12 +246,41 @@ def view_one(data):
     if report is None:
         dictionary = {data.POST['id']: "Does not exist"}
     else:
-        dictionary = {'created_by': report.created_by.user.username, 'phone': report.company_phone, 'email': report.company_email, 'location':
-            report.company_location, 'country': report.company_country, 'sector': report.sector, 'industry': report.industry, 'CEO':report.ceo_name,
-                  'projects': report.current_projects}
-        if report.files_attached:
-            dictionary['file'] = report.files_attached.url
+        dictionary = {'CREATED BY': report.created_by.user.username, 'COMPANY': report.company_name, 'PHONE' : report.company_phone, 'EMAIL': report.company_email,
+                      'LOCATION': report.company_location, 'COUNTRY': report.company_country, 'SECTOR': report.sector, 'INDUSTRY': report.industry, 'CEO':report.ceo_name,
+                        'PROJECTS': report.current_projects}
+        fileList = []
+        for file in report.companyfile_set.all():
+            if file is not None:
+                fileList.append(file.cfile.name)
+        for file in report.investorfile_set.all():
+            if file is not None:
+                fileList.append(file.ifile.name)
+        dictionary['files'] = fileList
     return JsonResponse(dictionary)
+
+@csrf_exempt
+def get_encrypt(request):
+    report = None
+    obs = User.objects.all().filter(username=request.POST['user'])
+    for x in obs:
+        user = x
+    all_reports = get_reports(user)
+    for one in all_reports:
+        if str(one.id) == request.POST['id']:
+            report = one
+    this_file = None
+    if report is None:
+        return JsonResponse({'encrypt': "Does not exist"})
+    else:
+        for file in report.companyfile_set.all():
+            if request.POST['file'] == file.cfile.name.split('/')[-1]:
+                this_file = file
+        for file in report.investorfile_set.all():
+            if request.POST['file'] == file.cfile.name.split('/')[-1]:
+                this_file = file
+        return JsonResponse({'encrypt': this_file.encrypted})
+
 
 def index(request):
     return HttpResponseRedirect('/home')
