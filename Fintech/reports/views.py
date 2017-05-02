@@ -1,6 +1,6 @@
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import render, get_object_or_404, render_to_response
-from django.http import HttpResponseRedirect, request
+from django.http import HttpResponseRedirect, request, HttpResponseForbidden
 from django.utils.decorators import method_decorator
 
 from reports.models import Companyfile
@@ -9,12 +9,12 @@ from django.core.context_processors import csrf, request
 from django.contrib.auth import authenticate, login
 from django.contrib.auth import logout
 from django.contrib.auth.decorators import login_required
-from .forms import ReportForm, CompanyFilesFormSet, InvestorFilesFormSet
+from .forms import ReportForm, CompanyFilesFormSet, InvestorfileForm, CompanyfileForm
 from account.models import CustomUser
-from django.views.generic.edit import CreateView, UpdateView, DeleteView
-from django.views.generic.list import ListView
-from django.core.urlresolvers import reverse_lazy
-from django.views import generic
+from django.views.generic.edit import CreateView, UpdateView, DeleteView, FormView, FormMixin
+from django.views.generic.list import ListView, View
+from django.core.urlresolvers import reverse_lazy, reverse
+from django.views.generic import ListView, DetailView
 from .models import CustomUser
 from django.contrib.auth.models import User
 from django.db.models import Q
@@ -22,10 +22,10 @@ from groups.models import Group
 from django.forms import inlineformset_factory, ClearableFileInput
 from django.db import transaction
 from django.forms import formsets
-
+from django.views.decorators.http import require_http_methods
 
 # view for the index page
-class IndexView(generic.ListView):
+class IndexView(ListView):
     # name of the object to be used in the index.html
     context_object_name = 'report_list'
     template_name = 'reports/html5up/reports.html'
@@ -148,15 +148,77 @@ def my_user(request):
 
 
 # detail view to show all fields for specific form
-class DetailView(generic.DetailView):
+class ReportDetailView(FormMixin, DetailView):
     model = Report
     template_name = 'reports/detail.html'
+    # if CustomUser.objects.get(user=self.request.user):
+    form_class = CompanyfileForm
+    # else:
+    # form_class = InvestorfileForm
+
+    def get_form_class(self):
+        # if request.user.is_authenticated():
+        user = CustomUser.objects.get(user=self.request.user)
+        userType = user.user_type
+        if userType == 'I':
+            return InvestorfileForm
+        else:
+            return CompanyfileForm
+
+
+
+    def get_success_url(self):
+        return reverse('reports:detail', kwargs={'pk': self.object.pk})
+
+    def get_context_data(self, **kwargs):
+        context = super(ReportDetailView, self).get_context_data(**kwargs)
+        context['form'] = self.get_form()
+        return context
+
+    def post(self, request, *args, **kwargs):
+        if not request.user.is_authenticated():
+            return HttpResponseForbidden()
+        self.object = self.get_object()
+        form = self.get_form()
+        if form.is_valid():
+            return self.form_valid(form)
+        else:
+            return self.form_invalid(form)
+
+
+    def form_valid(self, form):
+        return super(ReportDetailView, self).form_valid(form)
+
+    # def get_context_data(self, **kwargs):
+    #     context = super(ReportCreate, self).get_context_data(**kwargs)
+    #     context['form'] = CompanyfileCreate
+    #     return context
+    #
+    # # @require_http_methods(["POST"])
+    # def post(self, request, *args, **kwargs):
+    #     return CompanyfileCreate.post(self, request, *args, **kwargs)
+
+
+
+class CompanyfileCreate(FormView):
+    model = Companyfile
+    form_class = CompanyfileForm
+    template_name = 'reports/companyfile_form.html'
+    success_url = reverse_lazy('reports:index')
+
+    def form_valid(self, form):
+        # form.ReportCreate()
+        return super().form_valid(form)
+
+
+
+
 
 
 
 
 # view for the new report entry page
-class ReportCreate(CreateView):
+class ReportCreate(FormView):
     model = Report
     form_class = ReportForm
     # object = None
@@ -210,6 +272,7 @@ class ReportCreate(CreateView):
 
 
 
+
         # obj = form.save(commit=False)
         #
         # obj.created_by = userC
@@ -254,4 +317,7 @@ class ReportUpdate(UpdateView):
 class ReportDelete(DeleteView):
     model = Report
     success_url = reverse_lazy('reports:index')
+
+
+
 

@@ -1,6 +1,10 @@
 from django.conf.urls import url
-from .views import IndexView, DetailView, ReportUpdate, ReportCreate, ReportDelete
+from .views import IndexView, ReportDetailView, ReportUpdate, ReportCreate, ReportDelete, CompanyfileCreate
 # from . import views
+from django.conf.urls.static import static
+from django.middleware.http import ConditionalGetMiddleware
+from django.utils.cache import get_conditional_response
+from django.utils.decorators import available_attrs, decorator_from_middleware
 
 app_name = 'reports'
 
@@ -9,10 +13,12 @@ urlpatterns = [
     # /modelforms/
     url(r'^$', IndexView.as_view(), name='index'),
 
-    url(r'^(?P<pk>[0-9]+)/$', DetailView.as_view(), name='detail'),
+    url(r'^(?P<pk>[0-9]+)/$', ReportDetailView.as_view(), name='detail'),
 
     # modelforms/product/entry
     url(r'^report/add/$', ReportCreate.as_view(), name='report-add'),
+
+    url(r'^companyfile/$', CompanyfileCreate.as_view(), name='companyfile_form'),
 
     # modelforms/product/2
     url(r'^report/(?P<pk>[0-9]+)/$', ReportUpdate.as_view(), name='report-update'),

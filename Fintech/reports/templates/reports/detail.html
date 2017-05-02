@@ -106,23 +106,34 @@
 
 
 
-        <form action="" method="post">
-            <fieldset>
-                <legend>Add an Investor File</legend>
-                {{ investorfiles_form.management_form }}
-                {{ investorfiles_form.non_form_errors }}
-                {% for form in investorfiles_form %}
-                    {{ form.id }}
-                    <div class="inline {{ investorfiles_form.prefix }}">
-                        {{ form.investor_file.errors }}
-                        {{ form.investor_file.label_tag }}
-                        {{ form.investor_file }}
-                        {{ form.encrypted.errors }}
-                        {{ form.encrypted.label_tag }}
-                        {{ form.encrypted }}
-                    </div>
-                {% endfor %}
-            </fieldset>
+{#        <form action="" method="post">#}
+{#            <fieldset>#}
+{#                <legend>Add an Investor File</legend>#}
+{#                {{ investorfiles_form.management_form }}#}
+{#                {{ investorfiles_form.non_form_errors }}#}
+{#                {% for form in investorfiles_form %}#}
+{#                    {{ form.id }}#}
+{#                    <div class="inline {{ investorfiles_form.prefix }}">#}
+{#                        {{ form.investor_file.errors }}#}
+{#                        {{ form.investor_file.label_tag }}#}
+{#                        {{ form.investor_file }}#}
+{#                        {{ form.encrypted.errors }}#}
+{#                        {{ form.encrypted.label_tag }}#}
+{#                        {{ form.encrypted }}#}
+{#                    </div>#}
+{#                {% endfor %}#}
+{#            </fieldset>#}
+{#        </form>#}
+
+
+
+        <form class="form-horizontal" action="{% url 'reports:companyfile_form' %}"  method="post" enctype="multipart/form-data">
+            {% csrf_token %}
+            <div>
+                {{ form.as_p }}
+            </div>
+
+            <input type="submit" value="Upload File"/>
         </form>
 
 
