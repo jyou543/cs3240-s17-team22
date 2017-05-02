@@ -60,7 +60,7 @@ def view_reports():
                 download = input ("To download the attached file type the name of it, otherwise press any key: ")
                 check = False
                 for name in data['files']:
-                    if name.split("/")[-1] == 'download':
+                    if name.split("/")[-1] == download:
                         check = True
                 if check:
                     url = "http://127.0.0.1:8000/media/report/"+ report + "/" + download
@@ -133,7 +133,7 @@ def decrypt_file(file_name, symmetric_key):
 
 def menu():
     print("This is the menu: Press the number associated with your command\n")
-    print("1. View All Accessible Reports  2. Encrypt a Report\n3. Logout and Sign in with new user    4. Quit\n")
+    print("1. View All Accessible Reports  2. Encrypt a File\n3. Logout and Sign in with new user    4. Quit\n")
 
 if __name__=="__main__":
     print("\nThis is the standalone application:\n\n")
@@ -145,7 +145,11 @@ if __name__=="__main__":
             view_reports()
         elif x == "2":
             name = input("input file name: ")
-            encrypt_file(name, b'123456789abcdfgh')
+            check = encrypt_file(name, b'123456789abcdfgh')
+            if check:
+                print("\n Encryption Succeeded!")
+            else:
+                print("\n Encryption Failed, File does not exist in folder")
         elif x == "3":
             logout()
         elif x == "4":

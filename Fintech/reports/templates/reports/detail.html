@@ -71,8 +71,7 @@
             <tr><td><div style = "padding-left: 40px">Created At: {{ report.created_at }}</div></td></tr>
         </table>
 
-
-        <div class="container">
+        <div class="container" style = "padding-right: 400px">
             <h3>Company Files Attached:</h3>
             <table class="table">
                 {% if report.companyfile_set %}
@@ -81,14 +80,12 @@
                             {% if file.encrypted == 0 %}
                           <tr>
 
-                              <td><div style = "padding-left: 40px"> File Name: <a href="{{ file.cfile.url }}" download> <strong> {{  file.cfile.name }}</strong></a></div></td>
-                              <td><div style = "padding-left: 40px"> {{ file.encrypted }}</div></td>
+                              <td> File Name: <a href="{{ file.cfile.url }}" download> <strong> {{ file.cfile.name}}</strong></a></div></td>
                           </tr>
 
                             {% else %}
                                 <tr>
-                                    <td><div style = "padding-left: 40px">File Name: "{{ file.cfile }}"<strong> {{  file.cfile.name }}</strong></div></td>
-                                    <td><div style = "padding-left: 40px"> {{ file.encrypted }}</div></td>
+                                    <td>File Name: <strong> {{  file.cfile.name }}</strong></></td>
                                 </tr>
                             {% endif %}
 
@@ -97,7 +94,7 @@
                         {% endfor %}
                     </tbody>
                 {% else %}
-                    <tr><td><div style = "padding-left: 40px">Company Files Attached: None</div></td></tr>
+                    <tr><td>Company Files Attached: None</td></tr>
                 {% endif %}
             </table>
         </div>
