@@ -10,7 +10,7 @@ class ReportForm(forms.ModelForm):
 
     class Meta:
         model = Report
-        fields = ('company_name', 'company_phone', 'company_email',
+        fields = ('company_name', 'ceo_name', 'company_phone', 'company_email',
                   'company_location', 'company_country', 'sector', 'industry',
                   'current_projects', 'private_report')
 

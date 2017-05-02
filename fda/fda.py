@@ -4,6 +4,8 @@ import getpass
 import os
 import shutil
 import urllib
+from Crypto.Cipher import AES
+
 
 def log():
     print("Please Login:\n ")
@@ -68,7 +70,56 @@ def download_file(url, name):
 
 
 def encrypt():
-    print("encrypt")
+    def encrpyt_file(file_name, symmetric_key):
+        # iv = Random.new().read(AES.block_size)
+        # iv=b'123456789abcdfgh'
+        try:
+            if (len(symmetric_key.decode()) is 16):
+                new_symmetric_key = symmetric_key
+            else:
+                new_symmetric_key = symmetric_key.decode()
+                for x in range(0, 16 - len(symmetric_key)):
+                    new_symmetric_key = new_symmetric_key + '0'
+                new_symmetric_key = new_symmetric_key.encode()
+            if (not os.path.isfile(file_name)):
+                return False
+            iv = new_symmetric_key
+            encrypter = AES.new(new_symmetric_key, AES.MODE_CFB, iv)
+            with open(file_name, 'rb')as read_file:
+                with open(file_name + '.enc', 'wb')as write_file:
+                    entire_text = read_file.read()
+                    encrypted_line = encrypter.encrypt(entire_text)
+                    write_file.write(encrypted_line)
+            return True
+        except:
+            return False
+
+def decrypt_file(file_name, symmetric_key):
+    #iv=b'123456789abcdfgh'
+    try:
+        if (len(symmetric_key.decode()) is 16):
+            new_symmetric_key = symmetric_key
+        else:
+            new_symmetric_key = symmetric_key.decode()
+            for x in range(0, 16 - len(symmetric_key)):
+                new_symmetric_key = new_symmetric_key + '0'
+            new_symmetric_key=new_symmetric_key.encode()
+        if(not os.path.isfile(file_name)):
+            return False
+        elif(not file_name[-4:]=='.enc'):
+            return False
+        else:
+            iv=new_symmetric_key
+            decrypter = AES.new(new_symmetric_key, AES.MODE_CFB, iv)
+            new_file_name = file_name[:((len(file_name))-4)]
+            with open(file_name, 'rb')as read_file:
+                with open('DEC_' + new_file_name, 'wb')as write_file:
+                    entire_text=read_file.read()
+                    decrypted_line = decrypter.decrypt(entire_text)
+                    write_file.write((decrypted_line))
+            return True
+    except:
+        return False
 
 
 def menu():
