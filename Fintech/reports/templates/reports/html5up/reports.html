@@ -111,7 +111,11 @@
                             <br>
                             <br>
 
-{#                            <input id="searchbox" type="text" name="q" type="text" placeholder="Search..." style = "width: 700px">#}
+{#                          <input id="searchbox" type="text" name="q" type="text" placeholder="Search..." style = "width: 700px">#}
+                            Select Option: <select name="option">
+                              <option value="and">AND Entries</option>
+                              <option value="or">OR Entries</option>
+                            </select>
                             Company Name: <input type="text" name="company_name"><br>
                             Name of CEO: <input type="text" name="ceo_name"><br>
                             Date of Report: <input type="text" name="created_at"><br>
@@ -123,16 +127,13 @@
                             Industry of Company: <input type="text" name="company_industry"><br>
                             Current Projects of Company: <input type="text" name="current_projects"><br>
 {#                            <input type="checkbox" name="checks" value="company_name" ><br>#}
-                            <br>
-                            <br>
-                            Select Option: <select name="option">
-                              <option value="and">AND Entries</option>
-                              <option value="or">OR Entries</option>
-                            </select>
+
                         </form>
                         <br>
                     </div>
+                    {% if user.customuser.user_type == "C" and user.customuser.is_SiteManager == False %}
                     <hr>
+
                     <div style = "padding-left: 40px; padding-right: 280px">
                         
                         <h2>Create a report</h2>
@@ -140,12 +141,13 @@
                 <div style = "padding-left: 40px">
                     <form action="{% url 'reports:report-add'  %}" method="post">
                             {% csrf_token %}
-                        <!-- {% if user.customuser.user_type == "C" and user.customuser.is_SiteManager == False %}-->
+                        
                              <button type="submit" class="btn btn-default btn-sm">Create New Report</button>
-                        <!--{% endif %}-->
+                        {% endif %}
                     </form>
                 </div>
                 </div>
+                <br>
                 <br>
                 <br>
             </div>
