@@ -1,0 +1,15 @@
+<!DOCTYPE html>
+    <h1>Welcome to registration the page!</h1>
+        <form action="/signup/" method="post">
+            {% csrf_token %}
+            {{ form |linebreaks}}<br>
+           Username: <input type = text name = "username" id="username"/>
+            Password: <input type = password name = "password" id="password" />
+            Email: <input type = text name = "email" id = "email" />
+        <input type="submit" value="Sign Up" />
+        </form>
+
+    <h2> Already Signed Up?</h2>
+    <form action = "/login/" method = GET>
+        <input type = submit value=" Login">
+    </form>

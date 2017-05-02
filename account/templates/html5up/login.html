@@ -1,0 +1,102 @@
+<!DOCTYPE HTML>
+<!--
+	TXT by HTML5 UP
+	html5up.net | @ajlkn
+	Free for personal and commercial use under the CCA 3.0 license (html5up.net/license)
+-->
+
+{% load static %}
+
+<link rel="stylesheet" type="text/css" href="{% static 'account/css/main.css' %}"/>
+<link rel="stylesheet" type="text/css" href="{% static 'account/css/ie8.css' %}"/>
+<link rel="stylesheet" type="text/css" href="{%static 'account/css/font-awesome.min.css'}" />
+<link rel="stylesheet" type="text/css" href="{% static 'account/css/ie8.css' %}"/>
+
+<html>
+	<head>
+		<title>Lokahi Fintech</title>
+		<meta charset="utf-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1" />
+		<!--[if lte IE 8]><script src="assets/js/ie/html5shiv.js"></script><![endif]-->
+		<link rel="stylesheet" href="assets/css/main.css" />
+		<!--[if lte IE 8]><link rel="stylesheet" href="assets/css/ie8.css" /><![endif]-->
+		<link rel="stylesheet" href="font-awesome/css/font-awesome.min.css">
+	</head>
+	<body class="homepage">
+		<div id="page-wrapper">
+
+			<!-- Header -->
+				<header id="header">
+					<div class="logo container">
+						<div>
+							<h1><a href="index.html" id="logo">Login</a></h1>
+						</div>
+					</div>
+				</header>
+
+			<!-- Nav -->
+				<nav id="nav">
+					<ul>
+						<li><a href={% url 'home' %}>Home</a></li>
+						<li><a href= {% url 'signup' %}>Sign up</a></li>
+						<li class = "current"><a href>Login</a></li>
+					</ul>
+				</nav>
+			<!-- Registration form -->
+				<section class="wrapper style3 container">
+
+				<div id="content">
+
+								<div class="signup-wrapper">
+
+									{%  if form.errors %}
+									<p class = "error">Sorry that's not a valid username or password.</p>
+									{%  endif %}
+
+									<form action = "/auth/" method="POST">{%  csrf_token %}
+									    <label for="username">User name:</label>
+									    <input type="text" name="username" value ="" id="username" required>
+									    <label for="password">Password:</label>
+									    <input type="password" name="password" value="" id="password" required>
+									    <br>
+									    <br>
+									    <div style="text-align:center;"><input type="submit" value="login" /></div>
+									    <br>
+									    <br>
+{#                                        <script>#}
+{#                                            Successfully signed up. Please save your private key.#}
+{#                                            alert({{ privateKey }})#}
+{#                                        </script>#}
+
+
+									</form>
+									<div style="text-align:center;"><h2>New User? Sign Up Now!</h2></div>
+									<br>
+									<form action = "/signup/" method = GET>
+									    <div style="text-align:center;"><input type = submit value=" Sign Up"></div>
+									</form>
+
+						    	</div>
+
+						    </div>
+						</section>
+
+				</article>
+
+										<!-- Copyright -->
+								<ul class="copyright">
+									<div style="text-align:center;"><li>&copy; Lokahi Fintech. All rights reserved</li><li>Design: <a href="http://html5up.net">HTML5 UP</a></li></div>
+								</ul>
+				</div>
+
+		<!-- Scripts -->
+			<script src="assets/js/jquery.min.js"></script>
+			<script src="assets/js/jquery.dropotron.min.js"></script>
+			<script src="assets/js/skel.min.js"></script>
+			<script src="assets/js/skel-viewport.min.js"></script>
+			<script src="assets/js/util.js"></script>
+			<!--[if lte IE 8]><script src="assets/js/ie/respond.min.js"></script><![endif]-->
+			<script src="assets/js/main.js"></script>
+
+	</body>
+</html>a
