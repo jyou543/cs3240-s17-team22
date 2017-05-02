@@ -3,4 +3,4 @@ Django==1.8.8
 gunicorn==19.4.5
 psycopg2==2.6.1
 whitenoise==2.0.6
-pycryto==2.6.1
+Crypto==1.4.1
