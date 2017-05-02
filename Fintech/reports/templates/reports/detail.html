@@ -72,19 +72,37 @@
         </table>
 
 
+        <div class="container">
+            <h3>Company Files Attached:</h3>
+            <table class="table">
+                {% if report.companyfile_set %}
+                    <tbody>
+                        {% for file in report.companyfile_set.all %}
+                            {% if file.encrypted == 0 %}
+                          <tr>
+
+                              <td><div style = "padding-left: 40px"> File Name: <a href="{{ file.cfile.url }}" download> <strong> {{  file.cfile.name }}</strong></a></div></td>
+                              <td><div style = "padding-left: 40px"> {{ file.encrypted }}</div></td>
+                          </tr>
+
+                            {% else %}
+                                <tr>
+                                    <td><div style = "padding-left: 40px">File Name: "{{ file.cfile }}"<strong> {{  file.cfile.name }}</strong></div></td>
+                                    <td><div style = "padding-left: 40px"> {{ file.encrypted }}</div></td>
+                                </tr>
+                            {% endif %}
 
 
-        <table class="table">
-            {% if report.companyfile_set %}
-                {% for file in report.companyfile_set.all    %}
+
+                        {% endfor %}
+                    </tbody>
+                {% else %}
+                    <tr><td><div style = "padding-left: 40px">Company Files Attached: None</div></td></tr>
+                {% endif %}
+            </table>
+        </div>
 
 
-                    <tr><td><div style = "padding-left: 40px"> Company Files Attached: <a href="{{ file.cfile.url }}" download> <strong> {{  file.cfile.name }}</strong></a></div></td></tr>
-                {% endfor %}
-            {% else %}
-            <tr><td><div style = "padding-left: 40px">Company Files Attached: None</div></td></tr>
-            {% endif %}
-        </table>
 
 
 
@@ -96,9 +114,6 @@
                 {% for form in investorfiles_form %}
                     {{ form.id }}
                     <div class="inline {{ investorfiles_form.prefix }}">
-                        {{ form.investor_filename.errors }}
-                        {{ form.investor_filename.label_tag }}
-                        {{ form.investor_filename }}
                         {{ form.investor_file.errors }}
                         {{ form.investor_file.label_tag }}
                         {{ form.investor_file }}

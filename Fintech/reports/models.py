@@ -23,7 +23,7 @@ class Report(models.Model):
     sector=models.CharField(max_length=255)
     industry=models.CharField(max_length=255)
     current_projects=models.TextField()
-    private_report = models.BooleanField(default=False)
+    private_report = models.BooleanField(default=False, blank=True)
     #files_attached = models.FileField(blank=True, null=True, upload_to=content_file_name)
     # files_attached = models.FileField(blank=True, null=True, upload_to="uploads/")
 

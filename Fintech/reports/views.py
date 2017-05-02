@@ -5,7 +5,7 @@ from django.utils.decorators import method_decorator
 
 from reports.models import Companyfile
 from .models import Report
-from django.template.context_processors import csrf, request
+from django.core.context_processors import csrf, request
 from django.contrib.auth import authenticate, login
 from django.contrib.auth import logout
 from django.contrib.auth.decorators import login_required
@@ -197,12 +197,18 @@ class ReportCreate(CreateView):
             companyfiles.instance = self.object
             companyfiles.save(commit=False)
             obj_report = form.instance
+            boolen_value = self.request.POST.get('companyfile_set-0-encrypted')
+            if boolen_value == 'on':
+                a = bool('true')
+            else:
+                a = bool('')
             for cf in self.request.FILES.getlist('companyfile_set-0-cfile'):
                 Companyfile.objects.create(report=obj_report,
                                            cfile=cf,
+                                           encrypted=a
                                            )
 
-            companyfiles.save()
+
 
         # obj = form.save(commit=False)
         #
@@ -215,92 +221,6 @@ class ReportCreate(CreateView):
 
 #
 #
-    # def get(self, request, *args, **kwargs):
-    #     """
-    #     Handles GET requests and instantiates blank versions of the form
-    #     and its inline formsets.
-    #     """
-    #     self.object = None
-    #     form_class = self.get_form_class()
-    #     form = self.get_form(None)
-    #     company_files_form = CompanyFilesFormSet()
-    #     # investorfiles_form = InvestorFilesFormSet()
-    #     return self.render_to_response(
-    #         self.get_context_data(form=form,
-    #                               company_files_form=company_files_form))
-    #                               # ,investorfiles_form=investorfiles_form))
-    # # #
-    #
-    #
-    # def post(self, request, *args, **kwargs):
-    #     """
-    #     Handles POST requests, instantiating a form instance and its inline
-    #     formsets with the passed POST variables and then checking them for
-    #     validity.
-    #     """
-    #     self.object = None
-    #     form_class = self.get_form_class()
-    #     form = self.get_form(form_class)
-    #     company_files_form = CompanyFilesFormSet(self.request.POST or None, self.request.FILES or None)
-    # #     # investorfiles = InvestorFilesFormSet(self.request.POST, self.request.FILES.getlist('files'))
-    #     if (form.is_valid() and company_files_form.is_valid()):           # and investorfiles.is_valid()):
-    #         return self.form_valid(form, company_files_form)              #, investorfiles)
-    #     else:
-    #         return self.form_invalid(form, company_files_form)            #, investorfiles)
-    # #
-    # #
-    # def form_valid(self, form, company_files_form):   #, InvestorFilesForm):
-    #     """
-    #     Called if all forms are valid. Creates a Recipe instance along with
-    #     associated Ingredients and Instructions and then redirects to a
-    #     success page.
-    #     """
-    #     self.object = form.save()
-    #     company_files_form.instance = self.object
-    #     company_files_form.save()
-    #     # InvestorFilesForm.instance = self.object
-    #     # InvestorFilesForm.save()
-    #     return HttpResponseRedirect(self.get_success_url())
-    #
-    # def form_valid(self, form, company_files_form):      #, investorfiles):
-    #     # context = self.get_context_data()
-    #     # companyfiles_form = context['companyfiles_formset']
-    #     # investorfiles_form = context['investorfiles_formset']
-    #     # if companyfiles_form.is_valid() and investorfiles_form.is_valid():
-    #     self.object = form.save(commit=False)
-    #     userC = CustomUser.objects.get(user=self.request.user)
-    #     self.object.created_by = userC
-    #     self.object.save()
-    #     company_files_form.instance=self.object
-    #     # company_files = company_files_form.save(commit=False)
-    #     # for cf in company_files:
-    #     #     cf.save()
-    #
-    #
-    #
-    #
-    #
-    #     # company_files_form.instance = self.object
-    #     company_files_form.save()
-    #     # investorfiles.instance = self.object
-    #     # investorfiles.save()
-    #     # self.object.save()
-    # #         # obj = form.save(commit=False)
-    # #
-    #     return super(ReportCreate, self).form_valid(form)
-    #
-    #     # return HttpResponseRedirect(self.get_success_url())
-    #
-    #
-    #
-    # def form_invalid(self, form, company_files_form):         #, investorfiles):
-    #     """
-    #     Called if a form is invalid. Re-renders the context data with the
-    #     data-filled forms and errors.
-    #     """
-    #     return self.render_to_response(self.get_context_data(form=form, company_files_form=company_files_form))  #, investorfiles=investorfiles))
-
-
 
 # def manage_companyfiles(request, report_id):
 #     report = Report.objects.get(pk=report_id)
@@ -327,7 +247,8 @@ class ReportUpdate(UpdateView):
 
     fields = ['company_name', 'ceo_name', 'company_phone', 'company_email',
               'company_location', 'company_country', 'sector', 'industry',
-              'current_projects', 'private_report']
+              'current_projects', 'private_report', ]
+    # form_class = ReportForm
 
 
 class ReportDelete(DeleteView):
