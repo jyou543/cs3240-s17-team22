@@ -139,10 +139,10 @@
                         <h2>Create a report</h2>
                         <br>
                 <div style = "padding-left: 40px">
-                    <form action="{% url 'reports:report-add'  %}" method="post">
+                    <form action="{% url 'reports:report-add'  %}" method="get">
                             {% csrf_token %}
                         
-                             <button type="submit" class="btn btn-default btn-sm">Create New Report</button>
+                             <button type="submit" class="btn btn-default btn-sm"  >Create New Report</button>
                         {% endif %}
                     </form>
                 </div>
