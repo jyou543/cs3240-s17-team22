@@ -17,8 +17,14 @@
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <!--[if lte IE 8]><script src="assets/js/ie/html5shiv.js"></script><![endif]-->
         <link rel="stylesheet" href="assets/css/main.css" />
-        <!--[if lte IE 8]><link rel="stylesheet" href="assets/css/ie8.css" /><![endif]-->
-        <link rel="stylesheet" href="font-awesome/css/font-awesome.min.css">
+{#        <!--[if lte IE 8]><link rel="stylesheet" href="assets/css/ie8.css" /><![endif]-->#}
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.0/jquery.min.js"></script>
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.formset/1.2.2/jquery.formset.min.js"></script>
+{#        #}
+
     </head>
     <body class="homepage">
         <div id="page-wrapper">
@@ -30,13 +36,14 @@
                             <h1><a id="logo">Create a New Report</a></h1>
                         </div>
                     </div>
+
                 </header>
 
             <!-- Nav -->
                 <nav id="nav">
                     <ul>
                         <li><a href={% url 'loggedin' %}>Home</a></li>
-                        <li class = "current"><a href = "{% url 'reports:index'%}" >Reports</a></li>
+                        <li class = "current"><a href = "{% url 'reports:index' %}" >Reports</a></li>
                         <li><a href = {% url 'groups' %}>Groups</a></li>
                         <li><a href = {% url 'messaging' %}>Messaging</a></li>
                         <li><a href= {% url 'logout' %}>LOG OUT</a></li>
@@ -45,32 +52,80 @@
             <!-- Main -->
                 <div id="main-wrapper">
                 	<div style = "padding-left: 40px">
-					{% if error_message %}
-					    <p><strong>{{ error_message }}</strong></p>
-					{% endif %}
-					<form class="form-horizontal" action="" method="post" enctype="multipart/form-data">
-					    {% csrf_token %}
-					    {% include 'reports/form-template.html' %}
-					    <div class="form-group">
-					    	<br>
-					        <div class="col-sm-offset-2 col-sm-10" style = "text-align:center">
-					            <button type="submit" class="btn btn-success">Submit</button>
-					        </div>
+{#					{% if error_message %}#}
+{#					    <p><strong>{{ error_message }}</strong></p>#}
+{#					{% endif %}#}
+                    <p>
+                        <form class="form-horizontal" action="{% url 'reports:report-add'   %}"  method="post" enctype="multipart/form-data">
+                            {% csrf_token %}
+                            <fieldset>
+                                {{ form.non_field_errors }}
+                                <div>
+                                    {{ form.as_p }}
+                                </div>
+
+                            </fieldset>
+{#                            <fieldset>#}
+{#                                {% include 'reports/companyfiles_form.html' %}#}
+{#                            </fieldset>#}
+{#    					    {% include 'reports/form-template.html' %}#}
+{#                            <div>#}
+{#                                {{ form.as_p }}#}
+{#                            </div>#}
+                            <fieldset>
+                                <legend>Add a Company File</legend>
+                                {{ companyfiles.management_form }}
+{#                                {{ companyfiles_form.non_form_errors }}#}
+{#{{ form.management_form }}#}
+
+                                {% for form in companyfiles %}
+                                    {{ form.id }}
+
+{#                                    {{ companyfiles_form }}#}
+{#                                    {{ companyfiles }}#}
+                                    <div class="inline {{ companyfiles.prefix }}">
+                                        {{ form.cfile.errors }}
+                                        {{ form.cfile.label_tag }}
+                                        {{ form.cfile }}
+                                        {{ form.encrypted.errors }}
+                                        {{ form.encrypted.label_tag }}
+                                        {{ form.encrypted }}
+
+                                    </div>
+                                {% endfor %}
+                            </fieldset>
+    					    <div class="form-group">
+                                <br>
+                                <div class="col-sm-offset-2 col-sm-10" style = "text-align:center">
+                                    <button type="submit" class="btn btn-success">Submit</button>
+                                </div>
+                            </div>
+                        </form>
+
+                    </p>
+
 					    </div>
-					    </div>
-					</form>
-		                <footer id="footer">
+                </div>
+
+                <footer id="footer">
 
 
                     <!-- Copyright -->
                             <ul class="copyright">
                                 <li>&copy; Lokahi Fintech. All rights reserved</li><li>Design: <a href="http://html5up.net">HTML5 UP</a></li>
                             </ul>
-                        </div>
+
 
                 </footer>
 
             </div>
+        <script type="text/javascript">
+            $(function() {
+                $(".inline .{{ companyfiles.prefix }}").formset({
+                    prefix: "{{ companyfiles.prefix }}"
+                })
+            });
+        </script>
 
         <!-- Scripts -->
             <script src="assets/js/jquery.min.js"></script>
@@ -80,6 +135,7 @@
             <script src="assets/js/util.js"></script>
             <!--[if lte IE 8]><script src="assets/js/ie/respond.min.js"></script><![endif]-->
             <script src="assets/js/main.js"></script>
+
 
     </body>
 </html>

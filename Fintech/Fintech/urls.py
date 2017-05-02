@@ -1,7 +1,7 @@
 from django.conf.urls import include, url
 from django.contrib import admin
 from account import views as account_views
-from reports import views as reports_views
+# from reports import views as reports_views
 from groups import views as group_views
 from messaging.views import *
 from django.conf import settings

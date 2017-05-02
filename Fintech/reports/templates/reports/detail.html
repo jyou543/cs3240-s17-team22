@@ -18,6 +18,16 @@
         <link rel="stylesheet" href="assets/css/main.css" />
         <!--[if lte IE 8]><link rel="stylesheet" href="assets/css/ie8.css" /><![endif]-->
         <link rel="stylesheet" href="font-awesome/css/font-awesome.min.css">
+        <script type="text/javascript">
+            $(function() {
+                $(".inline.{{ companyfiles_form.prefix }}").formset({
+                    prefix: "{{ companyfiles_form.prefix }}",
+                })
+                $(".inline.{{ investorfiles_form.prefix }}").formset({
+                    prefix: "{{ investorfiles_form.prefix }}",
+                })
+            })
+        </script>
     </head>
     <body class="homepage">
         <div id="page-wrapper">
@@ -56,13 +66,51 @@
             <tr><td><div style = "padding-left: 40px">Industry: {{ report.industry }}</div></td></tr>
             <tr><td><div style = "padding-left: 40px">Current Projects: {{ report.current_projects }}</div></td></tr>
             <tr><td><div style = "padding-left: 40px">Private Report: {{ report.private_report }}</div></td></tr>
-            {% if report.files_attached %}
-            <tr><td><div style = "padding-left: 40px">Files Attached: <a href="{{ report.files_attached.url }}" download> <strong> {{  report.files_attached.name }}</strong></a></div></td></tr>
-            {% else %}
-            <tr><td><div style = "padding-left: 40px">Files Attached: None</div></td></tr>
-            {% endif %}
+
+
             <tr><td><div style = "padding-left: 40px">Created At: {{ report.created_at }}</div></td></tr>
         </table>
+
+
+
+
+        <table class="table">
+            {% if report.companyfile_set %}
+                {% for file in report.companyfile_set.all    %}
+
+
+                    <tr><td><div style = "padding-left: 40px"> Company Files Attached: <a href="{{ file.cfile.url }}" download> <strong> {{  file.cfile.name }}</strong></a></div></td></tr>
+                {% endfor %}
+            {% else %}
+            <tr><td><div style = "padding-left: 40px">Company Files Attached: None</div></td></tr>
+            {% endif %}
+        </table>
+
+
+
+        <form action="" method="post">
+            <fieldset>
+                <legend>Add an Investor File</legend>
+                {{ investorfiles_form.management_form }}
+                {{ investorfiles_form.non_form_errors }}
+                {% for form in investorfiles_form %}
+                    {{ form.id }}
+                    <div class="inline {{ investorfiles_form.prefix }}">
+                        {{ form.investor_filename.errors }}
+                        {{ form.investor_filename.label_tag }}
+                        {{ form.investor_filename }}
+                        {{ form.investor_file.errors }}
+                        {{ form.investor_file.label_tag }}
+                        {{ form.investor_file }}
+                        {{ form.encrypted.errors }}
+                        {{ form.encrypted.label_tag }}
+                        {{ form.encrypted }}
+                    </div>
+                {% endfor %}
+            </fieldset>
+        </form>
+
+
 
     <div style = "text-align: center">
     <form action="{% url 'reports:report-delete' report.id %}" method="post" style="display: inline;">

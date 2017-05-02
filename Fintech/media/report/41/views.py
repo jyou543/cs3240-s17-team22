@@ -3,9 +3,8 @@ from django.shortcuts import render, get_object_or_404, render_to_response
 from django.http import HttpResponseRedirect, request
 from django.utils.decorators import method_decorator
 
-from reports.models import Companyfile
 from .models import Report
-from django.template.context_processors import csrf, request
+from django.core.context_processors import csrf, request
 from django.contrib.auth import authenticate, login
 from django.contrib.auth import logout
 from django.contrib.auth.decorators import login_required
@@ -176,7 +175,7 @@ class ReportCreate(CreateView):
     def get_context_data(self, **kwargs):
         context = super(ReportCreate, self).get_context_data(**kwargs)
         if self.request.POST:
-            context['companyfiles'] = CompanyFilesFormSet(self.request.POST)
+            context['companyfiles'] = CompanyFilesFormSet(self.request.POST,self.request.FILES)
             # context['investorfiles_form'] = InvestorFilesFormSet(self.request.POST, self.request.FILES)
         else:
             context['companyfiles'] = CompanyFilesFormSet()
@@ -196,12 +195,10 @@ class ReportCreate(CreateView):
         if companyfiles.is_valid():
             companyfiles.instance = self.object
             companyfiles.save(commit=False)
-            obj_report = form.instance
-            for cf in self.request.FILES.getlist('companyfile_set-0-cfile'):
-                Companyfile.objects.create(report=obj_report,
-                                           cfile=cf,
-                                           )
-
+            files = self.request.FILES.getlist('companyfile_set-0-cfile')
+            for cf in files:
+                companyfiles.instance.cfile = cf
+                companyfiles.instance.save()
             companyfiles.save()
 
         # obj = form.save(commit=False)

@@ -1,18 +1,55 @@
 from django import forms
-from .models import Report
+from .models import Report, Investorfile, Companyfile
+from django.forms.models import inlineformset_factory
+
+
 
 class ReportForm(forms.ModelForm):
 
-    files_attached = forms.FileField()
+    # files_attached = forms.FileField()
 
     class Meta:
         model = Report
-        fields = ['company_name', 'ceo_name', 'company_phone', 'company_email',
+        fields = ('company_name', 'company_phone', 'company_email',
                   'company_location', 'company_country', 'sector', 'industry',
-                  'current_projects', 'private_report', 'files_attached']
-        widgets = {"files_attached": forms.FileInput(attrs={'id': 'files', 'required': False, 'multiple': True})}
+                  'current_projects', 'private_report')
 
 
+class CompanyfileForm(forms.ModelForm):
+
+    class Meta:
+        model = Companyfile
+        fields = ('cfile', 'encrypted')
+        widgets = {'cfile': forms.ClearableFileInput(attrs={'id': 'files', 'required': False, 'multiple': True})}
+#
+#
+class InvestorfileForm(forms.ModelForm):
+
+    class Meta:
+        model = Investorfile
+        fields = ['ifile', 'encrypted']
+        widgets = {'ifile': forms.ClearableFileInput(attrs={'id': 'files', 'required': False, 'multiple': True})}
+
+
+# class CompanyFilesForm(forms.ModelForm):
+#
+#     class Meta:
+#         model = CompanyFiles
+#         fields = ['company_file', 'encrypted']
+#         widgets = {'company_file': forms.ClearableFileInput(attrs={'id': 'files', 'required': False, 'multiple': True})}
+#
+#
+# class InvestorFilesForm(forms.ModelForm):
+#
+#     class Meta:
+#         model = InvestorFiles
+#         fields = ['investor_file', 'encrypted']
+#         widgets = {'investor_file': forms.ClearableFileInput(attrs={'id': 'files', 'required': False, 'multiple': True})}
+
+# ReportFormSet = modelformset_factory(Report, form=ReportForm)
+CompanyFilesFormSet = inlineformset_factory(Report, Companyfile, form=CompanyfileForm, extra=1)
+
+InvestorFilesFormSet = inlineformset_factory(Report, Investorfile, form=InvestorfileForm, extra=1)
         # created_at = forms.DateTimeField(label='Created at:')
     # company_name = forms.CharField(label='Company Name:', max_length=255)
     # company_phone = forms.CharField(label='Company Phone:', max_length=255)
