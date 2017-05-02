@@ -116,14 +116,24 @@
     <form action="{% url 'reports:report-delete' report.id %}" method="post" style="display: inline;">
             {% csrf_token %}
             <input type="hidden" name="report_id" value="{{ report.id }}"/>
+        {% if user.customuser.is_SiteManager %}
             <button type="submit" class="btn btn-danger btn-xs">
                 <span class="glyphicon glyphicon-remove"></span> Delete
             </button>
+        {% else %}
+          <button type="submit" disabled class="btn btn-danger btn-xs">
+                <span class="glyphicon glyphicon-remove"></span> Delete
+            </button>
+        {% endif %}
     </form>
 
 
     <a href="{% url 'reports:report-update' report.id %}" style="display: inline; padding-left: 40px">
+        {% if user.customuser.is_SiteManager %}
             <button type="" class="btn btn-default btn-sm">Update</button>
+        {% elif user.customuser.user_type == "C" %}
+            <button type="" disabled class="btn btn-default btn-sm">Update</button>
+        {% endif %}
     </a>
 
 </div>
