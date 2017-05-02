@@ -40,7 +40,6 @@ INSTALLED_APPS = (
     'account',
     'reports',
     'groups',
-    'Fintech',
     'messaging'
 )
 
