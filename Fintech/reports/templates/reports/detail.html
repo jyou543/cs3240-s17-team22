@@ -71,30 +71,33 @@
             <tr><td><div style = "padding-left: 40px">Created At: {{ report.created_at }}</div></td></tr>
         </table>
 
-        <div class="container" style = "padding-right: 400px">
+        < class="container" style = "padding-right: 400px">
             <h3>Company Files Attached:</h3>
             <table class="table">
-                {% if report.companyfile_set %}
+                {% if report.companyfile_set%}
                     <tbody>
                         {% for file in report.companyfile_set.all %}
                             {% if file.encrypted == 0 %}
                           <tr>
 
-                              <td> File Name: <a href="{{ file.cfile.url }}" download> <strong> {{ file.cfile.name}}</strong></a></div></td>
+                              <td> File Name: <a href="{{ file.cfile.url }}" download> <strong> {{ file.cfile.name}}</strong></a></td>
                           </tr>
 
                             {% else %}
                                 <tr>
-                                    <td>File Name: <strong> {{  file.cfile.name }}</strong></></td>
+                                    <td>File Name: <strong> {{  file.cfile.name }}</strong></td>
                                 </tr>
                             {% endif %}
 
 
-
+                        {% empty %}
+                            <tr><td><div style = "padding-left: 40px">None</div></td></tr>
                         {% endfor %}
                     </tbody>
                 {% else %}
                     <tr><td>Company Files Attached: None</td></tr>
+{#                    <h1>hello</h1>#}
+                    <tr><td><div style = "padding-left: 40px">None</div></td></tr>
                 {% endif %}
             </table>
         </div>
@@ -103,23 +106,34 @@
 
 
 
-        <form action="" method="post">
-            <fieldset>
-                <legend>Add an Investor File</legend>
-                {{ investorfiles_form.management_form }}
-                {{ investorfiles_form.non_form_errors }}
-                {% for form in investorfiles_form %}
-                    {{ form.id }}
-                    <div class="inline {{ investorfiles_form.prefix }}">
-                        {{ form.investor_file.errors }}
-                        {{ form.investor_file.label_tag }}
-                        {{ form.investor_file }}
-                        {{ form.encrypted.errors }}
-                        {{ form.encrypted.label_tag }}
-                        {{ form.encrypted }}
-                    </div>
-                {% endfor %}
-            </fieldset>
+{#        <form action="" method="post">#}
+{#            <fieldset>#}
+{#                <legend>Add an Investor File</legend>#}
+{#                {{ investorfiles_form.management_form }}#}
+{#                {{ investorfiles_form.non_form_errors }}#}
+{#                {% for form in investorfiles_form %}#}
+{#                    {{ form.id }}#}
+{#                    <div class="inline {{ investorfiles_form.prefix }}">#}
+{#                        {{ form.investor_file.errors }}#}
+{#                        {{ form.investor_file.label_tag }}#}
+{#                        {{ form.investor_file }}#}
+{#                        {{ form.encrypted.errors }}#}
+{#                        {{ form.encrypted.label_tag }}#}
+{#                        {{ form.encrypted }}#}
+{#                    </div>#}
+{#                {% endfor %}#}
+{#            </fieldset>#}
+{#        </form>#}
+
+
+
+        <form class="form-horizontal" action="{% url 'reports:companyfile_form' %}"  method="post" enctype="multipart/form-data">
+            {% csrf_token %}
+            <div>
+                {{ form.as_p }}
+            </div>
+
+            <input type="submit" value="Upload File"/>
         </form>
 
 
