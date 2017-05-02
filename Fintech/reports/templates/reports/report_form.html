@@ -56,8 +56,9 @@
 {#					    <p><strong>{{ error_message }}</strong></p>#}
 {#					{% endif %}#}
                     <p>
-                        <form class="form-horizontal" action="{% url 'reports:report-add'   %}"  method="post" enctype="multipart/form-data">
-                            {% csrf_token %}
+                        <form class="form-horizontal" action="{% url 'reports:report-add' %}"  method="post" enctype="multipart/form-data">
+                        {% csrf_token %}
+
                             <fieldset>
                                 {{ form.non_field_errors }}
                                 <div>
@@ -75,7 +76,7 @@
                             <fieldset>
                                 <legend>Add a Company File</legend>
                                 {{ companyfiles.management_form }}
-{#                                {{ companyfiles_form.non_form_errors }}#}
+                                {{ companyfiles_form.non_form_errors }}
 {#{{ form.management_form }}#}
 
                                 {% for form in companyfiles %}
