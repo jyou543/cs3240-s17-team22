@@ -103,7 +103,9 @@
 
                             <form class="form-horizontal" action="reports/companyfile_form.html"  method="post" enctype="multipart/form-data">
                             {% csrf_token %}
+                                {% if user.customuser.is_SiteManager %}
                                  <input type="submit" value="Upload File"/>
+                                {% endif %}
                             </form>
                         </form>
 

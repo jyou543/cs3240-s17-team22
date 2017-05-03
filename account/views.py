@@ -278,7 +278,7 @@ def get_encrypt(request):
             if request.POST['file'] == file.cfile.name.split('/')[-1]:
                 this_file = file
         for file in report.investorfile_set.all():
-            if request.POST['file'] == file.cfile.name.split('/')[-1]:
+            if request.POST['file'] == file.ifile.name.split('/')[-1]:
                 this_file = file
         return JsonResponse({'encrypt': this_file.encrypted})
 
