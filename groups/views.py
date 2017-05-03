@@ -216,7 +216,10 @@ def select_members_to_delete_site_manager(request):
         groupName=request.POST.get('groupName')
         group = Group.objects.all().filter(name=groupName)[0]
         members=group.members.all()
-    return render(request, 'html5up/selectMembersToDelete_SM.html',  {'groupName': groupName , 'members': members })
+    if len(members) != 0:
+        return render(request, 'html5up/selectMembersToDelete_SM.html',  {'groupName': groupName , 'members': members })
+    else:
+        return render(request, 'html5up/group_empty.html')
 
 @login_required
 def delete_members_site_manager(request):

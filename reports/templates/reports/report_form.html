@@ -16,13 +16,8 @@
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <!--[if lte IE 8]><script src="assets/js/ie/html5shiv.js"></script><![endif]-->
         <link rel="stylesheet" href="assets/css/main.css" />
-{#        <!--[if lte IE 8]><link rel="stylesheet" href="assets/css/ie8.css" /><![endif]-->#}
-        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
-        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
-        <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.0/jquery.min.js"></script>
-        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.formset/1.2.2/jquery.formset.min.js"></script>
-{#        #}
+        <!--[if lte IE 8]><link rel="stylesheet" href="assets/css/ie8.css" /><![endif]-->
+        <link rel="stylesheet" href="font-awesome/css/font-awesome.min.css">
 
     </head>
     <body class="homepage">
@@ -93,12 +88,14 @@
                                     </div>
                                 {% endfor %}
                             </fieldset>
+                    <div style = "padding-left: 40px; padding-right: 280px">
     					    <div class="form-group">
                                 <br>
                                 <div class="col-sm-offset-2 col-sm-10" style = "text-align:center">
                                     <button type="submit" class="btn btn-success">Submit</button>
                                 </div>
                             </div>
+                    </div>
 {#                            <input type="submit" value="Upload file" class="button"/>#}
 
                             <form class="form-horizontal" action="reports/companyfile_form.html"  method="post" enctype="multipart/form-data">
