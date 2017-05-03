@@ -312,7 +312,8 @@ class ReportUpdate(UpdateView):
               'company_location', 'company_country', 'sector', 'industry',
               'current_projects', 'private_report', ]
     # form_class = ReportForm
-
+    print("tger")
+    success_url = reverse_lazy('reports:index')
 
 class ReportDelete(DeleteView):
     model = Report

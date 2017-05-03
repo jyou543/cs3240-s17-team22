@@ -56,7 +56,7 @@
 {#					    <p><strong>{{ error_message }}</strong></p>#}
 {#					{% endif %}#}
                     <p>
-                        <form class="form-horizontal" action="{% url 'reports:report-add' %}"  method="post" enctype="multipart/form-data">
+                        <form class="form-horizontal" action="." method="post" enctype="multipart/form-data">
                         {% csrf_token %}
 
                             <fieldset>

@@ -245,7 +245,7 @@ def view_one(data):
         if str(one.id) == data.POST['id']:
             report = one
     if report is None:
-        dictionary = {data.POST['id']: "Does not exist"}
+        dictionary = {'COMPANY': "Does not exist"}
     else:
         dictionary = {'CREATED BY': report.created_by.user.username, 'COMPANY': report.company_name, 'PHONE' : report.company_phone, 'EMAIL': report.company_email,
                       'LOCATION': report.company_location, 'COUNTRY': report.company_country, 'SECTOR': report.sector, 'INDUSTRY': report.industry, 'CEO':report.ceo_name,

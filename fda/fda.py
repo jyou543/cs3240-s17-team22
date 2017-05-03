@@ -47,7 +47,7 @@ def view_reports():
             url = "http://evening-shelf-33806.herokuapp.com/viewOne/"
             r = requests.post(url, data={'id': report, 'user': user})
             data = r.json()
-            if data[report] == 'Does not exist':
+            if data['COMPANY'] == "Does not exist":
                 print('\nBad input-Quit')
                 break
             for y in data:
