@@ -3,13 +3,12 @@ from django.shortcuts import render, get_object_or_404, render_to_response
 from django.http import HttpResponseRedirect, request, HttpResponseForbidden
 from django.utils.decorators import method_decorator
 
-from reports.models import Companyfile
+from reports.models import Companyfile, Investorfile
 from .models import Report
-from django.core.context_processors import csrf, request
 from django.contrib.auth import authenticate, login
 from django.contrib.auth import logout
 from django.contrib.auth.decorators import login_required
-from .forms import ReportForm, CompanyFilesFormSet, InvestorfileForm, CompanyfileForm
+from .forms import ReportForm, CompanyFilesFormSet, CompanyfileForm, InvestorfileForm
 from account.models import CustomUser
 from django.views.generic.edit import CreateView, UpdateView, DeleteView, FormView, FormMixin
 from django.views.generic.list import ListView, View
@@ -106,37 +105,9 @@ class IndexView(ListView):
             if(company_projects):
                 query|=Q(current_projects__icontains=company_projects)
             all_reports=all_reports.filter(query)
-            # if(not company_name):
-            #     company_name=''
-            # if(not ceo_name):
-            #     ceo_name=None
-            # if(not created_at):
-            #     created_at=''
-            # if(not company_phone):
-            #     company_phone=''
-            # if(not company_email):
-            #     company_email=''
-            # if(not company_location):
-            #     company_location=''
-            # if(not company_sector):
-            #     company_sector=''
-            # if(not company_industry):
-            #     company_industry=''
-            # if(not company_projects):
-            #     company_projects=''
-            # all_reports = all_reports.filter(Q(company_name__icontains=company_name) | Q(ceo_name__icontains=ceo_name) | Q(created_at__icontains=created_at) |
-            #                                  Q(company_phone__icontains=company_phone) | Q(company_email__icontains=company_email) | Q(company_location__icontains=company_location) |
-            #                                  Q(sector__icontains=company_sector) | Q(industry__icontains=company_industry) | Q(current_projects__icontains=company_projects))
-
 
         return all_reports
 
-
-        # if query:
-        #     return all_reports.filter(Q(company_name__icontains=query))
-        #
-        # else:
-        #     return all_reports
 
 def my_user(request):
     user = None
@@ -152,9 +123,10 @@ class ReportDetailView(FormMixin, DetailView):
     model = Report
     template_name = 'reports/detail.html'
     # if CustomUser.objects.get(user=self.request.user):
-    form_class = CompanyfileForm
     # else:
-    # form_class = InvestorfileForm
+
+
+
 
     def get_form_class(self):
         # if request.user.is_authenticated():
@@ -187,6 +159,13 @@ class ReportDetailView(FormMixin, DetailView):
 
 
     def form_valid(self, form):
+        user = CustomUser.objects.get(user=self.request.user)
+        userType = user.user_type
+        if userType == 'C':
+            Companyfile.instance = self.object
+        else:
+            Investorfile.instance = self.object
+
         return super(ReportDetailView, self).form_valid(form)
 
     # def get_context_data(self, **kwargs):
@@ -200,7 +179,7 @@ class ReportDetailView(FormMixin, DetailView):
 
 
 
-class CompanyfileCreate(FormView):
+class CompanyfileCreate(CreateView):
     model = Companyfile
     form_class = CompanyfileForm
     template_name = 'reports/companyfile_form.html'
@@ -208,17 +187,21 @@ class CompanyfileCreate(FormView):
 
     def form_valid(self, form):
         # form.ReportCreate()
+
+        return super().form_valid(form)
+
+class InvestorfileCreate(CreateView):
+    model = Investorfile
+    form_class = InvestorfileForm
+    template_name = 'reports/investorfile_form.html'
+    success_url = reverse_lazy('reports:index')
+    def form_valid(self, form):
+        # form.ReportCreate()
         return super().form_valid(form)
 
 
-
-
-
-
-
-
 # view for the new report entry page
-class ReportCreate(FormView):
+class ReportCreate(CreateView):
     model = Report
     form_class = ReportForm
     # object = None
@@ -253,58 +236,78 @@ class ReportCreate(FormView):
         if form.is_valid():
             self.object = form.save(commit=False)
             userC = CustomUser.objects.get(user=self.request.user)
-            if(my_user(self.request).is_SiteManager):
-                pass
-            else:
-                self.object.created_by = userC
+            self.object.created_by = userC
             self.object = form.save()
         if companyfiles.is_valid():
             companyfiles.instance = self.object
             companyfiles.save(commit=False)
             obj_report = form.instance
-            boolen_value = self.request.POST.get('companyfile_set-0-encrypted')
-            if boolen_value == 'on':
+            boolean_value = self.request.POST.get('companyfile_set-0-encrypted')
+            if boolean_value == 'on':
                 a = bool('true')
             else:
                 a = bool('')
+            # file = self.request.FILES.get('companyfile_set-0-cfile')
+
             for cf in self.request.FILES.getlist('companyfile_set-0-cfile'):
                 Companyfile.objects.create(report=obj_report,
                                            cfile=cf,
                                            encrypted=a
                                            )
+            # Companyfile.objects.create(report=obj_report, cfile=file, encrypted=a)
 
 
-
-
-        # obj = form.save(commit=False)
-        #
-        # obj.created_by = userC
         return super(ReportCreate, self).form_valid(form)
 
 
     def get_success_url(self):
         return reverse_lazy('reports:index')
 
-#
-#
-
-# def manage_companyfiles(request, report_id):
-#     report = Report.objects.get(pk=report_id)
-#     CompanyFilesFormSet = inlineformset_factory(Report, CompanyFiles, fields=('company_file', 'encrypted'),
-#                                                 widgets={'company_file': ClearableFileInput(
-#                                                     attrs={'id': 'files', 'required': False, 'multiple': True})})
-#     if request.method == 'POST':
-#         formset = CompanyFilesFormSet(request.POST, request.FILES, instance=report)
-#         if formset.is_valid():
-#             formset.save()
-#             return HttpResponseRedirect(report.get_absolute_url())
-#         else:
-#             formset = CompanyFilesFormSet(instance=report)
-#         return render_to_response("reports/report_form.html", {
-#             "formset": formset,
-#         })
 
 
+def addFile(request, pk):
+    print('here')
+    # reportId = request.POST['reportID']
+
+
+    obs = Report.objects.all()
+    for report in obs:
+        if str(report.id) == str(pk):
+            right = report
+
+    boolean_value = request.POST.get('encrypted')
+    if boolean_value == 'on':
+        a = bool('true')
+    else:
+        a = bool('')
+
+
+    userType = request.user.customuser.user_type
+    if userType == 'C':
+        cf = request.FILES['cfile']
+        Companyfile.objects.create(report=right,
+                                    cfile=cf,
+                                    encrypted=a)
+
+    else:
+        cf = request.FILES['ifile']
+        Investorfile.objects.create(report=right,
+                                    ifile=cf,
+                                    encrypted=a)
+
+
+
+
+
+
+    # url = 'reports/' + str(pk) + '/'
+    # return HttpResponseRedirect(url)
+
+    # return
+    # success_url =
+
+
+    return HttpResponseRedirect(reverse_lazy('reports:index'))
 
 
 class ReportUpdate(UpdateView):
@@ -313,10 +316,8 @@ class ReportUpdate(UpdateView):
 
     fields = ['company_name', 'ceo_name', 'company_phone', 'company_email',
               'company_location', 'company_country', 'sector', 'industry',
-              'current_projects', 'private_report', ]
-    # form_class = ReportForm
-    print("tger")
-    success_url = reverse_lazy('reports:index')
+              'current_projects', 'private_report']
+
 
 class ReportDelete(DeleteView):
     model = Report

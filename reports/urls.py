@@ -1,9 +1,10 @@
 from django.conf.urls import url
-from .views import IndexView, ReportDetailView, ReportUpdate, ReportCreate, ReportDelete, CompanyfileCreate
+from .views import IndexView, ReportDetailView, ReportUpdate, ReportCreate, ReportDelete, CompanyfileCreate, addFile
 # from . import views
 from django.conf.urls.static import static
 from django.middleware.http import ConditionalGetMiddleware
-from django.utils.decorators import available_attrs, decorator_from_middleware
+from django.views.generic import RedirectView
+
 
 app_name = 'reports'
 
@@ -21,6 +22,11 @@ urlpatterns = [
 
     # modelforms/product/2
     url(r'^report/(?P<pk>[0-9]+)/$', ReportUpdate.as_view(), name='report-update'),
+
+    url(r'^(?P<pk>[0-9]+)/addfiles/$', addFile),
+    # url(r'/addfiles/$', addFile),
+
+
 
     # modelforms/product/(?P<pk>[0-9]+)/delete
     url(r'^report/(?P<pk>[0-9]+)/delete/$', ReportDelete.as_view(), name='report-delete'),

@@ -1,4 +1,3 @@
-
 <!DOCTYPE HTML>
 <!--
     TXT by HTML5 UP
@@ -56,7 +55,7 @@
 {#					    <p><strong>{{ error_message }}</strong></p>#}
 {#					{% endif %}#}
                     <p>
-                        <form class="form-horizontal" action="." method="post" enctype="multipart/form-data">
+                        <form class="form-horizontal" action="."  method="post" enctype="multipart/form-data">
                         {% csrf_token %}
 
                             <fieldset>
@@ -77,7 +76,6 @@
                                 <legend>Add a Company File</legend>
                                 {{ companyfiles.management_form }}
                                 {{ companyfiles_form.non_form_errors }}
-{#{{ form.management_form }}#}
 
                                 {% for form in companyfiles %}
                                     {{ form.id }}
@@ -101,9 +99,18 @@
                                     <button type="submit" class="btn btn-success">Submit</button>
                                 </div>
                             </div>
+{#                            <input type="submit" value="Upload file" class="button"/>#}
+
+                            <form class="form-horizontal" action="reports/companyfile_form.html"  method="post" enctype="multipart/form-data">
+                            {% csrf_token %}
+                                 <input type="submit" value="Upload File"/>
+                            </form>
                         </form>
 
+
                     </p>
+
+
 
 					    </div>
                 </div>
@@ -127,6 +134,15 @@
                 })
             });
         </script>
+        <!-- Include formset plugin - including jQuery dependency -->
+        <script src="//ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
+        <script src="{% static 'path_to/jquery.formset.js' %}"></script>
+        <script>
+            $('.link-formset').formset({
+                addText: 'add link',
+                deleteText: 'remove'
+            });
+        </script>
 
         <!-- Scripts -->
             <script src="assets/js/jquery.min.js"></script>
@@ -139,4 +155,3 @@
 
 
     </body>
-</html>
