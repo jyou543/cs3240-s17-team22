@@ -225,13 +225,21 @@ def select_members_to_delete_site_manager(request):
 def delete_members_site_manager(request):
     if request.method=='POST':
         groupName=request.POST.get('groupName')
-        members=request.POST.getlist('checks')
+        deletedMembers=request.POST.getlist('checks')
         group=Group.objects.all().filter(name=groupName)[0]
-        for username in members:
+        for username in deletedMembers:
             user = User.objects.get(username=username)
             custom_user=CustomUser.objects.all().filter(user=user)[0]
             group.members.remove(custom_user)
-        allGroups = Group.objects.all()
-        if allGroups.filter(name=groupName)[0].members.count()==0:
-            allGroups.filter(name=groupName).delete()
-        return render(request, 'html5up/deletedMembersSuccess_SM.html')
+        if len(deletedMembers) != 0:
+            return render(request, 'html5up/deletedMembersSuccess_SM.html')
+        else:
+            groupName = None
+            if request.method == 'POST':
+                groupName = request.POST.get('groupName')
+                group = Group.objects.all().filter(name=groupName)[0]
+                members=group.members.all()
+            if len(members) != 0:
+                return render(request, 'html5up/deletedMembersSuccess_SM.html', {'groupName':groupName, 'members':members})
+            else:
+                return render(request, 'group_empty.html')
