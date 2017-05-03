@@ -9,13 +9,12 @@ from Crypto.Cipher import AES
 
 def log():
     print("Please Login:\n ")
-    url = "http://127.0.0.1:8000/fdaLogin/"
     check = False
     while not check:
         username = input("Username: ")
         password = getpass.getpass('Password:')
         try:
-            response = requests.post('http://127.0.0.1:8000/fdaLogin/', data= {'username': username, 'password': password})
+            response = requests.post('http://evening-shelf-33806.herokuapp.com/fdaLogin/', data= {'username': username, 'password': password})
         except requests.exceptions.ConnectionError:
             print("connection error")
         check = response.json()['login']
@@ -34,7 +33,7 @@ def logout():
 
 def view_reports():
     global user
-    url = "http://127.0.0.1:8000/viewReports/"
+    url = "http://evening-shelf-33806.herokuapp.com/viewReports/"
     response = requests.post(url, data={'user': user})
     all_reports = response.json()['reports']
     print("\nList of all public reports: \n")
@@ -45,9 +44,12 @@ def view_reports():
         if report == 'n':
             break
         else:
-            url = "http://127.0.0.1:8000/viewOne/"
+            url = "http://evening-shelf-33806.herokuapp.com/viewOne/"
             r = requests.post(url, data={'id': report, 'user': user})
             data = r.json()
+            if data[report] == 'Does not exist':
+                print('\nBad input-Quit')
+                break
             for y in data:
                 if y == 'files':
                     for file in data[y]:
@@ -63,16 +65,15 @@ def view_reports():
                     if name.split("/")[-1] == download:
                         check = True
                 if check:
-                    url = "http://127.0.0.1:8000/media/report/"+ report + "/" + download
+                    url = "http://evening-shelf-33806.herokuapp.com/media/report/"+ report + "/" + download
                     download_file(url, download, report)
         print("\n")
 
 def download_file(url, name, id):
     #download file and encrppt if neceesary
-    fullfilename = os.path.join('C:/Users/Neel_Patel/downloads/', name)
+    # fullfilename = os.path.join('C:/Users/Neel_Patel/downloads/', name)
     urllib.request.urlretrieve(url, name)
-    is_encrypted = requests.post("http://127.0.0.1:8000/getEncrypt/", data={'user':user, 'id':id, 'file':name})
-    print(is_encrypted.status_code)
+    is_encrypted = requests.post("http://evening-shelf-33806.herokuapp.com/getEncrypt/", data={'user':user, 'id':id, 'file':name})
     if is_encrypted.json()['encrypt'] == True:
         decrypt_file(name, b'123456789abcdfgh')
 

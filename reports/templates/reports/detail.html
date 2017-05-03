@@ -71,7 +71,7 @@
             <tr><td><div style = "padding-left: 40px">Created At: {{ report.created_at }}</div></td></tr>
         </table>
 
-        < class="container" style = "padding-right: 400px">
+        <div style = "padding-left: 40px">
             <h3>Company Files Attached:</h3>
             <table class="table">
                 {% if report.companyfile_set%}
@@ -100,6 +100,16 @@
                     <tr><td><div style = "padding-left: 40px">None</div></td></tr>
                 {% endif %}
             </table>
+
+        <form class="form-horizontal" action="{% url 'reports:companyfile_form' %}"  method="post" enctype="multipart/form-data">
+            {% csrf_token %}
+            <div>
+                {{ form.as_p }}
+            </div>
+
+            <input type="submit" value="Upload File"/>
+        </form>
+
         </div>
 
 
@@ -127,15 +137,6 @@
 
 
 
-        <form class="form-horizontal" action="{% url 'reports:companyfile_form' %}"  method="post" enctype="multipart/form-data">
-            {% csrf_token %}
-            <div>
-                {{ form.as_p }}
-            </div>
-
-            <input type="submit" value="Upload File"/>
-        </form>
-
 
 
     <div style = "text-align: center">
@@ -146,10 +147,6 @@
             <button type="submit" class="btn btn-danger btn-xs">
                 <span class="glyphicon glyphicon-remove"></span> Delete
             </button>
-        {% else %}
-          <button type="submit" disabled class="btn btn-danger btn-xs">
-                <span class="glyphicon glyphicon-remove"></span> Delete
-            </button>
         {% endif %}
     </form>
 
@@ -157,15 +154,13 @@
     <a href="{% url 'reports:report-update' report.id %}" style="display: inline; padding-left: 40px">
         {% if user.customuser.is_SiteManager %}
             <button type="" class="btn btn-default btn-sm">Update</button>
-        {% elif user.customuser.user_type == "C" %}
-            <button type="" disabled class="btn btn-default btn-sm">Update</button>
         {% endif %}
     </a>
 
 </div>
 <br>
 <div style = "text-align: center">
-    <a href="{% url 'reports:index' %}"<button type="" class="btn btn-default btn-sm">Return to Reports Home</button>
+    <a href="{% url 'reports:index' %}"></a><button type="" class="btn btn-default btn-sm">Return to Reports Home</button>
     </div>
         </li>
 

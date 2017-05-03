@@ -206,6 +206,7 @@ def fdalogin(data):
     else:
         return JsonResponse({'login':False})
 
+
 def get_reports(user):
     all_reports = Report.objects.all()
     if not user.customuser.is_SiteManager:
@@ -216,8 +217,8 @@ def get_reports(user):
             for group in all_groups:
                 for member in group.members.all():
                     query |= Q(created_by=member)
-                query |= Q(private_report=False)
-                all_reports = all_reports.filter(query)
+            query |= Q(private_report=False)
+            all_reports = all_reports.filter(query)
     return all_reports
 
 @csrf_exempt
