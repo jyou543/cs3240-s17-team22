@@ -253,7 +253,10 @@ class ReportCreate(FormView):
         if form.is_valid():
             self.object = form.save(commit=False)
             userC = CustomUser.objects.get(user=self.request.user)
-            self.object.created_by = userC
+            if(my_user(self.request).is_SiteManager):
+                pass
+            else:
+                self.object.created_by = userC
             self.object = form.save()
         if companyfiles.is_valid():
             companyfiles.instance = self.object
